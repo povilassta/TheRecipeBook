@@ -1,6 +1,9 @@
-# RecipeBook
+# Recipe Book
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.0.
+
+# UX Mockup
+https://www.figma.com/file/uXAPcfIbvEllmcATBiI6r5/Recipe-Book?node-id=23%3A49
 
 ## Development server
 
