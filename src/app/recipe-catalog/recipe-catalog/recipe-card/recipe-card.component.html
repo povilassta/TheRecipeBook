@@ -1,13 +1,20 @@
 <div class="card">
-    <img class="card__thumbnail" src="../../../../assets/burger.jpg" alt="burger">
-    <div class="card__info">
-        <span class="card__info__title">American Burger</span>
-        <div class="card__info__tags">
-            <app-category-tag *ngFor="let tag of tags; let i = index" [message]="tag"></app-category-tag>
-        </div>
-        <div class="card__info__time">
-            <mat-icon>schedule</mat-icon>
-            <span>25 min</span>
-        </div>
+  <img
+    class="card__thumbnail"
+    src="../../../../assets/burger.jpg"
+    alt="burger"
+  />
+  <div class="card__info">
+    <span class="card__info__title">{{ recipe.title }}</span>
+    <div class="card__info__tags">
+      <app-category-tag
+        *ngFor="let category of recipe.categories; let i = index"
+        [message]="category"
+      ></app-category-tag>
     </div>
+    <div class="card__info__time">
+      <mat-icon>schedule</mat-icon>
+      <span>{{ recipe.time }} min</span>
+    </div>
+  </div>
 </div>

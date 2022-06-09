@@ -42,23 +42,22 @@
     </div>
   </div>
   <mat-paginator
-    [length]="100"
+    [length]="recipes.length"
     [pageSize]="10"
-    [pageSizeOptions]="[5, 10, 25, 100]"
+    [pageSizeOptions]="[3, 5, 10, 25, 100]"
+    (page)="pageEvent = $event"
     aria-label="Select page"
   ></mat-paginator>
-  <div class="catalog__items">
-    <app-recipe-card></app-recipe-card>
-    <app-recipe-card></app-recipe-card>
-    <app-recipe-card></app-recipe-card>
-    <app-recipe-card></app-recipe-card>
-    <app-recipe-card></app-recipe-card>
-    <app-recipe-card></app-recipe-card>
-    <app-recipe-card></app-recipe-card>
-    <app-recipe-card></app-recipe-card>
-    <app-recipe-card></app-recipe-card>
-    <app-recipe-card></app-recipe-card>
-    <app-recipe-card></app-recipe-card>
-    <app-recipe-card></app-recipe-card>
+  <div class="catalog__items" *ngIf="pageEvent">
+    <app-recipe-card
+      *ngFor="
+        let recipe of recipes.slice(
+          pageEvent.pageIndex * pageEvent.pageSize,
+          pageEvent.pageIndex * pageEvent.pageSize + pageEvent.pageSize
+        );
+        let i = index
+      "
+      [recipe]="recipe"
+    ></app-recipe-card>
   </div>
 </div>
