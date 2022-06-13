@@ -2,13 +2,14 @@
     margin: 1rem
     display: flex
     &__picture
+        width: 65px
+        flex-shrink: 0
         @media screen and ( max-width: 500px )
             display: none
         & img
             margin: 0
             border-radius: 50%
             border: 1px solid #A0A0A0
-            width: 100px
     &__info
         margin-left: 1rem
         &__name
