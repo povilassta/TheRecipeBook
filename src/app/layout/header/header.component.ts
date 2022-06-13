@@ -10,7 +10,7 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 export class HeaderComponent implements OnInit {
   constructor(private sharedService: SharedService) {
-    sharedService.updateHeaderCalled$
+    sharedService.updateUserCalled$
       .pipe(untilDestroyed(this))
       .subscribe(
         () => (this.currentUser = localStorage.getItem('email') || '')
@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
   public logout(): void {
     localStorage.removeItem('email');
     this.currentUser = '';
+    this.sharedService.callUpdateUser();
   }
 
   ngOnInit(): void {}
