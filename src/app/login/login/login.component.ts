@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     const { email, password } = this.loginForm.value;
 
     localStorage.setItem('email', email);
-    this.sharedService.callUpdateHeader();
+    this.sharedService.callUpdateUser();
 
     this.router.navigateByUrl('/recipes');
   }

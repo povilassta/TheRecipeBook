@@ -7,11 +7,11 @@ import { Subject } from 'rxjs';
 export class SharedService {
   constructor() {}
 
-  private updateHeaderCallSource = new Subject<void>();
+  private updateUserCallSource = new Subject<void>();
 
-  public updateHeaderCalled$ = this.updateHeaderCallSource.asObservable();
+  public updateUserCalled$ = this.updateUserCallSource.asObservable();
 
-  public callUpdateHeader(): void {
-    this.updateHeaderCallSource.next();
+  public callUpdateUser(): void {
+    this.updateUserCallSource.next();
   }
 }
