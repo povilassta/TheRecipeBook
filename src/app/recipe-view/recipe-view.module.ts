@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommentCardComponent } from './comment-card/comment-card.component';
 import { RouterModule } from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [RecipeComponent, CommentCardComponent],
@@ -15,6 +16,7 @@ import { RouterModule } from '@angular/router';
     MatIconModule,
     MatButtonModule,
     RouterModule,
+    MatInputModule,
   ],
 })
 export class RecipeViewModule {}

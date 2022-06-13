@@ -50,8 +50,6 @@
             font-size: 1.1rem
             padding-bottom: 20px
             transition-duration: 0.3s
-            &:hover
-                color: #2A9D8F
     &__comments
         & h2
             font-size: 1.7rem
@@ -60,6 +58,25 @@
             margin: 2rem
             text-align: center
             font-size: 1.1rem
+        &__form
+            margin: 1rem
+            display: flex
+            & img
+                @media screen and ( max-width: 500px )
+                    display: none
+                width: 65px
+                margin: 0
+                border-radius: 50%
+                border: 1px solid #A0A0A0
+                align-self: start
+                margin-right: 1rem
+            & form
+                width: 100%
+                //margin-left: 1rem
+            &__input
+                width: 100%
+            & button
+                float: right
 
 .completed
     text-decoration: line-through

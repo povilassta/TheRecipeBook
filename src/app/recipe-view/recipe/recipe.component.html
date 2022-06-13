@@ -85,12 +85,34 @@
   </section>
   <section class="recipe__comments">
     <h2>COMMENTS</h2>
-    <div class="recipe__comments__signin-message">
-      <p>
-        You must <a routerLink="/login" routerLinkActive="active">Sign in</a> in
-        order to comment!
-      </p>
+    <div *ngIf="currentUser; else elseBlock" class="recipe__comments__form">
+      <img src="../../../assets/profile.png" alt="Your profile picture" />
+      <form>
+        <mat-form-field
+          appearance="outline"
+          class="recipe__comments__form__input"
+        >
+          <mat-label>Leave a comment</mat-label>
+          <textarea
+            matInput
+            placeholder="Ex. It makes me feel..."
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"
+          ></textarea>
+        </mat-form-field>
+        <button mat-flat-button color="primary">Submit</button>
+      </form>
     </div>
+    <ng-template #elseBlock>
+      <div class="recipe__comments__signin-message">
+        <p>
+          You must
+          <a routerLink="/login" routerLinkActive="active">Sign in</a> in order
+          to comment!
+        </p>
+      </div>
+    </ng-template>
     <app-comment-card></app-comment-card>
     <app-comment-card></app-comment-card>
     <app-comment-card></app-comment-card>
