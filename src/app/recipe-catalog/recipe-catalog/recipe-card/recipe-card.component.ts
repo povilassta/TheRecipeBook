@@ -9,7 +9,7 @@ import { Recipe } from 'src/app/models/recipe.model';
 export class RecipeCardComponent implements OnInit {
   constructor() {}
   @Input()
-  public recipe!: Recipe;
+  public recipe: Recipe | undefined;
 
   ngOnInit(): void {}
 }
