@@ -5,16 +5,16 @@
     alt="burger"
   />
   <div class="card__info">
-    <span class="card__info__title">{{ recipe.title }}</span>
+    <span class="card__info__title">{{ recipe?.title }}</span>
     <div class="card__info__tags">
       <app-category-tag
-        *ngFor="let category of recipe.categories; let i = index"
+        *ngFor="let category of recipe?.categories; let i = index"
         [message]="category"
       ></app-category-tag>
     </div>
     <div class="card__info__time">
       <mat-icon>schedule</mat-icon>
-      <span>{{ recipe.time }} min</span>
+      <span>{{ recipe?.time }} min</span>
     </div>
   </div>
 </div>
