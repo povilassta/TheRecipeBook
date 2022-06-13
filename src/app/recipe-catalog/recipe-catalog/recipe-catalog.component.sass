@@ -1,0 +1,73 @@
+$xsmall: 450px
+$small: 600px
+$medium: 800px
+$large: 1000px
+
+    
+.catalog
+    padding: 4rem
+    color: #264653
+    @media screen and ( max-width: $xsmall )
+        padding: 2rem
+        
+
+    &__filtering
+        align-content: center
+        &__row
+            display: flex
+            justify-content: space-between
+            @media screen and ( max-width: $small )
+                flex-direction: column
+                
+        &__slider
+            width: 40%
+            @media screen and ( max-width: $small)
+                width: 100%
+            &__text
+                margin: 0
+                color: #264653
+                font-size: 1rem
+                font-weight: 500
+                padding-left: 8px
+                @media screen and ( max-width: $medium )
+                    font-size: 1rem
+                    
+
+    &__items
+        display: grid
+        align-items: center
+        grid-template-columns: repeat(4, 1fr)
+        @media screen and ( max-width: $large )
+            grid-template-columns: repeat(3, 1fr)
+        @media screen and ( max-width: $medium )
+            grid-template-columns: repeat(2, 1fr)
+        @media screen and ( max-width: $small )
+            grid-template-columns: repeat(1, 1fr)
+
+.title
+    color: #264653
+    font-size: 3rem
+    font-weight: 800
+    margin: 0px
+    @media screen and ( max-width: $small)
+        margin-bottom: 25px
+        font-size: 2.5rem
+
+.long-field
+    width: 40%
+    @media screen and ( max-width: $small)
+        width: 100%
+    &:hover
+        boder-color:#04948c
+
+.slider
+    width: 100%
+    
+
+.sort-field
+    width: 20%
+    @media screen and ( max-width: $small)
+        width: 100%
+
+.text-regular
+    font-weight: 400

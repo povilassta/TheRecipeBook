@@ -1,0 +1,63 @@
+<div class="catalog">
+  <div class="catalog__filtering">
+    <div class="catalog__filtering__row">
+      <h1 class="title">Lunch Recipes</h1>
+      <mat-form-field appearance="outline" class="sort-field">
+        <mat-label>Sort by</mat-label>
+        <mat-select>
+          <mat-option value="recent">Most recent</mat-option>
+          <mat-option value="oldest">Oldest</mat-option>
+          <mat-option value="popular">Popularity</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="catalog__filtering__row">
+      <mat-form-field appearance="outline" class="long-field">
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="type to search..." />
+        <button matSuffix mat-icon-button aria-label="Search">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="long-field">
+        <mat-label>Categories</mat-label>
+        <mat-select multiple>
+          <mat-option>American</mat-option>
+          <mat-option>Barbeque</mat-option>
+          <mat-option>Fast</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="catalog__filtering__slider">
+      <p class="catalog__filtering__slider__text">
+        Cooking time: <span class="text-regular">&lt; {{ value }} minutes</span>
+      </p>
+      <mat-slider
+        class="slider"
+        max="200"
+        min="0"
+        [(ngModel)]="value"
+        value="60"
+      ></mat-slider>
+    </div>
+  </div>
+  <mat-paginator
+    [length]="recipes.length"
+    [pageSize]="10"
+    [pageSizeOptions]="[3, 5, 10, 25, 100]"
+    (page)="pageEvent = $event"
+    aria-label="Select page"
+  ></mat-paginator>
+  <div class="catalog__items" *ngIf="pageEvent">
+    <app-recipe-card
+      *ngFor="
+        let recipe of recipes.slice(
+          pageEvent.pageIndex * pageEvent.pageSize,
+          pageEvent.pageIndex * pageEvent.pageSize + pageEvent.pageSize
+        );
+        let i = index
+      "
+      [recipe]="recipe"
+    ></app-recipe-card>
+  </div>
+</div>
