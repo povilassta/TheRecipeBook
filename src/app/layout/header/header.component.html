@@ -1,0 +1,14 @@
+<nav class="navbar">
+  <div class="navbar__logo">The Recipe Book</div>
+  <div class="navbar__user">
+    <div *ngIf="currentUser; else elseBlock">
+      <button mat-button [matMenuTriggerFor]="menu">{{ currentUser }}</button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item (click)="logout()">Log out</button>
+      </mat-menu>
+    </div>
+    <ng-template #elseBlock>
+      <a routerLink="/login" routeLinkActive="active">Sign in</a>
+    </ng-template>
+  </div>
+</nav>
