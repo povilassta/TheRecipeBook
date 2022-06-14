@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { SharedService } from 'src/app/services/shared.service';
+import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 
 @UntilDestroy()
 @Component({
@@ -9,8 +9,10 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./header.component.sass'],
 })
 export class HeaderComponent implements OnInit {
-  constructor(private sharedService: SharedService) {
-    sharedService.updateUserCalled$
+  constructor(
+    private componentCommunicationService: ComponentCommunicationService
+  ) {
+    componentCommunicationService.updateUserCalled$
       .pipe(untilDestroyed(this))
       .subscribe(
         () => (this.currentUser = localStorage.getItem('email') || '')
