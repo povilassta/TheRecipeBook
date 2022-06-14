@@ -26,7 +26,6 @@ export const authJwt = passport.authenticate("jwt", {
 // Login
 export function login(req, res) {
   // Find user in database
-  console.log(req);
   const user = db.getUserByEmail(req.body.email);
   // Check if user exists and if the password is correct
   if (user && bcrypt.compareSync(req.body.password, user.password)) {
