@@ -3,7 +3,7 @@ import passport from "passport";
 import "dotenv/config";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import db from "../database.js";
+import User from "../models/user.model.js";
 
 // JWT Strategy
 const opts = {
@@ -12,7 +12,7 @@ const opts = {
 };
 
 const jwtStrategy = new JwtStrategy(opts, async (payload, done) => {
-  const user = db.getUserByEmail(payload.email);
+  const user = await User.findOne({ email: payload.email });
 
   return done(null, user || false);
 });
@@ -26,25 +26,27 @@ export const authJwt = passport.authenticate("jwt", {
 // Login
 export function login(req, res) {
   // Find user in database
-  const user = db.getUserByEmail(req.body.email);
-  // Check if user exists and if the password is correct
-  if (user && bcrypt.compareSync(req.body.password, user.password)) {
-    const payload = {
-      id: user.id,
-      email: user.email,
-    };
+  User.findOne({ email: req.body.email }, function (err, user) {
+    if (err) res.status(500).json({ message: "Something went wrong." });
+    else if (user && bcrypt.compareSync(req.body.password, user.password)) {
+      const payload = {
+        id: user.id,
+        email: user.email,
+      };
 
-    // Sign the token with payload provided above
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
+      // Sign the token with payload provided above
+      const token = jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      });
 
-    // Send token back
-    res.status(200).json({
-      token: `Bearer ${token}`,
-    });
-  } else {
-    // If user doesn't exist or password is incorrect
-    res.status(401).json({ message: "Invalid credentials" });
-  }
+      // Send token back
+      res.status(200).json({
+        token: `Bearer ${token}`,
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      });
+    } else {
+      // If user doesn't exist or password is incorrect
+      res.status(401).json({ message: "Invalid credentials" });
+    }
+  });
 }
