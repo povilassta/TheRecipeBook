@@ -1,6 +1,6 @@
 import { Component, OnInit, Renderer2, ViewEncapsulation } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { SharedService } from 'src/app/services/shared.service';
+import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 
 @UntilDestroy()
 @Component({
@@ -12,9 +12,9 @@ import { SharedService } from 'src/app/services/shared.service';
 export class RecipeComponent implements OnInit {
   constructor(
     private renderer: Renderer2,
-    private sharedService: SharedService
+    private componentCommunicationService: ComponentCommunicationService
   ) {
-    sharedService.updateUserCalled$
+    componentCommunicationService.updateUserCalled$
       .pipe(untilDestroyed(this))
       .subscribe(
         () => (this.currentUser = localStorage.getItem('email') || '')

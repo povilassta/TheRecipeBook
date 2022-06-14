@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
   public logout(): void {
     localStorage.removeItem('email');
     this.currentUser = '';
-    this.sharedService.callUpdateUser();
+    this.componentCommunicationService.callUpdateUser();
   }
 
   ngOnInit(): void {}
