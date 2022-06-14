@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
     private componentCommunicationService: ComponentCommunicationService
   ) {}
 
-  public hide: boolean = true;
+  public hide = true;
   public loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
