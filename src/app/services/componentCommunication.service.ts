@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class SharedService {
+export class ComponentCommunicationService {
   constructor() {}
 
   private updateHeaderCallSource = new Subject<void>();
