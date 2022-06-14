@@ -9,6 +9,10 @@ const port = 3000;
 app.use("/recipes", recipeRouter);
 app.use("/users", userRouter);
 
+app.use(express.static("public"));
+app.use("/images/recipes", express.static("images/recipes"));
+app.use("/images/users", express.static("images/users"));
+
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
