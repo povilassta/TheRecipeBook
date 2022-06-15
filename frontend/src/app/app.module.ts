@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RecipeCatalogModule } from './recipe-catalog/recipe-catalog.module';
 import { LoginModule } from './login/login.module';
 import { LayoutModule } from './layout/layout.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,6 +17,7 @@ import { LayoutModule } from './layout/layout.module';
     RecipeCatalogModule,
     LoginModule,
     LayoutModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
