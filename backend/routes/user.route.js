@@ -1,4 +1,5 @@
 import express from "express";
+import UserController from "../controllers/user.controller.js";
 
 const userRouter = express.Router();
 
@@ -8,9 +9,7 @@ userRouter.get("", (req, res) => {
 });
 
 // GET (one)
-userRouter.get("/:id", (req, res) => {
-  res.send("Should return a user.");
-});
+userRouter.get("/:userId", UserController.get);
 
 // POST
 userRouter.post("", (req, res) => {

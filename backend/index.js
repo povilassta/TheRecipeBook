@@ -18,7 +18,6 @@ app.use(express.urlencoded({ extended: false }));
 // Routes
 app.use("/recipes", recipeRouter);
 app.use("/users", userRouter);
-app.use("/comments", commentRouter);
 app.use("/", authRouter);
 
 app.use(express.static("public"));

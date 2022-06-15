@@ -2,9 +2,9 @@ import CommentService from "../services/comment.service.js";
 
 const CommentController = {
   get: async (req, res, next) => {
-    const { articleId } = req.params;
+    const { recipeId } = req;
     try {
-      const response = await CommentService.get(articleId);
+      const response = await CommentService.get(recipeId);
       return res.status(200).json(response);
     } catch (e) {
       next(e);

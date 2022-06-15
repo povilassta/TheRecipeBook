@@ -3,9 +3,9 @@ import Comment from "../models/comment.model.js";
 import NotFoundError from "../errors/notfound.error.js";
 
 const CommentService = {
-  get: async (articleId) => {
+  get: async (recipeId) => {
     try {
-      const comments = await Comment.find({ articleId }).populate(
+      const comments = await Comment.find({ recipeId }).populate(
         "user",
         "-password -email"
       );
