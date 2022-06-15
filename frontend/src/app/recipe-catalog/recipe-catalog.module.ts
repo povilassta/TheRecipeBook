@@ -11,13 +11,11 @@ import { CategoryTagComponent } from './recipe-catalog/category-tag/category-tag
 import { FormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
-
-
 @NgModule({
   declarations: [
     RecipeCatalogComponent,
     RecipeCardComponent,
-    CategoryTagComponent
+    CategoryTagComponent,
   ],
   imports: [
     CommonModule,
@@ -27,7 +25,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatIconModule,
     MatSliderModule,
     FormsModule,
-    MatPaginatorModule
-  ]
+    MatPaginatorModule,
+  ],
+  exports: [CategoryTagComponent],
 })
-export class RecipeCatalogModule { }
+export class RecipeCatalogModule {}

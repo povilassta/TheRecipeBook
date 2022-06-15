@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     const { email, password } = this.loginForm.value;
 
     localStorage.setItem('email', email);
-    this.componentCommunicationService.callUpdateHeader();
+    this.componentCommunicationService.callUpdateUser();
 
     this.router.navigateByUrl('/recipes');
   }

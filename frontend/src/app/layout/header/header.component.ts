@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private componentCommunicationService: ComponentCommunicationService
   ) {
-    componentCommunicationService.updateHeaderCalled$
+    componentCommunicationService.updateUserCalled$
       .pipe(untilDestroyed(this))
       .subscribe(
         () => (this.currentUser = localStorage.getItem('email') || '')
@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit {
   public logout(): void {
     localStorage.removeItem('email');
     this.currentUser = '';
+    this.componentCommunicationService.callUpdateUser();
   }
 
   ngOnInit(): void {}

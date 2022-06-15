@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ComponentCommunicationService } from './componentCommunication.service';
 
-describe('SharedService', () => {
+describe('ComponentCommunicationService', () => {
   let service: ComponentCommunicationService;
 
   beforeEach(() => {
