@@ -1,8 +1,8 @@
 <div class="card">
   <img
     class="card__thumbnail"
-    src="../../../../assets/burger.jpg"
-    alt="burger"
+    src="{{ recipe?.imageUrl }}"
+    alt="Recipe picture"
   />
   <div class="card__info">
     <span class="card__info__title">{{ recipe?.title }}</span>
@@ -14,7 +14,7 @@
     </div>
     <div class="card__info__time">
       <mat-icon>schedule</mat-icon>
-      <span>{{ recipe?.time }} min</span>
+      <span>{{ recipe?.timeMinutes }} min</span>
     </div>
   </div>
 </div>
