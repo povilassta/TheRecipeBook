@@ -5,6 +5,7 @@ import connection from "./config/db.config.js";
 import recipeRouter from "./routes/recipe.js";
 import userRouter from "./routes/user.js";
 import authRouter from "./routes/auth.js";
+import errorHandler from "./middleware/errorHandler.middleware.js";
 
 const app = express();
 const port = 3000;
@@ -21,6 +22,9 @@ app.use("/", authRouter);
 app.use(express.static("public"));
 app.use("/images/recipes", express.static("images/recipes"));
 app.use("/images/users", express.static("images/users"));
+
+//Error Handler
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
