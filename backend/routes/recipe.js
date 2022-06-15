@@ -1,16 +1,13 @@
 import express from "express";
+import RecipeController from "../controllers/recipe.controller.js";
 
 const recipeRouter = express.Router();
 
 // GET (all)
-recipeRouter.get("", (req, res) => {
-  res.send("Should return recipes.");
-});
+recipeRouter.get("/", RecipeController.getAll);
 
 // GET (one)
-recipeRouter.get("/:id", (req, res) => {
-  res.send("Should return a recipe.");
-});
+recipeRouter.get("/:recipeId", RecipeController.get);
 
 // POST
 recipeRouter.post("", (req, res) => {
