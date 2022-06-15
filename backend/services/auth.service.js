@@ -43,6 +43,7 @@ export function login(req, res) {
       res.status(200).json({
         token: `Bearer ${token}`,
         expiresIn: process.env.JWT_EXPIRES_IN,
+        username: user.username,
       });
     } else {
       // If user doesn't exist or password is incorrect
