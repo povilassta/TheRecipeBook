@@ -22,6 +22,10 @@ const RecipeService = {
       throw errors;
     }
   },
+
+  addRecipeIdParam: (req) => {
+    req.recipeId = req.params.recipeId;
+  },
 };
 
 export default RecipeService;

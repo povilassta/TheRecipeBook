@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 
 const commentSchema = mongoose.Schema({
-  userId: {
+  user: {
     type: mongoose.ObjectId,
-    ref: "Users",
+    ref: "User",
     immutable: true,
     required: [true, "User id is required."],
   },
   recipeId: {
     type: mongoose.ObjectId,
-    ref: "Recipes",
+    ref: "Recipe",
     immutable: true,
     required: [true, "Recipe id is required"],
   },

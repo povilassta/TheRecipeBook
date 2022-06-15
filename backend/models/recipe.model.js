@@ -34,13 +34,6 @@ const recipeSchema = mongoose.Schema({
     type: String,
     required: [true, "Image url is required."],
   },
-  comments: [
-    {
-      type: mongoose.ObjectId,
-      ref: "Comments",
-      default: [],
-    },
-  ],
 });
 
 export default mongoose.model("Recipe", recipeSchema);
