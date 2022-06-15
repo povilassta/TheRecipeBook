@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
     private componentCommunicationService: ComponentCommunicationService,
     private authService: AuthService
   ) {
-    componentCommunicationService.updateHeaderCalled$
+    componentCommunicationService.updateUserCalled$
       .pipe(untilDestroyed(this))
       .subscribe(
         () => (this.currentUser = localStorage.getItem('username') || '')
@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
   public logout(): void {
     this.authService.logout();
     this.currentUser = '';
+    this.componentCommunicationService.callUpdateUser();
   }
 
   ngOnInit(): void {}

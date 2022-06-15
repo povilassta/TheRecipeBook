@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AnonymousGuard } from './guards/anonymous.guard';
 import { LoginComponent } from './login/login/login.component';
 import { RecipeCatalogComponent } from './recipe-catalog/recipe-catalog/recipe-catalog.component';
+import { RecipeComponent } from './recipe-view/recipe/recipe.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
     path: 'login',
     canActivate: [AnonymousGuard],
     component: LoginComponent,
+  },
+  {
+    path: '',
+    component: RecipeComponent,
   },
 ];
 
