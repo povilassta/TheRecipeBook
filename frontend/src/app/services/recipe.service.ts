@@ -21,4 +21,8 @@ export class RecipeService {
       })
     );
   }
+
+  public getRecipe(id: string): Observable<Recipe> {
+    return this.http.get<Recipe>(`${this.BASE_URL}/${id}`);
+  }
 }

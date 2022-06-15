@@ -11,18 +11,20 @@ const routes: Routes = [
     component: RecipeCatalogComponent,
   },
   {
+    path: 'recipes/:recipeId',
+    component: RecipeComponent,
+  },
+  {
     path: 'login',
     canActivate: [AnonymousGuard],
     component: LoginComponent,
   },
-  {
-    path: '',
-    component: RecipeComponent,
-  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -3,12 +3,14 @@
     display: flex
     &__picture
         margin-right: 1rem
-        width: 65px
         flex-shrink: 0
         @media screen and ( max-width: 500px )
             display: none
         & img
+            width: 65px
+            height: 65px
             margin: 0
+            object-fit: cover
             border-radius: 50%
             border: 1px solid #A0A0A0
     &__info

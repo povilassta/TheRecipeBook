@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" [routerLink]="['/recipes', recipe?._id]">
   <img
     class="card__thumbnail"
     src="{{ recipe?.imageUrl }}"
