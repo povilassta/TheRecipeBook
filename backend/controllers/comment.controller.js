@@ -5,7 +5,7 @@ const CommentController = {
     const { recipeId } = req;
     try {
       const response = await CommentService.get(recipeId);
-      return res.status(200).json(response);
+      res.json(response).status(200);
     } catch (e) {
       next(e);
     }
@@ -17,7 +17,7 @@ const CommentController = {
 
     try {
       const response = await CommentService.insert(req.body, recipeId, userId);
-      res.send(201).json(response);
+      res.json(response).send(201);
     } catch (e) {
       next(e);
     }

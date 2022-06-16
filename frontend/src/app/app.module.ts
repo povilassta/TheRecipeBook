@@ -7,7 +7,8 @@ import { RecipeCatalogModule } from './recipe-catalog/recipe-catalog.module';
 import { LoginModule } from './login/login.module';
 import { RecipeViewModule } from './recipe-view/recipe-view.module';
 import { LayoutModule } from './layout/layout.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +22,13 @@ import { HttpClientModule } from '@angular/common/http';
     LayoutModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

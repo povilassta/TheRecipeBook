@@ -44,7 +44,11 @@
         src="{{ currentUser?.profilePictureUrl }}"
         alt="Your profile picture"
       />
-      <form>
+      <form
+        [formGroup]="commentForm"
+        #formDirective="ngForm"
+        (ngSubmit)="onSubmit(formDirective)"
+      >
         <mat-form-field
           appearance="outline"
           class="recipe__comments__form__input"
@@ -53,12 +57,19 @@
           <textarea
             matInput
             placeholder="Ex. It makes me feel..."
+            formControlName="commentContent"
             cdkTextareaAutosize
             cdkAutosizeMinRows="1"
             cdkAutosizeMaxRows="5"
           ></textarea>
         </mat-form-field>
-        <button mat-flat-button color="primary">Submit</button>
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="commentForm.invalid"
+        >
+          Submit
+        </button>
       </form>
     </div>
     <ng-template #elseBlock>

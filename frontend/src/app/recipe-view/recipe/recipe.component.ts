@@ -8,6 +8,12 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import { Comment } from 'src/app/models/comment.model';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
+import {
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 
 @UntilDestroy()
 @Component({
@@ -37,6 +43,9 @@ export class RecipeComponent implements OnInit {
   public comments: Comment[] | undefined;
   public recipeId = '';
   public currentUser: User | undefined;
+  public commentForm: FormGroup = new FormGroup({
+    commentContent: new FormControl('', [Validators.required]),
+  });
 
   toggleClass(event: any, className: string) {
     const hasClass = event.target.classList.contains(className);
@@ -46,6 +55,25 @@ export class RecipeComponent implements OnInit {
     } else {
       this.renderer.addClass(event.target, className);
     }
+  }
+
+  public updateComments() {
+    this.commentForm.reset();
+    this.commentService
+      .getComments(this.recipeId)
+      .subscribe((data: Comment[]) => {
+        this.comments = data;
+      });
+  }
+
+  public onSubmit(formDirective: FormGroupDirective): void {
+    const { commentContent } = this.commentForm.value;
+    this.commentService
+      .insertComment({ content: commentContent }, this.recipeId)
+      .subscribe((data: any) => {
+        formDirective.resetForm();
+        this.updateComments();
+      });
   }
 
   ngOnInit(): void {

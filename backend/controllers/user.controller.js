@@ -7,7 +7,7 @@ const UserController = {
       const response = await UserService.get(userId);
       let responseObj = response.toObject();
       delete responseObj.password;
-      return res.status(200).json(responseObj);
+      res.status(200).json(responseObj);
     } catch (e) {
       next(e);
     }

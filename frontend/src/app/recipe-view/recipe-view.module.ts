@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommentCardComponent } from './comment-card/comment-card.component';
 import { RouterModule } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [RecipeComponent, CommentCardComponent],
@@ -17,6 +18,8 @@ import { MatInputModule } from '@angular/material/input';
     MatButtonModule,
     RouterModule,
     MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
 })
 export class RecipeViewModule {}
