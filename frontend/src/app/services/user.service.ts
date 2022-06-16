@@ -7,7 +7,7 @@ import { User } from '../models/user.model';
   providedIn: 'root',
 })
 export class UserService {
-  private BASE_URL = 'http://localhost:3000/users/';
+  private BASE_URL = 'http://localhost:3000/api/users/';
   constructor(private http: HttpClient) {}
 
   public getUser(userId: string): Observable<User> {

@@ -9,7 +9,7 @@ import { CommentPost } from '../models/commentPost.model';
 })
 export class CommentService {
   constructor(private http: HttpClient) {}
-  private BASE_URL = 'http://localhost:3000/recipes/';
+  private BASE_URL = 'http://localhost:3000/api/recipes/';
 
   public getComments(recipeId: string): Observable<Comment[]> {
     return this.http.get<Comment[]>(`${this.BASE_URL}/${recipeId}/comments`);

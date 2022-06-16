@@ -8,7 +8,7 @@ import { Recipe } from '../models/recipe.model';
 })
 export class RecipeService {
   public recipes: Recipe[] = [];
-  private BASE_URL: string = `http://localhost:3000/recipes/`;
+  private BASE_URL: string = `http://localhost:3000/api/recipes/`;
 
   constructor(private http: HttpClient) {}
 

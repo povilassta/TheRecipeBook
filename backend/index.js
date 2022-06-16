@@ -16,9 +16,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use("/recipes", recipeRouter);
-app.use("/users", userRouter);
-app.use("/", authRouter);
+app.use("/api/recipes", recipeRouter);
+app.use("/api/users", userRouter);
+app.use("/api/", authRouter);
 
 app.use(express.static("public"));
 app.use("/images/recipes", express.static("images/recipes"));

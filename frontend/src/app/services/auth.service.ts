@@ -10,7 +10,7 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private BASE_URL = 'http://localhost:3000/login/';
+  private BASE_URL = 'http://localhost:3000/api/login/';
 
   constructor(
     private http: HttpClient,
