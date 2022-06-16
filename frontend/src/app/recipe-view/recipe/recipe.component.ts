@@ -28,6 +28,9 @@ export class RecipeComponent implements OnInit {
     this._Activatedroute.paramMap.subscribe((params) => {
       this.recipeId = params.get('recipeId') || '';
     });
+    this.componentCommunicationService.updateUserCalled$.subscribe(() => {
+      this.currentUser = undefined;
+    });
   }
 
   public recipe: Recipe | undefined;

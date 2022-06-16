@@ -38,6 +38,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('username');
+    this.componentCommunicationService.callUpdateUser();
   }
 
   private setSession(res: LoginResponse): void {
