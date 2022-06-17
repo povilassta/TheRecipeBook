@@ -32,6 +32,8 @@ export class PaginatorComponent implements OnInit {
     );
     // Call to update displayed values
     this.componentCommunicationService.callUpdateRecipes(pageNum);
+    // Reset scrolling
+    window.scrollTo(0, 0);
   }
 
   ngOnInit(): void {
