@@ -2,8 +2,10 @@ import RecipeService from "../services/recipe.service.js";
 
 const RecipeController = {
   getAll: async (req, res, next) => {
+    console.log("Hit.");
+    const pageNum = req.query.pageNum ? req.query.pageNum - 1 : 0;
     try {
-      const response = await RecipeService.getAll();
+      const response = await RecipeService.getMultiple(pageNum);
       res.json(response).status(200);
     } catch (e) {
       next(e);

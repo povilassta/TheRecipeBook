@@ -2,9 +2,13 @@ import NotFoundError from "../errors/notfound.error.js";
 import Recipe from "../models/recipe.model.js";
 
 const RecipeService = {
-  getAll: async () => {
+  getMultiple: async (pageNum) => {
+    const perPage = 1;
     try {
-      const recipes = await Recipe.find({});
+      const recipes = await Recipe.find({})
+        .sort({ title: "asc" })
+        .skip(pageNum * perPage)
+        .limit(perPage);
       return recipes;
     } catch (errors) {
       throw errors;
