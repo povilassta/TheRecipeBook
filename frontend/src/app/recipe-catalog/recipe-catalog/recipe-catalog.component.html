@@ -41,23 +41,11 @@
       ></mat-slider>
     </div>
   </div>
-  <mat-paginator
-    [length]="recipes.length"
-    [pageSize]="10"
-    [pageSizeOptions]="[3, 5, 10, 25, 100]"
-    (page)="pageEvent = $event"
-    aria-label="Select page"
-  ></mat-paginator>
-  <div class="catalog__items" *ngIf="pageEvent">
+  <div class="catalog__items">
     <app-recipe-card
-      *ngFor="
-        let recipe of recipes.slice(
-          pageEvent.pageIndex * pageEvent.pageSize,
-          pageEvent.pageIndex * pageEvent.pageSize + pageEvent.pageSize
-        );
-        let i = index
-      "
+      *ngFor="let recipe of recipes; let i = index"
       [recipe]="recipe"
     ></app-recipe-card>
   </div>
+  <app-paginator [perPageCount]="20" [currentPage]="page"></app-paginator>
 </div>

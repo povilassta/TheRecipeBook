@@ -13,7 +13,6 @@ export class RecipeService {
   constructor(private http: HttpClient) {}
 
   public getRecipes(page: number): Observable<any> {
-    console.log(page);
     let params = new HttpParams().set('page', page);
     return this.http.get(this.BASE_URL, { params }).pipe(
       tap({
@@ -22,6 +21,10 @@ export class RecipeService {
         },
       })
     );
+  }
+
+  public getCount(): Observable<any> {
+    return this.http.get(`${this.BASE_URL}count`);
   }
 
   public getRecipe(id: string): Observable<Recipe> {
