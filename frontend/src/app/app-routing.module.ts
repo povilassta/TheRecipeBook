@@ -19,6 +19,11 @@ const routes: Routes = [
     canActivate: [AnonymousGuard],
     component: LoginComponent,
   },
+  {
+    path: '',
+    redirectTo: 'recipes',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
