@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from 'src/app/models/recipe.model';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 import { RecipeService } from 'src/app/services/recipe.service';
@@ -14,7 +14,8 @@ export class RecipeCatalogComponent implements OnInit {
   constructor(
     private recipeService: RecipeService,
     private _Activatedroute: ActivatedRoute,
-    private componentCommunicationService: ComponentCommunicationService
+    private componentCommunicationService: ComponentCommunicationService,
+    private router: Router
   ) {
     this._Activatedroute.queryParamMap.subscribe((params) => {
       this.page = Number(params.get('page')) || 1;
@@ -24,6 +25,14 @@ export class RecipeCatalogComponent implements OnInit {
         this.page = pageNum;
         this.recipeService.getRecipes(this.page).subscribe((recipes) => {
           this.recipes = recipes;
+        });
+        this.router.navigate([], {
+          relativeTo: this._Activatedroute,
+          queryParams: {
+            page: pageNum,
+          },
+          queryParamsHandling: 'merge',
+          skipLocationChange: false,
         });
       }
     );
