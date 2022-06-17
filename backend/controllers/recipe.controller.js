@@ -3,8 +3,9 @@ import RecipeService from "../services/recipe.service.js";
 const RecipeController = {
   getAll: async (req, res, next) => {
     const page = req.query.page ? req.query.page - 1 : 0;
+    const orderBy = req.query.order;
     try {
-      const response = await RecipeService.getMultiple(page);
+      const response = await RecipeService.getMultiple(page, orderBy);
       res.json(response).status(200);
     } catch (e) {
       next(e);

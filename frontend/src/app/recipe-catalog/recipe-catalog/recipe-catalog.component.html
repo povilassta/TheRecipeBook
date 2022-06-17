@@ -4,7 +4,7 @@
       <h1 class="title">Lunch Recipes</h1>
       <mat-form-field appearance="outline" class="sort-field">
         <mat-label>Sort by</mat-label>
-        <mat-select>
+        <mat-select [(value)]="sortBy" (selectionChange)="updateRecipies()">
           <mat-option value="recent">Most recent</mat-option>
           <mat-option value="oldest">Oldest</mat-option>
           <mat-option value="popular">Popularity</mat-option>

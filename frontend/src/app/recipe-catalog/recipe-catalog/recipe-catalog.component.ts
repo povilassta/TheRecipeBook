@@ -23,28 +23,38 @@ export class RecipeCatalogComponent implements OnInit {
     this.componentCommunicationService.updateRecipesCalled$.subscribe(
       (pageNum) => {
         this.page = pageNum;
-        this.recipeService.getRecipes(this.page).subscribe((recipes) => {
-          this.recipes = recipes;
-        });
-        this.router.navigate([], {
-          relativeTo: this._Activatedroute,
-          queryParams: {
-            page: pageNum,
-          },
-          queryParamsHandling: 'merge',
-          skipLocationChange: false,
-        });
+        this.updateRecipies();
       }
     );
   }
 
+  public sortBy = 'recent';
   public page = 0;
   public recipes: Recipe[] = [];
   public value: number = 60;
 
-  public ngOnInit(): void {
-    this.recipeService.getRecipes(this.page).subscribe((recipes) => {
-      this.recipes = recipes;
+  public updateRecipies(): void {
+    this.recipeService
+      .getRecipes(this.page, this.sortBy)
+      .subscribe((recipes) => {
+        this.recipes = recipes;
+      });
+    this.router.navigate([], {
+      relativeTo: this._Activatedroute,
+      queryParams: {
+        page: this.page,
+        order: this.sortBy,
+      },
+      queryParamsHandling: 'merge',
+      skipLocationChange: false,
     });
+  }
+
+  public ngOnInit(): void {
+    this.recipeService
+      .getRecipes(this.page, this.sortBy)
+      .subscribe((recipes) => {
+        this.recipes = recipes;
+      });
   }
 }

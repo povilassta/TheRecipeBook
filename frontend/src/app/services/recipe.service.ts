@@ -12,8 +12,8 @@ export class RecipeService {
 
   constructor(private http: HttpClient) {}
 
-  public getRecipes(page: number): Observable<any> {
-    let params = new HttpParams().set('page', page);
+  public getRecipes(page: number, sortBy: string): Observable<any> {
+    let params = new HttpParams().set('page', page).set('order', sortBy);
     return this.http.get(this.BASE_URL, { params }).pipe(
       tap({
         next: (res: any) => {

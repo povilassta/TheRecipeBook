@@ -34,6 +34,10 @@ const recipeSchema = mongoose.Schema({
     type: String,
     required: [true, "Image url is required."],
   },
+  date: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 export default mongoose.model("Recipe", recipeSchema);

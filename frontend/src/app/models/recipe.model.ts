@@ -7,4 +7,5 @@ export interface Recipe {
   categories: string[];
   instructions: string[];
   imageUrl: string;
+  date: Date;
 }

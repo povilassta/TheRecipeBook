@@ -2,11 +2,31 @@ import NotFoundError from "../errors/notfound.error.js";
 import Recipe from "../models/recipe.model.js";
 
 const RecipeService = {
-  getMultiple: async (pageNum) => {
+  getMultiple: async (pageNum, orderBy) => {
     const perPage = 20;
+    let column = "";
+    let orderType = "";
+    switch (orderBy) {
+      case "oldest":
+        column = "date";
+        orderType = "asc";
+        break;
+      case "recent":
+        column = "date";
+        orderType = "desc";
+        break;
+      case "popular":
+        column = "likeCounter";
+        orderType = "desc";
+        break;
+      default:
+        column = "date";
+        orderType = "desc";
+        break;
+    }
     try {
       const recipes = await Recipe.find({})
-        .sort({ title: "asc" })
+        .sort({ [column]: orderType })
         .skip(pageNum * perPage)
         .limit(perPage);
       return recipes;
