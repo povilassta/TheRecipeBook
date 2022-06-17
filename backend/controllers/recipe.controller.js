@@ -11,6 +11,15 @@ const RecipeController = {
     }
   },
 
+  getCount: async (req, res, next) => {
+    try {
+      const response = await RecipeService.getCount();
+      res.json(response).status(200);
+    } catch (e) {
+      next(e);
+    }
+  },
+
   get: async (req, res, next) => {
     const { recipeId } = req.params;
     try {

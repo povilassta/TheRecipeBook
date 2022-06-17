@@ -3,13 +3,22 @@ import Recipe from "../models/recipe.model.js";
 
 const RecipeService = {
   getMultiple: async (pageNum) => {
-    const perPage = 1;
+    const perPage = 20;
     try {
       const recipes = await Recipe.find({})
         .sort({ title: "asc" })
         .skip(pageNum * perPage)
         .limit(perPage);
       return recipes;
+    } catch (errors) {
+      throw errors;
+    }
+  },
+
+  getCount: async () => {
+    try {
+      const count = await Recipe.count({});
+      return count;
     } catch (errors) {
       throw errors;
     }
