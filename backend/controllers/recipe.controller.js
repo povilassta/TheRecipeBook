@@ -2,10 +2,9 @@ import RecipeService from "../services/recipe.service.js";
 
 const RecipeController = {
   getAll: async (req, res, next) => {
-    console.log("Hit.");
-    const pageNum = req.query.pageNum ? req.query.pageNum - 1 : 0;
+    const page = req.query.page ? req.query.page - 1 : 0;
     try {
-      const response = await RecipeService.getMultiple(pageNum);
+      const response = await RecipeService.getMultiple(page);
       res.json(response).status(200);
     } catch (e) {
       next(e);

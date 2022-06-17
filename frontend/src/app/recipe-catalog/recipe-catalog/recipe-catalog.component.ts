@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute } from '@angular/router';
 import { Recipe } from 'src/app/models/recipe.model';
 import { RecipeService } from 'src/app/services/recipe.service';
 
@@ -9,9 +10,17 @@ import { RecipeService } from 'src/app/services/recipe.service';
   styleUrls: ['./recipe-catalog.component.sass'],
 })
 export class RecipeCatalogComponent implements OnInit {
-  constructor(private recipeService: RecipeService) {}
+  constructor(
+    private recipeService: RecipeService,
+    private _Activatedroute: ActivatedRoute
+  ) {
+    this._Activatedroute.queryParamMap.subscribe((params) => {
+      console.log(params.get('page'));
+      this.page = Number(params.get('page')) || 1;
+    });
+  }
 
-  // Mock data of the same delicious burger
+  public page = 0;
   public recipes: Recipe[] = [];
   public value: number = 60;
   public pageEvent: PageEvent = {
@@ -21,7 +30,7 @@ export class RecipeCatalogComponent implements OnInit {
   };
 
   public ngOnInit(): void {
-    this.recipeService.getRecipes().subscribe((recipes) => {
+    this.recipeService.getRecipes(this.page).subscribe((recipes) => {
       this.recipes = recipes;
     });
   }

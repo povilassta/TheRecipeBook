@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Recipe } from '../models/recipe.model';
@@ -12,8 +12,10 @@ export class RecipeService {
 
   constructor(private http: HttpClient) {}
 
-  public getRecipes(): Observable<any> {
-    return this.http.get(this.BASE_URL).pipe(
+  public getRecipes(page: number): Observable<any> {
+    console.log(page);
+    let params = new HttpParams().set('page', page);
+    return this.http.get(this.BASE_URL, { params }).pipe(
       tap({
         next: (res: any) => {
           this.recipes = res;
