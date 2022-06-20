@@ -5,8 +5,14 @@ const RecipeController = {
     const page = req.query.page ? req.query.page - 1 : 0;
     const orderBy = req.query.order;
     const filter = req.query.filter;
+    const time = req.query.time;
     try {
-      const response = await RecipeService.getMultiple(page, orderBy, filter);
+      const response = await RecipeService.getMultiple(
+        page,
+        orderBy,
+        filter,
+        time
+      );
       res.json(response).status(200);
     } catch (e) {
       next(e);

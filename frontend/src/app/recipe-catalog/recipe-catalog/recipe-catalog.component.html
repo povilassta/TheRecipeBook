@@ -4,7 +4,7 @@
       <h1 class="title">Lunch Recipes</h1>
       <mat-form-field appearance="outline" class="sort-field">
         <mat-label>Sort by</mat-label>
-        <mat-select [(value)]="sortBy" (selectionChange)="updateRecipies()">
+        <mat-select [(value)]="sortBy" (selectionChange)="updateRecipes()">
           <mat-option value="recent">Most recent</mat-option>
           <mat-option value="oldest">Oldest</mat-option>
           <mat-option value="popular">Popularity</mat-option>
@@ -23,7 +23,7 @@
         <mat-label>Categories</mat-label>
         <mat-select
           [(value)]="categoryFilter"
-          (selectionChange)="updateRecipies()"
+          (selectionChange)="updateRecipes()"
           multiple
         >
           <mat-option
@@ -36,14 +36,17 @@
     </div>
     <div class="catalog__filtering__slider">
       <p class="catalog__filtering__slider__text">
-        Cooking time: <span class="text-regular">&lt; {{ value }} minutes</span>
+        Cooking time:
+        <span class="text-regular">&lt; {{ timeFilter }} minutes</span>
       </p>
       <mat-slider
         class="slider"
         max="200"
         min="0"
-        [(ngModel)]="value"
+        thumbLabel="true"
+        [(ngModel)]="timeFilter"
         value="60"
+        (change)="updateRecipes()"
       ></mat-slider>
     </div>
   </div>

@@ -28,7 +28,7 @@ export class RecipeCatalogComponent implements OnInit {
     this.componentCommunicationService.updateRecipesCalled$.subscribe(
       (pageNum) => {
         this.page = pageNum;
-        this.updateRecipies();
+        this.updateRecipes();
       }
     );
   }
@@ -36,13 +36,18 @@ export class RecipeCatalogComponent implements OnInit {
   public sortBy = 'recent';
   public page = 0;
   public recipes: Recipe[] = [];
-  public value: number = 60;
+  public timeFilter: number = 60;
   public categories: Category[] = [];
   public categoryFilter: string[] = [];
 
-  public updateRecipies(): void {
+  public updateRecipes(): void {
     this.recipeService
-      .getRecipes(this.page, this.sortBy, this.categoryFilter.join(','))
+      .getRecipes(
+        this.page,
+        this.sortBy,
+        this.categoryFilter.join(','),
+        this.timeFilter
+      )
       .subscribe((recipes) => {
         this.recipes = recipes;
       });
@@ -51,7 +56,8 @@ export class RecipeCatalogComponent implements OnInit {
       queryParams: this.paramBuilder(
         this.page,
         this.sortBy,
-        this.categoryFilter
+        this.categoryFilter,
+        this.timeFilter
       ),
       skipLocationChange: false,
     });
@@ -59,7 +65,12 @@ export class RecipeCatalogComponent implements OnInit {
 
   public ngOnInit(): void {
     this.recipeService
-      .getRecipes(this.page, this.sortBy, this.categoryFilter.join(','))
+      .getRecipes(
+        this.page,
+        this.sortBy,
+        this.categoryFilter.join(','),
+        this.timeFilter
+      )
       .subscribe((recipes) => {
         this.recipes = recipes;
       });
@@ -71,12 +82,14 @@ export class RecipeCatalogComponent implements OnInit {
   public paramBuilder(
     page: number,
     sortBy: string,
-    categoryFilter: string[]
+    categoryFilter: string[],
+    timeFilter: number
   ): RecipeParams {
     let obj: RecipeParams = {
       page: page,
       order: sortBy,
       filter: categoryFilter.join(','),
+      time: timeFilter,
     };
     Object.keys(obj).forEach((key) => {
       if (!obj[key as keyof RecipeParams]) {

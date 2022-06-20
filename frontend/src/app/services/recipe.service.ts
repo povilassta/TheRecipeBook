@@ -16,9 +16,10 @@ export class RecipeService {
   public getRecipes(
     page: number,
     order: string,
-    filter: string
+    filter: string,
+    time: number
   ): Observable<any> {
-    const params = this.paramBuiler(page, order, filter);
+    const params = this.paramBuiler(page, order, filter, time);
     return this.http.get(this.BASE_URL, { params }).pipe(
       tap({
         next: (res: any) => {
@@ -28,8 +29,13 @@ export class RecipeService {
     );
   }
 
-  private paramBuiler(page: number, order: string, filter: string): HttpParams {
-    let obj: RecipeParams = { page, order, filter };
+  private paramBuiler(
+    page: number,
+    order: string,
+    filter: string,
+    time: number
+  ): HttpParams {
+    let obj: RecipeParams = { page, order, filter, time };
     return Object.keys(obj).reduce(
       (params, key) =>
         obj[key as keyof RecipeParams]

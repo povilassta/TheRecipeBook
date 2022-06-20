@@ -2,7 +2,7 @@ import NotFoundError from "../errors/notfound.error.js";
 import Recipe from "../models/recipe.model.js";
 
 const RecipeService = {
-  getMultiple: async (pageNum, orderBy, filter) => {
+  getMultiple: async (pageNum, orderBy, filter, time) => {
     const perPage = 20;
     let query = {};
     let column = "";
@@ -10,6 +10,11 @@ const RecipeService = {
     if (filter) {
       query["categories"] = {
         $in: filter.split(","),
+      };
+    }
+    if (time) {
+      query["timeMinutes"] = {
+        $lte: time,
       };
     }
     switch (orderBy) {
