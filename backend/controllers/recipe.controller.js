@@ -20,8 +20,11 @@ const RecipeController = {
   },
 
   getCount: async (req, res, next) => {
+    const orderBy = req.query.order;
+    const filter = req.query.filter;
+    const time = req.query.time;
     try {
-      const response = await RecipeService.getCount();
+      const response = await RecipeService.getCount(orderBy, filter, time);
       res.json(response).status(200);
     } catch (e) {
       next(e);

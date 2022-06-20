@@ -24,6 +24,7 @@ export class RecipeCatalogComponent implements OnInit {
       this.page = Number(params.get('page')) || 1;
       this.sortBy = params.get('order') || 'recent';
       this.categoryFilter = params.get('filter')?.split(',') || [];
+      this.timeFilter = Number(params.get('time')) || 60;
     });
     this.componentCommunicationService.updateRecipesCalled$.subscribe(
       (pageNum) => {

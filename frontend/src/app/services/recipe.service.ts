@@ -45,8 +45,9 @@ export class RecipeService {
     );
   }
 
-  public getCount(): Observable<any> {
-    return this.http.get(`${this.BASE_URL}count`);
+  public getCount(filter: string, time: number): Observable<any> {
+    const params = this.paramBuiler(1, '', filter, time);
+    return this.http.get(`${this.BASE_URL}count`, { params });
   }
 
   public getRecipe(id: string): Observable<Recipe> {
