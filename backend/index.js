@@ -1,4 +1,4 @@
-import express from "express";
+import express, { application } from "express";
 import cors from "cors";
 import "dotenv/config";
 import connection from "./config/db.config.js";
@@ -6,7 +6,7 @@ import recipeRouter from "./routes/recipe.route.js";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 import errorHandler from "./middleware/errorHandler.middleware.js";
-import commentRouter from "./routes/comment.route.js";
+import categoryRouter from "./routes/category.route.js";
 
 const app = express();
 const port = 3000;
@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 // Routes
 app.use("/api/recipes", recipeRouter);
 app.use("/api/users", userRouter);
+app.use("/api/categories", categoryRouter);
 app.use("/api/", authRouter);
 
 app.use(express.static("public"));

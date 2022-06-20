@@ -3,8 +3,8 @@
   <h1>{{ recipe?.title }}</h1>
   <div class="recipe__tags">
     <app-category-tag
-      *ngFor="let tag of recipe?.categories; let i = index"
-      [message]="tag"
+      *ngFor="let category of recipe?.categories; let i = index"
+      [name]="category.name"
     ></app-category-tag>
   </div>
   <div class="recipe__likes-time">

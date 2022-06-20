@@ -7,7 +7,9 @@ const recipeSchema = mongoose.Schema({
   },
   categories: [
     {
-      type: String,
+      type: mongoose.ObjectId,
+      ref: "Category",
+      required: [true, "At least one category is required."],
     },
   ],
   likeCounter: {

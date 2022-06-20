@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Recipe } from '../models/recipe.model';
+import { RecipeParams } from '../models/recipeParams.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,14 +13,29 @@ export class RecipeService {
 
   constructor(private http: HttpClient) {}
 
-  public getRecipes(page: number, sortBy: string): Observable<any> {
-    let params = new HttpParams().set('page', page).set('order', sortBy);
+  public getRecipes(
+    page: number,
+    order: string,
+    filter: string
+  ): Observable<any> {
+    const params = this.paramBuiler(page, order, filter);
     return this.http.get(this.BASE_URL, { params }).pipe(
       tap({
         next: (res: any) => {
           this.recipes = res;
         },
       })
+    );
+  }
+
+  private paramBuiler(page: number, order: string, filter: string): HttpParams {
+    let obj: RecipeParams = { page, order, filter };
+    return Object.keys(obj).reduce(
+      (params, key) =>
+        obj[key as keyof RecipeParams]
+          ? params.append(key, obj[key as keyof RecipeParams])
+          : params,
+      new HttpParams()
     );
   }
 

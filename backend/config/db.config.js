@@ -3,6 +3,7 @@ import "dotenv/config";
 import User from "../models/user.model.js";
 import Recipe from "../models/recipe.model.js";
 import Comment from "../models/comment.model.js";
+import Category from "../models/category.model.js";
 
 class Connection {
   constructor() {

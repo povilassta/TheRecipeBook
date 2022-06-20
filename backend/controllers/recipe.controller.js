@@ -4,8 +4,9 @@ const RecipeController = {
   getAll: async (req, res, next) => {
     const page = req.query.page ? req.query.page - 1 : 0;
     const orderBy = req.query.order;
+    const filter = req.query.filter;
     try {
-      const response = await RecipeService.getMultiple(page, orderBy);
+      const response = await RecipeService.getMultiple(page, orderBy, filter);
       res.json(response).status(200);
     } catch (e) {
       next(e);

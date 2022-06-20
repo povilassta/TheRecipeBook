@@ -21,10 +21,16 @@
       </mat-form-field>
       <mat-form-field appearance="outline" class="long-field">
         <mat-label>Categories</mat-label>
-        <mat-select multiple>
-          <mat-option>American</mat-option>
-          <mat-option>Barbeque</mat-option>
-          <mat-option>Fast</mat-option>
+        <mat-select
+          [(value)]="categoryFilter"
+          (selectionChange)="updateRecipies()"
+          multiple
+        >
+          <mat-option
+            *ngFor="let category of categories; let i = index"
+            value="{{ category._id }}"
+            >{{ category.name | titlecase }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
     </div>

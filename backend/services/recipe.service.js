@@ -2,10 +2,16 @@ import NotFoundError from "../errors/notfound.error.js";
 import Recipe from "../models/recipe.model.js";
 
 const RecipeService = {
-  getMultiple: async (pageNum, orderBy) => {
+  getMultiple: async (pageNum, orderBy, filter) => {
     const perPage = 20;
+    let query = {};
     let column = "";
     let orderType = "";
+    if (filter) {
+      query["categories"] = {
+        $in: filter.split(","),
+      };
+    }
     switch (orderBy) {
       case "oldest":
         column = "date";
@@ -25,10 +31,11 @@ const RecipeService = {
         break;
     }
     try {
-      const recipes = await Recipe.find({})
+      const recipes = await Recipe.find(query)
         .sort({ [column]: orderType })
         .skip(pageNum * perPage)
-        .limit(perPage);
+        .limit(perPage)
+        .populate("categories");
       return recipes;
     } catch (errors) {
       throw errors;
@@ -46,7 +53,7 @@ const RecipeService = {
 
   get: async (recipeId) => {
     try {
-      const recipe = await Recipe.findById(recipeId);
+      const recipe = await Recipe.findById(recipeId).populate("categories");
       if (!recipe) {
         throw new NotFoundError("Recipe not found.");
       }
