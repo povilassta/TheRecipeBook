@@ -39,14 +39,8 @@ export class RecipeCatalogComponent implements OnInit {
   public value: number = 60;
   public categories: Category[] = [];
   public categoryFilter: string[] = [];
-  private params: RecipeParams | undefined;
 
   public updateRecipies(): void {
-    this.params = this.paramBuilder(
-      this.page,
-      this.sortBy,
-      this.categoryFilter
-    );
     this.recipeService
       .getRecipes(this.page, this.sortBy, this.categoryFilter.join(','))
       .subscribe((recipes) => {
