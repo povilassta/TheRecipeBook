@@ -3,14 +3,12 @@ import RecipeService from "../services/recipe.service.js";
 const RecipeController = {
   getAll: async (req, res, next) => {
     const page = req.query.page ? req.query.page - 1 : 0;
-    const orderBy = req.query.order;
-    const filter = req.query.filter;
-    const time = req.query.time;
+    const { sort, categories, time } = req.body;
     try {
       const response = await RecipeService.getMultiple(
         page,
-        orderBy,
-        filter,
+        sort,
+        categories,
         time
       );
       res.json(response).status(200);
@@ -20,11 +18,9 @@ const RecipeController = {
   },
 
   getCount: async (req, res, next) => {
-    const orderBy = req.query.order;
-    const filter = req.query.filter;
-    const time = req.query.time;
+    const { sort, categories, time } = req.body;
     try {
-      const response = await RecipeService.getCount(orderBy, filter, time);
+      const response = await RecipeService.getCount(sort, categories, time);
       res.json(response).status(200);
     } catch (e) {
       next(e);

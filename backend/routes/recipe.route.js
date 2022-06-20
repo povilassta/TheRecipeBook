@@ -6,29 +6,14 @@ import commentRouter from "./comment.route.js";
 const recipeRouter = express.Router();
 
 // GET (all)
-recipeRouter.get("/", RecipeController.getAll);
+recipeRouter.post("/", RecipeController.getAll);
 
 // GET (count)
 
-recipeRouter.get("/count", RecipeController.getCount);
+recipeRouter.post("/count", RecipeController.getCount);
 
 // GET (one)
 recipeRouter.get("/:recipeId", RecipeController.get);
-
-// POST
-recipeRouter.post("", (req, res) => {
-  res.send("Should post a recipe.");
-});
-
-// PUT
-recipeRouter.put("/:id", (req, res) => {
-  res.send("Should update a recipe.");
-});
-
-// DELETE
-recipeRouter.delete("/:id", (req, res) => {
-  res.send("Should delete a recipe.");
-});
 
 recipeRouter.use(
   "/:recipeId/comments",

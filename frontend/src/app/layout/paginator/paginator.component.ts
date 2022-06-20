@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FilterModel } from 'src/app/models/filter.model';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 
@@ -15,8 +16,6 @@ export class PaginatorComponent implements OnInit {
     private _Activatedroute: ActivatedRoute
   ) {
     this._Activatedroute.queryParamMap.subscribe((params) => {
-      this.timeFilter = Number(params.get('time')) || 60;
-      this.categoryFilter = params.get('filter')?.split(',') || [];
       this.updateCount(); // Update page count everytime url changes
     });
   }
@@ -25,9 +24,12 @@ export class PaginatorComponent implements OnInit {
   public perPageCount = 0;
   @Input()
   public currentPage = 0;
-
-  public timeFilter: number = 60;
-  public categoryFilter: string[] = [];
+  @Input()
+  public filterObj: FilterModel = {
+    time: 60,
+    categories: [],
+    sort: 'recent',
+  };
 
   public itemCount = 0;
   public pageCount = 0;
@@ -48,20 +50,15 @@ export class PaginatorComponent implements OnInit {
   }
 
   private updateCount() {
-    this.recipeService
-      .getCount(this.categoryFilter.join(','), this.timeFilter)
-      .subscribe((count) => {
-        this.itemCount = count;
-        this.pageCount = Math.ceil(this.itemCount / this.perPageCount);
-        this.pages = Array.from({ length: this.pageCount }, (_, i) => i + 1);
-        this.displayedPages = this.pages.slice(
-          this.currentPage < 5 ? 0 : this.currentPage - 3
-        );
-        console.log(this.itemCount);
-      });
+    this.recipeService.getCount(this.filterObj).subscribe((count) => {
+      this.itemCount = count;
+      this.pageCount = Math.ceil(this.itemCount / this.perPageCount);
+      this.pages = Array.from({ length: this.pageCount }, (_, i) => i + 1);
+      this.displayedPages = this.pages.slice(
+        this.currentPage < 5 ? 0 : this.currentPage - 3
+      );
+    });
   }
 
-  ngOnInit(): void {
-    this.updateCount();
-  }
+  ngOnInit(): void {}
 }

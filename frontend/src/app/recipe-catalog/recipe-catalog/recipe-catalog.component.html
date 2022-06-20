@@ -4,7 +4,10 @@
       <h1 class="title">Lunch Recipes</h1>
       <mat-form-field appearance="outline" class="sort-field">
         <mat-label>Sort by</mat-label>
-        <mat-select [(value)]="sortBy" (selectionChange)="updateRecipes()">
+        <mat-select
+          [(value)]="filterObj.sort"
+          (selectionChange)="updateRecipes()"
+        >
           <mat-option value="recent">Most recent</mat-option>
           <mat-option value="oldest">Oldest</mat-option>
           <mat-option value="popular">Popularity</mat-option>
@@ -22,7 +25,7 @@
       <mat-form-field appearance="outline" class="long-field">
         <mat-label>Categories</mat-label>
         <mat-select
-          [(value)]="categoryFilter"
+          [(value)]="filterObj.categories"
           (selectionChange)="updateRecipes()"
           multiple
         >
@@ -37,14 +40,14 @@
     <div class="catalog__filtering__slider">
       <p class="catalog__filtering__slider__text">
         Cooking time:
-        <span class="text-regular">&lt; {{ timeFilter }} minutes</span>
+        <span class="text-regular">&lt; {{ filterObj.time }} minutes</span>
       </p>
       <mat-slider
         class="slider"
         max="200"
         min="0"
         thumbLabel="true"
-        [(ngModel)]="timeFilter"
+        [(ngModel)]="filterObj.time"
         value="60"
         (change)="updateRecipes()"
       ></mat-slider>
@@ -56,5 +59,9 @@
       [recipe]="recipe"
     ></app-recipe-card>
   </div>
-  <app-paginator [perPageCount]="20" [currentPage]="page"></app-paginator>
+  <app-paginator
+    [perPageCount]="20"
+    [currentPage]="page"
+    [filterObj]="filterObj"
+  ></app-paginator>
 </div>

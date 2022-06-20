@@ -48,9 +48,9 @@ function queryBuilder(orderBy, filter, time) {
   let query = {};
   let orderQuery = {};
 
-  if (filter) {
+  if (filter.length) {
     query["categories"] = {
-      $in: filter.split(","),
+      $in: filter,
     };
   }
   if (time) {
@@ -66,7 +66,7 @@ function queryBuilder(orderBy, filter, time) {
       orderQuery["date"] = "desc";
       break;
     case "popular":
-      orderQuery["date"] = "desc";
+      orderQuery["likeCounter"] = "desc";
       break;
     default:
       orderQuery["date"] = "desc";
