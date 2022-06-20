@@ -12,7 +12,7 @@ export class CommentCardComponent implements OnInit {
 
   @Input()
   public comment: Comment | undefined;
-  public howLongAgo: string = '';
+  public howLongAgo = '';
 
   public ngOnInit(): void {
     this.howLongAgo = moment(this.comment?.date).fromNow();

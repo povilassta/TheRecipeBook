@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Recipe } from '../models/recipe.model';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { Recipe } from '../models/recipe.model';
 })
 export class RecipeService {
   public recipes: Recipe[] = [];
-  private BASE_URL: string = `http://localhost:3000/api/recipes/`;
+  private BASE_URL: string = `${environment.baseUrl}/recipes/`;
 
   constructor(private http: HttpClient) {}
 
