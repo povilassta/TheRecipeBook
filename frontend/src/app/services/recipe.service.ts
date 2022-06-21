@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { FilterModel } from '../models/filter.model';
+import { environment } from 'src/environments/environment';
 import { Recipe } from '../models/recipe.model';
 import { RecipeParams } from '../models/recipeParams.model';
 
@@ -10,7 +11,7 @@ import { RecipeParams } from '../models/recipeParams.model';
 })
 export class RecipeService {
   public recipes: Recipe[] = [];
-  private BASE_URL: string = `http://localhost:3000/api/recipes/`;
+  private BASE_URL: string = `${environment.baseUrl}/recipes/`;
 
   constructor(private http: HttpClient) {}
 

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Observable, tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { LoginResponse } from '../models/loginResponse.model';
 import { ComponentCommunicationService } from './componentCommunication.service';
 import { UserService } from './user.service';
@@ -10,7 +11,7 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private BASE_URL = 'http://localhost:3000/api/login/';
+  private BASE_URL = `${environment.baseUrl}/login/`;
 
   constructor(
     private http: HttpClient,
