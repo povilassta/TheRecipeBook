@@ -1,0 +1,22 @@
+<input
+  type="file"
+  multiple
+  style="display: none"
+  #fileUpload
+  (change)="onFileChange($event)"
+/>
+<div class="container" [ngClass]="{ center: !previews.length }">
+  <div *ngIf="!previews.length; else elseBlock">
+    <span class="hide-on-small">Drag and drop pictures here or</span>
+    <button mat-stroked-button class="btn-browse" (click)="fileUpload.click()">
+      Browse photos
+    </button>
+  </div>
+  <ng-template #elseBlock>
+    <div class="thumbnails">
+      <div class="thumbnail" *ngFor="let preview of previews; let i = index">
+        <img [src]="preview" alt="preview image" />
+      </div>
+    </div>
+  </ng-template>
+</div>
