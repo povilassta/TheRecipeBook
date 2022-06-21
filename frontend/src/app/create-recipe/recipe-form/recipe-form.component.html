@@ -1,0 +1,46 @@
+<div class="container">
+  <h1 class="header">Create a new recipe</h1>
+  <form class="form">
+    <div class="form__row">
+      <mat-form-field appearance="outline" class="medium-field">
+        <mat-label>title</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="medium-field">
+        <mat-label>categories</mat-label>
+        <mat-select multiple>
+          <mat-option value="1">placeholder 1</mat-option>
+          <mat-option value="2">placeholder 2</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <app-file-input></app-file-input>
+    <div class="form__row">
+      <div class="column">
+        <mat-form-field appearance="outline">
+          <mat-label>time in minutes</mat-label>
+          <input matInput type="number" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="extra-margin">
+          <mat-label>ingredients</mat-label>
+          <input matInput />
+          <button mat-icon-button matSuffix>
+            <mat-icon class="green">check_circle</mat-icon>
+          </button>
+        </mat-form-field>
+        <h2 class="missing-input">No ingredients yet...</h2>
+      </div>
+      <div class="column">
+        <mat-form-field appearance="outline">
+          <mat-label>instructions</mat-label>
+          <textarea matInput rows="6" class="instructions"></textarea>
+          <button mat-icon-button matSuffix>
+            <mat-icon class="green">check_circle</mat-icon>
+          </button>
+        </mat-form-field>
+        <h2 class="missing-input">How will we cook without instructions?</h2>
+      </div>
+    </div>
+    <button mat-flat-button class="btn-submit">Submit</button>
+  </form>
+</div>
