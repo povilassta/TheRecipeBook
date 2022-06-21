@@ -58,7 +58,6 @@ export class PaginatorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    console.log(this.itemCount);
     this.updateCount();
   }
 }
