@@ -4,7 +4,7 @@ const RecipeController = {
   getAll: async (req, res, next) => {
     try {
       const response = await RecipeService.getAll();
-      return res.status(200).json(response);
+      res.json(response).status(200);
     } catch (e) {
       next(e);
     }
@@ -14,7 +14,7 @@ const RecipeController = {
     const { recipeId } = req.params;
     try {
       const response = await RecipeService.get(recipeId);
-      return res.status(200).json(response);
+      res.json(response).status(200);
     } catch (e) {
       next(e);
     }

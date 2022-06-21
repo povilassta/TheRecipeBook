@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { AuthService } from 'src/app/services/auth.service';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 
 @UntilDestroy()
@@ -10,19 +11,20 @@ import { ComponentCommunicationService } from 'src/app/services/componentCommuni
 })
 export class HeaderComponent implements OnInit {
   constructor(
-    private componentCommunicationService: ComponentCommunicationService
+    private componentCommunicationService: ComponentCommunicationService,
+    private authService: AuthService
   ) {
     componentCommunicationService.updateUserCalled$
       .pipe(untilDestroyed(this))
       .subscribe(
-        () => (this.currentUser = localStorage.getItem('email') || '')
+        () => (this.currentUser = localStorage.getItem('username') || '')
       );
   }
 
-  public currentUser: string = localStorage.getItem('email') || '';
+  public currentUser: string = localStorage.getItem('username') || '';
 
   public logout(): void {
-    localStorage.removeItem('email');
+    this.authService.logout();
     this.currentUser = '';
     this.componentCommunicationService.callUpdateUser();
   }

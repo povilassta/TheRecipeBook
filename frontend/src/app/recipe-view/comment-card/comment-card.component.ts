@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import * as moment from 'moment';
+import { Comment } from 'src/app/models/comment.model';
 
 @Component({
   selector: 'app-comment-card',
   templateUrl: './comment-card.component.html',
-  styleUrls: ['./comment-card.component.sass']
+  styleUrls: ['./comment-card.component.sass'],
 })
 export class CommentCardComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  @Input()
+  public comment: Comment | undefined;
+  public howLongAgo = '';
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    this.howLongAgo = moment(this.comment?.date).fromNow();
   }
-
 }
