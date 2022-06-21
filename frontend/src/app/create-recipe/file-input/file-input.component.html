@@ -4,6 +4,7 @@
   style="display: none"
   #fileUpload
   (change)="onFileChange($event)"
+  accept="image/*"
 />
 <div class="container" [ngClass]="{ center: !previews.length }">
   <div *ngIf="!previews.length; else elseBlock">
@@ -17,6 +18,13 @@
       <div class="thumbnail" *ngFor="let preview of previews; let i = index">
         <img [src]="preview" alt="preview image" />
       </div>
+      <button
+        mat-stroked-button
+        class="btn-browse"
+        (click)="fileUpload.click()"
+      >
+        Browse photos
+      </button>
     </div>
   </ng-template>
 </div>

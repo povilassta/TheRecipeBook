@@ -16,7 +16,8 @@ export class FileInputComponent implements OnInit {
 
   public onFileChange(event: any) {
     this.files = event.target.files;
-    if (this.files)
+    if (this.files) {
+      this.previews = [];
       for (let i = 0; i < this.files?.length || 0; i++) {
         const reader = new FileReader();
         reader.onload = () => {
@@ -24,6 +25,7 @@ export class FileInputComponent implements OnInit {
         };
         reader.readAsDataURL(this.files[i]);
       }
+    }
   }
 
   ngOnInit(): void {}
