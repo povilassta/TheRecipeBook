@@ -8,10 +8,6 @@ const recipeRouter = express.Router();
 // GET (all)
 recipeRouter.post("/", RecipeController.getAll);
 
-// GET (count)
-
-recipeRouter.post("/count", RecipeController.getCount);
-
 // GET (one)
 recipeRouter.get("/:recipeId", RecipeController.get);
 

@@ -43,14 +43,16 @@ export class RecipeCatalogComponent implements OnInit {
   };
   public page = 0;
 
+  public count = 0;
   public recipes: Recipe[] = [];
   public categories: Category[] = [];
 
   public updateRecipes(): void {
     this.recipeService
       .getRecipes(this.page, this.filterObj)
-      .subscribe((recipes) => {
-        this.recipes = recipes;
+      .subscribe((res) => {
+        this.recipes = res.recipes;
+        this.count = res.count;
       });
     this.router.navigate([], {
       relativeTo: this._Activatedroute,
@@ -65,8 +67,9 @@ export class RecipeCatalogComponent implements OnInit {
   public ngOnInit(): void {
     this.recipeService
       .getRecipes(this.page, this.filterObj)
-      .subscribe((recipes) => {
-        this.recipes = recipes;
+      .subscribe((res) => {
+        this.recipes = res.recipes;
+        this.count = res.count;
       });
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;

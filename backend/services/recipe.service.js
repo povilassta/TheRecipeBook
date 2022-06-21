@@ -11,17 +11,8 @@ const RecipeService = {
         .skip(pageNum * perPage)
         .limit(perPage)
         .populate("categories");
-      return recipes;
-    } catch (errors) {
-      throw errors;
-    }
-  },
-
-  getCount: async (orderBy, filter, time) => {
-    const { query } = queryBuilder(orderBy, filter, time);
-    try {
       const count = await Recipe.count(query);
-      return count;
+      return { recipes, count };
     } catch (errors) {
       throw errors;
     }

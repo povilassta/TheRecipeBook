@@ -17,16 +17,6 @@ const RecipeController = {
     }
   },
 
-  getCount: async (req, res, next) => {
-    const { sort, categories, time } = req.body;
-    try {
-      const response = await RecipeService.getCount(sort, categories, time);
-      res.json(response).status(200);
-    } catch (e) {
-      next(e);
-    }
-  },
-
   get: async (req, res, next) => {
     const { recipeId } = req.params;
     try {

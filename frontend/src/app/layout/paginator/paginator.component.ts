@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FilterModel } from 'src/app/models/filter.model';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
@@ -9,29 +15,19 @@ import { RecipeService } from 'src/app/services/recipe.service';
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.sass'],
 })
-export class PaginatorComponent implements OnInit {
+export class PaginatorComponent implements OnInit, OnChanges {
   constructor(
     private recipeService: RecipeService,
-    private componentCommunicationService: ComponentCommunicationService,
-    private _Activatedroute: ActivatedRoute
-  ) {
-    this._Activatedroute.queryParamMap.subscribe((params) => {
-      this.updateCount(); // Update page count everytime url changes
-    });
-  }
+    private componentCommunicationService: ComponentCommunicationService
+  ) {}
 
   @Input()
   public perPageCount = 0;
   @Input()
   public currentPage = 0;
   @Input()
-  public filterObj: FilterModel = {
-    time: 60,
-    categories: [],
-    sort: 'recent',
-  };
-
   public itemCount = 0;
+
   public pageCount = 0;
   public pages: number[] = [];
   public displayedPages: number[] = [];
@@ -50,15 +46,19 @@ export class PaginatorComponent implements OnInit {
   }
 
   private updateCount() {
-    this.recipeService.getCount(this.filterObj).subscribe((count) => {
-      this.itemCount = count;
-      this.pageCount = Math.ceil(this.itemCount / this.perPageCount);
-      this.pages = Array.from({ length: this.pageCount }, (_, i) => i + 1);
-      this.displayedPages = this.pages.slice(
-        this.currentPage < 5 ? 0 : this.currentPage - 3
-      );
-    });
+    this.pageCount = Math.ceil(this.itemCount / this.perPageCount);
+    this.pages = Array.from({ length: this.pageCount }, (_, i) => i + 1);
+    this.displayedPages = this.pages.slice(
+      this.currentPage < 5 ? 0 : this.currentPage - 3
+    );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateCount();
+  }
+
+  ngOnChanges(): void {
+    console.log(this.itemCount);
+    this.updateCount();
+  }
 }
