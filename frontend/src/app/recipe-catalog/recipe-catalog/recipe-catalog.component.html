@@ -4,7 +4,10 @@
       <h1 class="title">Lunch Recipes</h1>
       <mat-form-field appearance="outline" class="sort-field">
         <mat-label>Sort by</mat-label>
-        <mat-select>
+        <mat-select
+          [(value)]="filterObj.sort"
+          (selectionChange)="updateRecipes()"
+        >
           <mat-option value="recent">Most recent</mat-option>
           <mat-option value="oldest">Oldest</mat-option>
           <mat-option value="popular">Popularity</mat-option>
@@ -21,43 +24,44 @@
       </mat-form-field>
       <mat-form-field appearance="outline" class="long-field">
         <mat-label>Categories</mat-label>
-        <mat-select multiple>
-          <mat-option>American</mat-option>
-          <mat-option>Barbeque</mat-option>
-          <mat-option>Fast</mat-option>
+        <mat-select
+          [(value)]="filterObj.categories"
+          (selectionChange)="updateRecipes()"
+          multiple
+        >
+          <mat-option
+            *ngFor="let category of categories; let i = index"
+            value="{{ category._id }}"
+            >{{ category.name | titlecase }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
     </div>
     <div class="catalog__filtering__slider">
       <p class="catalog__filtering__slider__text">
-        Cooking time: <span class="text-regular">&lt; {{ value }} minutes</span>
+        Cooking time:
+        <span class="text-regular">&lt; {{ filterObj.time }} minutes</span>
       </p>
       <mat-slider
         class="slider"
         max="200"
         min="0"
-        [(ngModel)]="value"
+        thumbLabel="true"
+        [(ngModel)]="filterObj.time"
         value="60"
+        (change)="updateRecipes()"
       ></mat-slider>
     </div>
   </div>
-  <mat-paginator
-    [length]="recipes.length"
-    [pageSize]="10"
-    [pageSizeOptions]="[3, 5, 10, 25, 100]"
-    (page)="pageEvent = $event"
-    aria-label="Select page"
-  ></mat-paginator>
-  <div class="catalog__items" *ngIf="pageEvent">
+  <div class="catalog__items">
     <app-recipe-card
-      *ngFor="
-        let recipe of recipes.slice(
-          pageEvent.pageIndex * pageEvent.pageSize,
-          pageEvent.pageIndex * pageEvent.pageSize + pageEvent.pageSize
-        );
-        let i = index
-      "
+      *ngFor="let recipe of recipes; let i = index"
       [recipe]="recipe"
     ></app-recipe-card>
   </div>
+  <app-paginator
+    [perPageCount]="20"
+    [currentPage]="page"
+    [itemCount]="count"
+  ></app-paginator>
 </div>

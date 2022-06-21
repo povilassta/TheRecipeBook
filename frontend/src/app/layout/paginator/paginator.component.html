@@ -1,0 +1,47 @@
+<div class="pagination">
+  <button
+    mat-icon-button
+    aria-label="Previous page"
+    (click)="changePage(currentPage - 1)"
+    [disabled]="currentPage === pages[0]"
+  >
+    <mat-icon>navigate_before</mat-icon>
+  </button>
+  <span class="pagination__end" *ngIf="currentPage > 4">
+    <button mat-button aria-label="Last page button">
+      {{ 1 }}
+    </button>
+    <span class="pagination__end__icon">
+      <mat-icon>more_horiz</mat-icon>
+    </span>
+  </span>
+  <button
+    mat-button
+    aria-label="Specific page number button"
+    *ngFor="let page of displayedPages | slice: 0:5; let i = index"
+    [ngClass]="{ active: page === currentPage }"
+    (click)="changePage(page)"
+  >
+    {{ page }}
+  </button>
+  <span class="pagination__end" *ngIf="displayedPages.length > 5">
+    <span class="pagination__end__icon">
+      <mat-icon>more_horiz</mat-icon>
+    </span>
+    <button
+      mat-button
+      aria-label="Last page button"
+      (click)="changePage(pages[pages.length - 1])"
+    >
+      {{ pages[pages.length - 1] }}
+    </button>
+  </span>
+  <button
+    mat-icon-button
+    aria-label="Previous page"
+    (click)="changePage(currentPage + 1)"
+    [disabled]="currentPage === pages[pages.length - 1]"
+  >
+    <mat-icon>navigate_next</mat-icon>
+  </button>
+</div>

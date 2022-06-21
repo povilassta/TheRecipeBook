@@ -11,6 +11,7 @@ import { CategoryTagComponent } from './recipe-catalog/category-tag/category-tag
 import { FormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
+import { LayoutModule } from '../layout/layout.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     MatPaginatorModule,
     RouterModule,
+    LayoutModule,
   ],
   exports: [CategoryTagComponent],
 })

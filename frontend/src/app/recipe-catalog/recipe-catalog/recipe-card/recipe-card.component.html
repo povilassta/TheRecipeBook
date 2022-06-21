@@ -10,7 +10,7 @@
       <div class="card__info__tags">
         <app-category-tag
           *ngFor="let category of recipe?.categories; let i = index"
-          [message]="category"
+          [name]="category.name"
         ></app-category-tag>
       </div>
       <div class="card__info__time">

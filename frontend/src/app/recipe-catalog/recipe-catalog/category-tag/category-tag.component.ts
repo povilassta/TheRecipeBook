@@ -9,7 +9,7 @@ export class CategoryTagComponent implements OnInit {
   constructor() {}
 
   @Input()
-  public message: string = '';
+  public name: string = '';
 
   ngOnInit(): void {}
 }

@@ -14,4 +14,12 @@ export class ComponentCommunicationService {
   public callUpdateUser(): void {
     this.updateUserCallSource.next();
   }
+
+  private updateRecipesCallSource = new Subject<number>();
+
+  public updateRecipesCalled$ = this.updateRecipesCallSource.asObservable();
+
+  public callUpdateRecipes(pageNum: number): void {
+    this.updateRecipesCallSource.next(pageNum);
+  }
 }
