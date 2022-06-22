@@ -25,7 +25,6 @@ export class FileInputComponent implements OnInit {
   }
 
   public onFileChange(event: any) {
-    console.log(event);
     const input = event.target.files || event.dataTransfer.files;
     if (input) {
       for (let i = 0; i < input.length; i++) {
