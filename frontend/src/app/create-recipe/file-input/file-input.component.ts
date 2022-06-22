@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 
 @Component({
   selector: 'app-file-input',
@@ -6,8 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./file-input.component.sass'],
 })
 export class FileInputComponent implements OnInit {
-  constructor() {}
-  public files: FileList | undefined;
+  constructor(
+    private componentCommunicationService: ComponentCommunicationService
+  ) {
+    this.componentCommunicationService.unselectFileCalled$.subscribe(
+      (index) => {
+        this.files.splice(index, 1);
+        this.previews.splice(index, 1);
+      }
+    );
+  }
+  public files: File[] = [];
   public previews: string[] = [];
 
   public openUploadDialog(): void {
@@ -15,17 +25,19 @@ export class FileInputComponent implements OnInit {
   }
 
   public onFileChange(event: any) {
-    this.files = event.target.files;
-    if (this.files) {
-      this.previews = [];
-      for (let i = 0; i < this.files?.length || 0; i++) {
+    console.log(event);
+    const input = event.target.files || event.dataTransfer.files;
+    if (input) {
+      for (let i = 0; i < input.length; i++) {
+        this.files.push(input[i]); // Add a file to files array
         const reader = new FileReader();
         reader.onload = () => {
-          this.previews.push(reader.result as string);
+          this.previews.push(reader.result as string); // Add preview url to previews array
         };
-        reader.readAsDataURL(this.files[i]);
+        reader.readAsDataURL(input[i]);
       }
     }
+    console.log(this.files);
   }
 
   ngOnInit(): void {}

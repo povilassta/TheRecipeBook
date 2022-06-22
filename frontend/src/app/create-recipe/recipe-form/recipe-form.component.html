@@ -23,22 +23,63 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="extra-margin">
           <mat-label>ingredients</mat-label>
-          <input matInput />
-          <button mat-icon-button matSuffix>
-            <mat-icon class="green">check_circle</mat-icon>
+          <input matInput [(ngModel)]="currentIngredient" name="ingredient" />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="addIngredient()"
+            [disabled]="!currentIngredient"
+          >
+            <mat-icon class="green">add_circle</mat-icon>
           </button>
         </mat-form-field>
-        <h2 class="missing-input">No ingredients yet...</h2>
+        <h2 class="missing-input" *ngIf="!ingredients.length; else elseBlock1">
+          No ingredients yet...
+        </h2>
+        <ng-template #elseBlock1>
+          <div *ngFor="let ing of ingredients; let i = index" class="list-item">
+            <button mat-icon-button class="red" (click)="removeIngredient(i)">
+              <mat-icon>close</mat-icon>
+            </button>
+            <p>{{ ing }}</p>
+          </div>
+        </ng-template>
       </div>
       <div class="column">
         <mat-form-field appearance="outline">
           <mat-label>instructions</mat-label>
-          <textarea matInput rows="6" class="instructions"></textarea>
-          <button mat-icon-button matSuffix>
-            <mat-icon class="green">check_circle</mat-icon>
+          <textarea
+            matInput
+            rows="6"
+            class="instructions"
+            [(ngModel)]="currentInstruction"
+            name="instruction"
+          ></textarea>
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="addInstruction()"
+            [disabled]="!currentInstruction"
+          >
+            <mat-icon class="green">add_circle</mat-icon>
           </button>
         </mat-form-field>
-        <h2 class="missing-input">How will we cook without instructions?</h2>
+        <h2 class="missing-input" *ngIf="!instructions.length; else elseBlock2">
+          How will we cook without instructions?
+        </h2>
+        <ng-template #elseBlock2>
+          <div
+            *ngFor="let ins of instructions; let i = index"
+            class="list-item"
+          >
+            <button mat-icon-button class="red" (click)="removeInstruction(i)">
+              <mat-icon>close</mat-icon>
+            </button>
+            <p>{{ ins }}</p>
+          </div>
+        </ng-template>
       </div>
     </div>
     <button mat-flat-button class="btn-submit">Submit</button>

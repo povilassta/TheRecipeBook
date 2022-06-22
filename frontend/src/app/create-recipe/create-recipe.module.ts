@@ -8,9 +8,17 @@ import { MatSelectModule } from '@angular/material/select';
 import { FileInputComponent } from './file-input/file-input.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ThumbnailComponent } from './thumbnail/thumbnail.component';
+import { AppModule } from '../app.module';
+import { DropZoneDirective } from '../directives/drop-zone.directive';
 
 @NgModule({
-  declarations: [RecipeFormComponent, FileInputComponent],
+  declarations: [
+    RecipeFormComponent,
+    FileInputComponent,
+    ThumbnailComponent,
+    DropZoneDirective,
+  ],
   imports: [
     CommonModule,
     MatFormFieldModule,
