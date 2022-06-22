@@ -36,7 +36,6 @@ export class FileInputComponent implements OnInit {
         reader.readAsDataURL(input[i]);
       }
     }
-    console.log(this.files);
   }
 
   ngOnInit(): void {}
