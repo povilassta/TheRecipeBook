@@ -6,7 +6,7 @@
       alt="Recipe picture"
     />
     <div class="card__info">
-      <span class="card__info__title">{{ recipe?.title }}</span>
+      <div class="card__info__title">{{ recipe?.title }}</div>
       <div class="card__info__tags">
         <app-category-tag
           *ngFor="let category of recipe?.categories; let i = index"
