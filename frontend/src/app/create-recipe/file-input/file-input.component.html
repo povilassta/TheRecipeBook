@@ -14,7 +14,12 @@
 >
   <div *ngIf="!previews.length; else elseBlock">
     <span class="hide-on-small">Drag and drop pictures here or</span>
-    <button mat-stroked-button class="btn-browse" (click)="fileUpload.click()">
+    <button
+      mat-stroked-button
+      type="button"
+      class="btn-browse"
+      (click)="fileUpload.click()"
+    >
       Browse photos
     </button>
   </div>

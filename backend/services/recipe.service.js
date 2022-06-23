@@ -1,5 +1,8 @@
 import NotFoundError from "../errors/notfound.error.js";
 import Recipe from "../models/recipe.model.js";
+import multer from "multer";
+
+const uploadPath = "../backend/public/images/recipes/";
 
 const RecipeService = {
   getMultiple: async (pageNum, orderBy, filter, time) => {
@@ -32,6 +35,27 @@ const RecipeService = {
 
   addRecipeIdParam: (req) => {
     req.recipeId = req.params.recipeId;
+  },
+
+  uploadPictures: async (files) => {
+    let urls = [];
+    for (const file in files) {
+      files[file].name = `${Date.now()}-${files[file].name}`;
+      files[file].mv(`${uploadPath}${files[file].name}`, (err) => {
+        if (err) throw err;
+      });
+      urls.push(files[file].name);
+    }
+    return { urls };
+  },
+
+  post: async (data) => {
+    try {
+      const recipe = await Recipe.create({ ...data });
+      return recipe;
+    } catch (errors) {
+      throw errors;
+    }
   },
 };
 

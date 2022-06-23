@@ -11,6 +11,12 @@ recipeRouter.post("/", RecipeController.getAll);
 // GET (one)
 recipeRouter.get("/:recipeId", RecipeController.get);
 
+// POST pictures
+recipeRouter.post("/upload", RecipeController.uploadPictures);
+
+// POST RECIPE
+recipeRouter.post("/create", RecipeController.post);
+
 recipeRouter.use(
   "/:recipeId/comments",
   function (req, res, next) {

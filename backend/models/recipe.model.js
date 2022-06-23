@@ -32,10 +32,12 @@ const recipeSchema = mongoose.Schema({
       required: [true, "Instructions are required."],
     },
   ],
-  imageUrl: {
-    type: String,
-    required: [true, "Image url is required."],
-  },
+  imageUrls: [
+    {
+      type: String,
+      required: [true, "Image url is required."],
+    },
+  ],
   date: {
     type: Date,
     default: Date.now(),

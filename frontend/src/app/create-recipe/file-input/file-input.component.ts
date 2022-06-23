@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 
 @Component({
@@ -14,11 +14,14 @@ export class FileInputComponent implements OnInit {
       (index) => {
         this.files.splice(index, 1);
         this.previews.splice(index, 1);
+        this.filesAdded.emit(this.files);
       }
     );
   }
   public files: File[] = [];
   public previews: string[] = [];
+
+  @Output() filesAdded = new EventEmitter<File[]>();
 
   public openUploadDialog(): void {
     document.getElementById('fileInput')?.click();
@@ -35,6 +38,7 @@ export class FileInputComponent implements OnInit {
         };
         reader.readAsDataURL(input[i]);
       }
+      this.filesAdded.emit(this.files);
     }
   }
 
