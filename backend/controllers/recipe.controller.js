@@ -38,8 +38,9 @@ const RecipeController = {
   },
 
   post: async (req, res, next) => {
+    const { _id: userId } = req.user;
     try {
-      const response = await RecipeService.post(req.body);
+      const response = await RecipeService.post(req.body, userId);
       res.json(response).status(201);
     } catch (e) {
       next(e);

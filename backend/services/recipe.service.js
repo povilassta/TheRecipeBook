@@ -49,9 +49,9 @@ const RecipeService = {
     return { urls };
   },
 
-  post: async (data) => {
+  post: async (data, userId) => {
     try {
-      const recipe = await Recipe.create({ ...data });
+      const recipe = await Recipe.create({ ...data, userId });
       return recipe;
     } catch (errors) {
       throw errors;
