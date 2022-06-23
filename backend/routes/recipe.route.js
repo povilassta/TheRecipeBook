@@ -1,5 +1,6 @@
 import express from "express";
 import RecipeController from "../controllers/recipe.controller.js";
+import { authJwt } from "../services/auth.service.js";
 import RecipeService from "../services/recipe.service.js";
 import commentRouter from "./comment.route.js";
 
@@ -12,10 +13,10 @@ recipeRouter.post("/", RecipeController.getAll);
 recipeRouter.get("/:recipeId", RecipeController.get);
 
 // POST pictures
-recipeRouter.post("/upload", RecipeController.uploadPictures);
+recipeRouter.post("/upload", authJwt, RecipeController.uploadPictures);
 
 // POST RECIPE
-recipeRouter.post("/create", RecipeController.post);
+recipeRouter.post("/create", authJwt, RecipeController.post);
 
 recipeRouter.use(
   "/:recipeId/comments",
