@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-file-input',
   templateUrl: './file-input.component.html',
@@ -10,13 +12,13 @@ export class FileInputComponent implements OnInit {
   constructor(
     private componentCommunicationService: ComponentCommunicationService
   ) {
-    this.componentCommunicationService.unselectFileCalled$.subscribe(
-      (index) => {
+    this.componentCommunicationService.unselectFileCalled$
+      .pipe(untilDestroyed(this))
+      .subscribe((index) => {
         this.files.splice(index, 1);
         this.previews.splice(index, 1);
         this.filesAdded.emit(this.files);
-      }
-    );
+      });
   }
   public files: File[] = [];
   public previews: string[] = [];
