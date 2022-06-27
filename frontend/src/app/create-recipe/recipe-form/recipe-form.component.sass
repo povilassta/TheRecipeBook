@@ -1,0 +1,68 @@
+.container
+    margin: 2rem 3rem
+    @media screen and ( max-width: 500px )
+        margin: 2rem 1rem
+        
+
+.header
+    color: #264653
+    font-weight: 800
+    font-size: 2rem
+
+.form
+    &__row
+        display: flex
+        width: 100%
+        justify-content: space-between
+        margin-top: 20px
+        @media screen and ( max-width: 500px )
+            flex-direction: column
+            
+
+.medium-field
+    width: 48%
+    @media screen and ( max-width: 500px )
+        width: 100%
+
+.column
+    display: flex
+    flex-direction: column
+    width: 48%
+    @media screen and ( max-width: 500px )
+        width: 100%
+
+
+.green
+    color: rgb(42, 157, 74)
+
+.red
+    color: #C91E1E
+
+.extra-margin
+    margin-top: 1px
+
+.instructions
+    resize: none
+
+.btn-submit
+    background-color: rgb(42, 157, 143)
+    color: #ffffff
+    float: right
+    &:disabled
+        color: #ffffff
+        background-color: rgba(42, 157, 143, 0.5)
+
+.missing-input
+    color: #264653
+    font-weight: 800
+    font-size: 2rem
+    @media screen and ( max-width: 600px )
+        font-size: 1.5rem
+    
+.list-item
+    display: flex
+    align-items: start
+    color: #264653
+    font-size: 1rem
+    & p
+        margin-top: 11px

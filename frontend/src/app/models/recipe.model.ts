@@ -8,6 +8,6 @@ export interface Recipe {
   ingredients: string[];
   categories: Category[];
   instructions: string[];
-  imageUrl: string;
+  imageUrls: string[];
   date: Date;
 }

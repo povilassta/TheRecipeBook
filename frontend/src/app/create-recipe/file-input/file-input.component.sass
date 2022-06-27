@@ -1,0 +1,41 @@
+.container
+    width: 100%
+    min-height: 100px
+    border: #e4e4e4 solid 1px
+    border-radius: 5px
+    transition: 0.1s
+    display: flex
+    color: #8c8c8c
+    &:hover
+        margin: -1px
+        border: #000000 2px solid
+
+.fileover
+    border: #2A9D8F solid 2px
+    margin: -1px
+
+.btn-browse
+    margin-bottom: 10px
+
+.thumbnails
+    display: flex
+    flex-wrap: wrap
+    padding: 10px 10px 0px 10px
+
+.thumbnail
+    margin-right: 10px
+    margin-bottom: 10px
+    height: 80px
+    & img
+        border-radius: 5px
+        height: 80px
+
+.center
+    justify-content: center
+    align-items: center
+
+.hide-on-small
+    margin-right: 10px
+    @media screen and ( max-width: 500px )
+        display: none
+        

@@ -17,11 +17,31 @@ const RecipeController = {
     }
   },
 
+  uploadPictures: async (req, res, next) => {
+    const { files } = req;
+    try {
+      const response = await RecipeService.uploadPictures(files);
+      res.json(response).status(201);
+    } catch (e) {
+      next(e);
+    }
+  },
+
   get: async (req, res, next) => {
     const { recipeId } = req.params;
     try {
       const response = await RecipeService.get(recipeId);
       res.json(response).status(200);
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  post: async (req, res, next) => {
+    const { _id: userId } = req.user;
+    try {
+      const response = await RecipeService.post(req.body, userId);
+      res.json(response).status(201);
     } catch (e) {
       next(e);
     }

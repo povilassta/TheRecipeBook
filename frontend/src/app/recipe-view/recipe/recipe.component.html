@@ -25,7 +25,10 @@
       <li *ngFor="let ing of recipe?.ingredients; let i = index">{{ ing }}</li>
     </ul>
   </section>
-  <img src="{{ recipe?.imageUrl }}" alt="Picture of finished recipe" />
+  <img
+    src="/images/recipes/{{ recipe?.imageUrls?.[0] }}"
+    alt="Picture of finished recipe"
+  />
   <section class="recipe__instructions">
     <h2>INSTRUCTIONS:</h2>
     <ol>

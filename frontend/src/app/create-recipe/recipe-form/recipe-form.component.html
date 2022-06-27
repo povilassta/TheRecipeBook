@@ -1,0 +1,104 @@
+<div class="container">
+  <h1 class="header">Create a new recipe</h1>
+  <form class="form" [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    <div class="form__row">
+      <mat-form-field appearance="outline" class="medium-field">
+        <mat-label>title</mat-label>
+        <input matInput formControlName="title" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="medium-field">
+        <mat-label>categories</mat-label>
+        <mat-select multiple formControlName="categories">
+          <mat-option
+            *ngFor="let category of allCategories; let i = index"
+            [value]="category._id"
+            >{{ category.name | titlecase }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <app-file-input (filesAdded)="filesAdded($event)"></app-file-input>
+    <div class="form__row">
+      <div class="column">
+        <mat-form-field appearance="outline">
+          <mat-label>time in minutes</mat-label>
+          <input matInput type="number" formControlName="timeMinutes" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="extra-margin">
+          <mat-label>ingredients</mat-label>
+          <input
+            matInput
+            formControlName="currentIngredient"
+            name="ingredient"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="addIngredient()"
+            [disabled]="!recipeForm.value.currentIngredient"
+          >
+            <mat-icon class="green">add_circle</mat-icon>
+          </button>
+        </mat-form-field>
+        <h2 class="missing-input" *ngIf="!ingredients.length; else elseBlock1">
+          No ingredients yet...
+        </h2>
+        <ng-template #elseBlock1>
+          <div *ngFor="let ing of ingredients; let i = index" class="list-item">
+            <button mat-icon-button class="red" (click)="removeIngredient(i)">
+              <mat-icon>close</mat-icon>
+            </button>
+            <p>{{ ing }}</p>
+          </div>
+        </ng-template>
+      </div>
+      <div class="column">
+        <mat-form-field appearance="outline">
+          <mat-label>instructions</mat-label>
+          <textarea
+            matInput
+            rows="6"
+            class="instructions"
+            formControlName="currentInstruction"
+          ></textarea>
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="addInstruction()"
+            [disabled]="!recipeForm.value.currentInstruction"
+          >
+            <mat-icon class="green">add_circle</mat-icon>
+          </button>
+        </mat-form-field>
+        <h2 class="missing-input" *ngIf="!instructions.length; else elseBlock2">
+          How will we cook without instructions?
+        </h2>
+        <ng-template #elseBlock2>
+          <div
+            *ngFor="let ins of instructions; let i = index"
+            class="list-item"
+          >
+            <button mat-icon-button class="red" (click)="removeInstruction(i)">
+              <mat-icon>close</mat-icon>
+            </button>
+            <p>{{ ins }}</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <button
+      mat-flat-button
+      class="btn-submit"
+      [disabled]="
+        !recipeForm.valid ||
+        !ingredients.length ||
+        !instructions.length ||
+        !files.length
+      "
+    >
+      Submit
+    </button>
+  </form>
+</div>
