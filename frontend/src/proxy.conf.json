@@ -1,0 +1,9 @@
+{
+  "/images/recipes": {
+    "target": "http://localhost:3000/images/recipes/",
+    "secure": "false",
+    "pathRewrite": {
+      "^/images/recipes": ""
+    }
+  }
+}
