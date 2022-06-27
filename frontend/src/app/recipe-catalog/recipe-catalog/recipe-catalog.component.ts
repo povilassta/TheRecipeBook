@@ -42,10 +42,10 @@ export class RecipeCatalogComponent implements OnInit {
     time: 60,
   };
   public page = 0;
-
   public count = 0;
   public recipes: Recipe[] = [];
   public categories: Category[] = [];
+  public isLoading = true;
 
   public updateRecipes(): void {
     this.recipeService
@@ -70,6 +70,7 @@ export class RecipeCatalogComponent implements OnInit {
       .subscribe((res) => {
         this.recipes = res.recipes;
         this.count = res.count;
+        this.isLoading = false;
       });
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
