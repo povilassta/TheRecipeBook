@@ -1,6 +1,5 @@
 import NotFoundError from "../errors/notfound.error.js";
 import Recipe from "../models/recipe.model.js";
-import multer from "multer";
 
 const uploadPath = "../backend/public/images/recipes/";
 
