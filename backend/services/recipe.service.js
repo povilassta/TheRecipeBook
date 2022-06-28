@@ -1,7 +1,8 @@
 import NotFoundError from "../errors/notfound.error.js";
 import Recipe from "../models/recipe.model.js";
+import { unlink } from "node:fs";
 
-const uploadPath = "../backend/public/images/recipes/";
+const picturePath = "../backend/public/images/recipes/";
 
 const RecipeService = {
   getMultiple: async (pageNum, orderBy, filter, time) => {
@@ -40,7 +41,7 @@ const RecipeService = {
     let urls = [];
     for (const file in files) {
       files[file].name = `${Date.now()}-${files[file].name}`;
-      files[file].mv(`${uploadPath}${files[file].name}`, (err) => {
+      files[file].mv(`${picturePath}${files[file].name}`, (err) => {
         if (err) throw err;
       });
       urls.push(files[file].name);
@@ -52,6 +53,29 @@ const RecipeService = {
     try {
       const recipe = await Recipe.create({ ...data, userId });
       return recipe;
+    } catch (errors) {
+      throw errors;
+    }
+  },
+
+  put: async (data, userId, recipeId, markedForDeletion) => {
+    try {
+      const recipe = await Recipe.findOneAndUpdate(
+        { _id: recipeId, userId },
+        data,
+        { new: true }
+      );
+      if (recipe) {
+        for (const img of markedForDeletion) {
+          unlink(`${picturePath}${img}`, (err) => {
+            if (err) throw err;
+            console.log(img + " was deleted.");
+          });
+        }
+        return recipe;
+      } else {
+        throw new NotFoundError("Recipe not found or not yours to edit.");
+      }
     } catch (errors) {
       throw errors;
     }
