@@ -10,4 +10,5 @@ export interface Recipe {
   instructions: string[];
   imageUrls: string[];
   date: Date;
+  userId: string;
 }

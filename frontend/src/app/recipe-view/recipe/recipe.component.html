@@ -1,6 +1,26 @@
 <div class="recipe" *ngIf="!isLoading; else elseBlock">
   <p>Meals >> Chicken >></p>
-  <h1>{{ recipe?.title }}</h1>
+  <div class="recipe__title">
+    <h1>{{ recipe?.title }}</h1>
+    <div *ngIf="isOwner">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Recipe options menu button"
+      >
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item>
+          <mat-icon class="menu-icon">edit</mat-icon>
+          <a routerLink="/recipes/{{ recipe?._id }}/edit" class="menu-link"
+            >Edit</a
+          >
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+
   <div class="recipe__tags">
     <app-category-tag
       *ngFor="let category of recipe?.categories; let i = index"
