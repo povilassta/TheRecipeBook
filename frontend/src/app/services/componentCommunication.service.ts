@@ -24,4 +24,11 @@ export class ComponentCommunicationService {
   public callUnselectFile(index: number): void {
     this.unselectFileCallSource.next(index);
   }
+
+  private unselectInitialFileCallSource = new Subject<number>();
+  public unselectInitialFileCalled$ =
+    this.unselectInitialFileCallSource.asObservable();
+  public callUnselectInitialFile(index: number): void {
+    this.unselectInitialFileCallSource.next(index);
+  }
 }

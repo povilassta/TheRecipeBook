@@ -36,6 +36,17 @@ export class RecipeService {
     return this.http.post(`${this.BASE_URL}create`, data);
   }
 
+  public putRecipe(
+    data: RecipePost,
+    recipeId: string,
+    markedForDeletion: string[]
+  ): Observable<any> {
+    return this.http.put(`${this.BASE_URL}${recipeId}`, {
+      ...data,
+      markedForDeletion,
+    });
+  }
+
   public uploadPictures(files: File[]): Observable<any> {
     const formData = new FormData();
     for (let file of files) {

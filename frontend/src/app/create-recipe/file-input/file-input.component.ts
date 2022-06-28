@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 
@@ -22,6 +22,8 @@ export class FileInputComponent implements OnInit {
   }
   public files: File[] = [];
   public previews: string[] = [];
+  @Input()
+  public initialPreviews: string[] = [];
 
   @Output() filesAdded = new EventEmitter<File[]>();
 

@@ -18,6 +18,9 @@ recipeRouter.post("/upload", authJwt, RecipeController.uploadPictures);
 // POST RECIPE
 recipeRouter.post("/create", authJwt, RecipeController.post);
 
+// PUT RECIPE
+recipeRouter.put("/:recipeId", authJwt, RecipeController.put);
+
 recipeRouter.use(
   "/:recipeId/comments",
   function (req, res, next) {

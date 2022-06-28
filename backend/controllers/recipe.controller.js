@@ -46,6 +46,23 @@ const RecipeController = {
       next(e);
     }
   },
+
+  put: async (req, res, next) => {
+    const { _id: userId } = req.user;
+    const { recipeId } = req.params;
+    const { markedForDeletion, ...data } = req.body;
+    try {
+      const response = await RecipeService.put(
+        data,
+        userId,
+        recipeId,
+        markedForDeletion
+      );
+      res.json(response).send(200);
+    } catch (e) {
+      next(e);
+    }
+  },
 };
 
 export default RecipeController;

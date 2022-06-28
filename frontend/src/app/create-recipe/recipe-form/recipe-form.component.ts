@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Category } from 'src/app/models/category.model';
+import { Recipe } from 'src/app/models/recipe.model';
 import { CategoryService } from 'src/app/services/category.service';
+import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-recipe-form',
   templateUrl: './recipe-form.component.html',
@@ -14,8 +18,24 @@ export class RecipeFormComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private recipeService: RecipeService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private _Activatedroute: ActivatedRoute,
+    private componentCommunicationService: ComponentCommunicationService
+  ) {
+    this._Activatedroute.paramMap
+      .pipe(untilDestroyed(this))
+      .subscribe((params) => {
+        this.recipeId = params.get('recipeId') || '';
+        this.isEditing = this.recipeId ? true : false;
+        this.isLoading = true;
+      });
+    this.componentCommunicationService.unselectInitialFileCalled$
+      .pipe(untilDestroyed(this))
+      .subscribe((index: number) => {
+        this.markedForDeletion.push(this.initialPreviews[index].slice(16));
+        this.initialPreviews.splice(index, 1);
+      });
+  }
 
   public recipeForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
@@ -25,36 +45,106 @@ export class RecipeFormComponent implements OnInit {
     currentInstruction: new FormControl(''),
   });
 
-  public currentInstruction = '';
-
   public files: File[] = [];
   public ingredients: string[] = [];
   public instructions: string[] = [];
 
   public allCategories: Category[] = [];
 
+  // Editing variables
+  public isEditing = false;
+  public recipeId = '';
+  public recipe: Recipe | undefined;
+  public isLoading = false;
+  public initialPreviews: string[] = [];
+  public markedForDeletion: string[] = [];
+
   ngOnInit(): void {
     this.categoryService.getCategories().subscribe((categories) => {
       this.allCategories = categories;
     });
+    if (this.recipeId) {
+      this.recipeService.getRecipe(this.recipeId).subscribe((data: Recipe) => {
+        this.recipe = data;
+        this.setInitialValues();
+        this.isLoading = false;
+      });
+    }
+  }
+
+  setInitialValues(): void {
+    this.recipeForm.setValue({
+      title: this.recipe?.title || '',
+      categories: this.recipe?.categories.map((c) => c._id) || null,
+      timeMinutes: this.recipe?.timeMinutes || null,
+      currentIngredient: '',
+      currentInstruction: '',
+    });
+    this.ingredients = this.recipe?.ingredients || [];
+    this.instructions = this.recipe?.instructions || [];
+    this.initialPreviews =
+      this.recipe?.imageUrls.map((url) => '/images/recipes/' + url) || [];
   }
 
   onSubmit(): void {
     const { title, categories, timeMinutes } = this.recipeForm.value;
-    this.recipeService.uploadPictures(this.files).subscribe((res) => {
-      this.recipeService
-        .postRecipe({
-          title: title as string,
-          categories: categories as string[],
-          timeMinutes: timeMinutes as number,
-          ingredients: this.ingredients,
-          instructions: this.instructions,
-          imageUrls: res.urls,
-        })
-        .subscribe(() => {
-          this.router.navigateByUrl('/recipes');
+    if (!this.isEditing) {
+      this.recipeService.uploadPictures(this.files).subscribe((res) => {
+        this.recipeService
+          .postRecipe({
+            title: title as string,
+            categories: categories as string[],
+            timeMinutes: timeMinutes as number,
+            ingredients: this.ingredients,
+            instructions: this.instructions,
+            imageUrls: res.urls,
+          })
+          .subscribe(() => {
+            this.router.navigateByUrl('/recipes');
+          });
+      });
+    } else {
+      const trimmedInitialUrls = this.initialPreviews.map((url) =>
+        url.slice(16)
+      );
+      if (this.files) {
+        this.recipeService.uploadPictures(this.files).subscribe((res) => {
+          this.recipeService
+            .putRecipe(
+              {
+                title: title as string,
+                categories: categories as string[],
+                timeMinutes: timeMinutes as number,
+                ingredients: this.ingredients,
+                instructions: this.instructions,
+                imageUrls: [...trimmedInitialUrls, ...res.urls],
+              },
+              this.recipeId,
+              this.markedForDeletion
+            )
+            .subscribe(() => {
+              this.router.navigateByUrl('/recipes');
+            });
         });
-    });
+      } else {
+        this.recipeService
+          .putRecipe(
+            {
+              title: title as string,
+              categories: categories as string[],
+              timeMinutes: timeMinutes as number,
+              ingredients: this.ingredients,
+              instructions: this.instructions,
+              imageUrls: trimmedInitialUrls,
+            },
+            this.recipeId,
+            this.markedForDeletion
+          )
+          .subscribe(() => {
+            this.router.navigateByUrl('/recipes');
+          });
+      }
+    }
   }
 
   addIngredient(): void {
