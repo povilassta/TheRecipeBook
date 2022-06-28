@@ -50,12 +50,14 @@ export class RecipeComponent implements OnInit {
   public isOwner = false;
 
   toggleClass(event: any, className: string) {
-    const hasClass = event.target.classList.contains(className);
+    if (event.view.getSelection().type !== 'Range') {
+      const hasClass = event.target.classList.contains(className);
 
-    if (hasClass) {
-      this.renderer.removeClass(event.target, className);
-    } else {
-      this.renderer.addClass(event.target, className);
+      if (hasClass) {
+        this.renderer.removeClass(event.target, className);
+      } else {
+        this.renderer.addClass(event.target, className);
+      }
     }
   }
 
