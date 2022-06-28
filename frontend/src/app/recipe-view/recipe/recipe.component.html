@@ -11,12 +11,10 @@
         <mat-icon>more_horiz</mat-icon>
       </button>
       <mat-menu #menu="matMenu" xPosition="before">
-        <button mat-menu-item>
+        <a routerLink="/recipes/{{ recipe?._id }}/edit" mat-menu-item>
           <mat-icon class="menu-icon">edit</mat-icon>
-          <a routerLink="/recipes/{{ recipe?._id }}/edit" class="menu-link"
-            >Edit</a
-          >
-        </button>
+          <span class="menu-link">Edit</span>
+        </a>
       </mat-menu>
     </div>
   </div>
