@@ -15,6 +15,12 @@ const routes: Routes = [
   {
     path: 'recipes/:recipeId',
     component: RecipeComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'recipes/:recipeId/edit',
+    component: RecipeFormComponent,
+    pathMatch: 'full',
   },
   {
     path: 'login',

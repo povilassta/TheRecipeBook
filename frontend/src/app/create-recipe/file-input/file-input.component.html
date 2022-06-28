@@ -8,11 +8,11 @@
 />
 <div
   class="container"
-  [ngClass]="{ center: !previews.length }"
+  [ngClass]="{ center: !previews.length && !initialPreviews.length }"
   appDropZone
   (dropped)="onFileChange($event)"
 >
-  <div *ngIf="!previews.length; else elseBlock">
+  <div *ngIf="!previews.length && !initialPreviews.length; else elseBlock">
     <span class="hide-on-small">Drag and drop pictures here or</span>
     <button
       mat-stroked-button
@@ -25,6 +25,11 @@
   </div>
   <ng-template #elseBlock>
     <div class="thumbnails">
+      <app-thumbnail
+        *ngFor="let initialPreview of initialPreviews; let i = index"
+        [preview]="initialPreview"
+        [index]="i"
+      ></app-thumbnail>
       <app-thumbnail
         *ngFor="let preview of previews; let i = index"
         [preview]="preview"

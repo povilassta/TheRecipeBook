@@ -17,7 +17,11 @@ export class ThumbnailComponent implements OnInit {
   public index = -1;
 
   public unselectFile(): void {
-    this.componentCommunicationService.callUnselectFile(this.index);
+    if (this.preview.startsWith('data:image/')) {
+      this.componentCommunicationService.callUnselectFile(this.index);
+    } else {
+      this.componentCommunicationService.callUnselectInitialFile(this.index);
+    }
   }
 
   ngOnInit(): void {}

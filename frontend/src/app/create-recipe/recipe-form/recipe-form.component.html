@@ -1,5 +1,7 @@
 <div class="container">
-  <h1 class="header">Create a new recipe</h1>
+  <h1 class="header">
+    {{ isEditing ? "Edit a recipe" : "Create a new recipe" }}
+  </h1>
   <form class="form" [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
     <div class="form__row">
       <mat-form-field appearance="outline" class="medium-field">
@@ -17,7 +19,10 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <app-file-input (filesAdded)="filesAdded($event)"></app-file-input>
+    <app-file-input
+      (filesAdded)="filesAdded($event)"
+      [initialPreviews]="initialPreviews"
+    ></app-file-input>
     <div class="form__row">
       <div class="column">
         <mat-form-field appearance="outline">
@@ -46,7 +51,12 @@
         </h2>
         <ng-template #elseBlock1>
           <div *ngFor="let ing of ingredients; let i = index" class="list-item">
-            <button mat-icon-button class="red" (click)="removeIngredient(i)">
+            <button
+              mat-icon-button
+              class="red"
+              type="button"
+              (click)="removeIngredient(i)"
+            >
               <mat-icon>close</mat-icon>
             </button>
             <p>{{ ing }}</p>
@@ -80,7 +90,12 @@
             *ngFor="let ins of instructions; let i = index"
             class="list-item"
           >
-            <button mat-icon-button class="red" (click)="removeInstruction(i)">
+            <button
+              mat-icon-button
+              type="button"
+              class="red"
+              (click)="removeInstruction(i)"
+            >
               <mat-icon>close</mat-icon>
             </button>
             <p>{{ ins }}</p>
@@ -95,7 +110,7 @@
         !recipeForm.valid ||
         !ingredients.length ||
         !instructions.length ||
-        !files.length
+        (!files.length && !initialPreviews.length)
       "
     >
       Submit
