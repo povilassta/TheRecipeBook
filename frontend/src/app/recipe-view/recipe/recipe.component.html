@@ -1,4 +1,4 @@
-<div class="recipe">
+<div class="recipe" *ngIf="!isLoading; else elseBlock">
   <p>Meals >> Chicken >></p>
   <h1>{{ recipe?.title }}</h1>
   <div class="recipe__tags">
@@ -90,3 +90,8 @@
     ></app-comment-card>
   </section>
 </div>
+<ng-template #elseBlock>
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

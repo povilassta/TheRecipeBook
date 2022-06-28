@@ -46,6 +46,7 @@ export class RecipeComponent implements OnInit {
   public commentForm: FormGroup = new FormGroup({
     commentContent: new FormControl('', [Validators.required]),
   });
+  public isLoading = true;
 
   toggleClass(event: any, className: string) {
     const hasClass = event.target.classList.contains(className);
@@ -77,9 +78,10 @@ export class RecipeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.recipeService
-      .getRecipe(this.recipeId)
-      .subscribe((data: Recipe) => (this.recipe = data));
+    this.recipeService.getRecipe(this.recipeId).subscribe((data: Recipe) => {
+      this.recipe = data;
+      this.isLoading = false;
+    });
     this.commentService
       .getComments(this.recipeId)
       .subscribe((data: Comment[]) => {
