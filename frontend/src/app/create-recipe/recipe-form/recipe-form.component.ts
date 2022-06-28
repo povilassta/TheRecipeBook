@@ -27,7 +27,6 @@ export class RecipeFormComponent implements OnInit {
       .subscribe((params) => {
         this.recipeId = params.get('recipeId') || '';
         this.isEditing = this.recipeId ? true : false;
-        this.isLoading = true;
       });
     this.componentCommunicationService.unselectInitialFileCalled$
       .pipe(untilDestroyed(this))
@@ -64,6 +63,7 @@ export class RecipeFormComponent implements OnInit {
       this.allCategories = categories;
     });
     if (this.recipeId) {
+      this.isLoading = true;
       this.recipeService.getRecipe(this.recipeId).subscribe((data: Recipe) => {
         this.recipe = data;
         this.setInitialValues();
