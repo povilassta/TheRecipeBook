@@ -108,18 +108,20 @@
         </ng-template>
       </div>
     </div>
-    <button
-      mat-flat-button
-      class="btn-submit"
-      [disabled]="
-        !recipeForm.valid ||
-        !ingredients.length ||
-        !instructions.length ||
-        (!files.length && !initialPreviews.length)
-      "
-    >
-      Submit
-    </button>
+    <div class="btn-container">
+      <button
+        mat-flat-button
+        class="btn-submit"
+        [disabled]="
+          !recipeForm.valid ||
+          !ingredients.length ||
+          !instructions.length ||
+          (!files.length && !initialPreviews.length)
+        "
+      >
+        Submit
+      </button>
+    </div>
   </form>
   <ng-template #elseBlock>
     <div class="spinner">
