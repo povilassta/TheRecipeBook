@@ -1,0 +1,34 @@
+<h1 mat-dialog-title class="title">Sign up</h1>
+<mat-dialog-content>
+  <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput type="text" formControlName="username" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Repeat password</mat-label>
+      <input matInput type="password" formControlName="repeatPassword" />
+    </mat-form-field>
+
+    <mat-checkbox formControlName="agreeToTerms">
+      Check here to indicate that you have read and agree to the terms of
+      TheRecipeBook Customer Agreement
+    </mat-checkbox>
+    <div class="buttons">
+      <button mat-flat-button mat-dialog-close type="button" color="warn">
+        Cancel
+      </button>
+      <button mat-flat-button color="primary" [disabled]="!registerForm.valid">
+        Submit
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

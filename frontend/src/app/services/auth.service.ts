@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginResponse } from '../models/loginResponse.model';
+import { Register } from '../models/register.model';
 import { ComponentCommunicationService } from './componentCommunication.service';
 import { UserService } from './user.service';
 
@@ -11,7 +12,7 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private BASE_URL = `${environment.baseUrl}/login/`;
+  private BASE_URL = environment.baseUrl;
 
   constructor(
     private http: HttpClient,
@@ -20,7 +21,7 @@ export class AuthService {
 
   public login(email: string, password: string): Observable<any> {
     return this.http
-      .post<LoginResponse>(this.BASE_URL, { email, password })
+      .post<LoginResponse>(`${this.BASE_URL}/login`, { email, password })
       .pipe(tap((res: LoginResponse) => this.setSession(res)));
   }
 
@@ -48,5 +49,9 @@ export class AuthService {
     localStorage.setItem('userId', res.userId);
     localStorage.setItem('username', res.username);
     localStorage.setItem('expiresAt', JSON.stringify(expiresAt.valueOf()));
+  }
+
+  public register(data: Register): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/register`, data);
   }
 }
