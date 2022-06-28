@@ -1,5 +1,9 @@
 function errorHandler(err, req, res, next) {
-  const customErrorNames = ["NotFoundError"];
+  const customErrorNames = [
+    "NotFoundError",
+    "UnauthorizedError",
+    "ConflictError",
+  ];
   if (customErrorNames.includes(err.name)) {
     return res.status(err.statusCode).json({ message: err.message });
   } else if (err.name === "CastError") {
