@@ -1,5 +1,17 @@
 <nav class="navbar">
   <div class="navbar__logo">The Recipe Book</div>
+  <div class="navbar__links">
+    <ul>
+      <li>
+        <a [routerLinkActive]="['active']" routerLink="/recipes">Recipes</a>
+      </li>
+      <li>
+        <a [routerLinkActive]="['active']" routerLink="/create"
+          >Share your own recipie!</a
+        >
+      </li>
+    </ul>
+  </div>
   <div class="navbar__user">
     <div *ngIf="currentUser; else elseBlock">
       <button mat-button [matMenuTriggerFor]="menu">{{ currentUser }}</button>

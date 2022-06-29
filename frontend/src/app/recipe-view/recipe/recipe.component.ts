@@ -47,14 +47,17 @@ export class RecipeComponent implements OnInit {
     commentContent: new FormControl('', [Validators.required]),
   });
   public isLoading = true;
+  public isOwner = false;
 
   toggleClass(event: any, className: string) {
-    const hasClass = event.target.classList.contains(className);
+    if (event.view.getSelection().type !== 'Range') {
+      const hasClass = event.target.classList.contains(className);
 
-    if (hasClass) {
-      this.renderer.removeClass(event.target, className);
-    } else {
-      this.renderer.addClass(event.target, className);
+      if (hasClass) {
+        this.renderer.removeClass(event.target, className);
+      } else {
+        this.renderer.addClass(event.target, className);
+      }
     }
   }
 
@@ -81,6 +84,7 @@ export class RecipeComponent implements OnInit {
     this.recipeService.getRecipe(this.recipeId).subscribe((data: Recipe) => {
       this.recipe = data;
       this.isLoading = false;
+      this.isOwner = localStorage.getItem('userId') === this.recipe.userId;
     });
     this.commentService
       .getComments(this.recipeId)
