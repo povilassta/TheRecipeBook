@@ -1,0 +1,22 @@
+.form
+    display: flex
+    flex-direction: column
+
+.title
+    color: #264653
+    font-size: 2rem
+    font-weight: 800
+
+.buttons
+    display: flex
+    justify-content: end
+    margin-top: 1rem
+    & button
+        margin-left: 1rem
+
+:host::ng-deep.mat-checkbox-layout
+    white-space: normal !important
+
+
+:host::ng-deep.mat-checkbox-inner-container
+    margin-top: 4px

@@ -4,6 +4,8 @@ import "dotenv/config";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
+import UnauthorizedError from "../errors/unauthorized.error.js";
+import ConflictError from "../errors/conflict.error.js";
 
 // JWT Strategy
 const opts = {
@@ -24,31 +26,50 @@ export const authJwt = passport.authenticate("jwt", {
 });
 
 // Login
-export function login(req, res) {
-  // Find user in database
-  User.findOne({ email: req.body.email }, function (err, user) {
-    if (err) res.status(500).json({ message: "Something went wrong." });
-    else if (user && bcrypt.compareSync(req.body.password, user.password)) {
-      const payload = {
-        id: user.id,
-        email: user.email,
-      };
-
-      // Sign the token with payload provided above
-      const token = jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRES_IN,
-      });
-
-      // Send token back
-      res.status(200).json({
+export async function login(email, password) {
+  try {
+    const user = await User.findOne({ email });
+    if (user && bcrypt.compareSync(password, user.password)) {
+      const token = jwt.sign(
+        {
+          id: user.id,
+          email: user.email,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: process.env.JWT_EXPIRES_IN,
+        }
+      );
+      return {
         token: `Bearer ${token}`,
         expiresIn: process.env.JWT_EXPIRES_IN,
         userId: user._id,
         username: user.username,
-      });
+      };
     } else {
-      // If user doesn't exist or password is incorrect
-      res.status(401).json({ message: "Invalid credentials" });
+      throw new UnauthorizedError("Invalid credentials");
     }
-  });
+  } catch (errors) {
+    throw errors;
+  }
+}
+
+export async function register(data) {
+  try {
+    const existingUser = await User.findOne({ email: data.email });
+    if (existingUser) {
+      throw new ConflictError("User with that email already exists");
+    } else {
+      const newUser = await User.create({
+        email: data.email,
+        username: data.username,
+        password: bcrypt.hashSync(data.password, 10),
+      });
+      const response = newUser.toObject();
+      delete response.password;
+      return response;
+    }
+  } catch (errors) {
+    throw errors;
+  }
 }
