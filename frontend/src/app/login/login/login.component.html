@@ -47,15 +47,10 @@
         </button>
       </div>
     </form>
-    <div class="login__error" *ngIf="errorMessage">
-      <p>{{ errorMessage }}</p>
-      <button
-        mat-icon-button
-        aria-label="Close error message button"
-        (click)="errorMessage = ''"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
+    <app-error-box
+      *ngIf="errorMessage"
+      [errorMessage]="errorMessage"
+      (discardErr)="errorMessage = ''"
+    ></app-error-box>
   </div>
 </div>
