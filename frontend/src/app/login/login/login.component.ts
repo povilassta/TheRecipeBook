@@ -24,15 +24,25 @@ export class LoginComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
+  public errorMessage = ''; // Initially there is no error
 
   ngOnInit(): void {}
 
   public onSubmit(): void {
     const { email, password } = this.loginForm.value;
 
-    this.authService.login(email, password).subscribe((data) => {
-      this.componentCommunicationService.callUpdateUser();
-      this.router.navigateByUrl('/recipes');
+    this.authService.login(email, password).subscribe({
+      next: () => {
+        this.componentCommunicationService.callUpdateUser();
+        this.router.navigateByUrl('/recipes');
+      },
+      error: (err: any) => {
+        if (err.status === 401) {
+          this.errorMessage = 'Incorrect email or password.';
+        } else if (err.status === 500) {
+          this.errorMessage = 'Something went wrong. Please try again later.';
+        }
+      },
     });
   }
 
