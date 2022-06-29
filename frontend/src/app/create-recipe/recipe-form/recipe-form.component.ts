@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from 'src/app/models/category.model';
 import { Recipe } from 'src/app/models/recipe.model';
@@ -18,7 +19,8 @@ export class RecipeFormComponent implements OnInit {
     private recipeService: RecipeService,
     private router: Router,
     private _Activatedroute: ActivatedRoute,
-    private componentCommunicationService: ComponentCommunicationService
+    private componentCommunicationService: ComponentCommunicationService,
+    private _snackBar: MatSnackBar
   ) {
     this._Activatedroute.paramMap.subscribe((params) => {
       this.recipeId = params.get('recipeId') || '';
@@ -56,14 +58,24 @@ export class RecipeFormComponent implements OnInit {
   public markedForDeletion: string[] = [];
 
   ngOnInit(): void {
-    this.categoryService.getCategories().subscribe((categories) => {
-      this.allCategories = categories;
+    this.categoryService.getCategories().subscribe({
+      next: (categories) => {
+        this.allCategories = categories;
+      },
+      error: (error: any) => {
+        this.openSnackBar('Refresh');
+      },
     });
     if (this.recipeId) {
-      this.recipeService.getRecipe(this.recipeId).subscribe((data: Recipe) => {
-        this.recipe = data;
-        this.setInitialValues();
-        this.isLoading = false;
+      this.recipeService.getRecipe(this.recipeId).subscribe({
+        next: (data: Recipe) => {
+          this.recipe = data;
+          this.setInitialValues();
+          this.isLoading = false;
+        },
+        error: (error: any) => {
+          this.openSnackBar('Refresh');
+        },
       });
     }
   }
@@ -85,19 +97,29 @@ export class RecipeFormComponent implements OnInit {
   onSubmit(): void {
     const { title, categories, timeMinutes } = this.recipeForm.value;
     if (!this.isEditing) {
-      this.recipeService.uploadPictures(this.files).subscribe((res) => {
-        this.recipeService
-          .postRecipe({
-            title: title as string,
-            categories: categories as string[],
-            timeMinutes: timeMinutes as number,
-            ingredients: this.ingredients,
-            instructions: this.instructions,
-            imageUrls: res.urls,
-          })
-          .subscribe(() => {
-            this.router.navigateByUrl('/recipes');
-          });
+      this.recipeService.uploadPictures(this.files).subscribe({
+        next: (res) => {
+          this.recipeService
+            .postRecipe({
+              title: title as string,
+              categories: categories as string[],
+              timeMinutes: timeMinutes as number,
+              ingredients: this.ingredients,
+              instructions: this.instructions,
+              imageUrls: res.urls,
+            })
+            .subscribe({
+              next: () => {
+                this.router.navigateByUrl('/recipes');
+              },
+              error: (error: any) => {
+                this.openSnackBar('Close');
+              },
+            });
+        },
+        error: (error: any) => {
+          this.openSnackBar('Close');
+        },
       });
     } else {
       const trimmedInitialUrls = this.initialPreviews.map((url) =>
@@ -168,5 +190,17 @@ export class RecipeFormComponent implements OnInit {
 
   filesAdded(event: any): void {
     this.files = event;
+  }
+
+  openSnackBar(action: string): void {
+    this._snackBar.open(
+      'Something went wrong with the server. Please try again in a few minutes',
+      action
+    );
+    if (action === 'Refresh') {
+      this._snackBar._openedSnackBarRef?.afterDismissed().subscribe(() => {
+        window.location.reload();
+      });
+    }
   }
 }

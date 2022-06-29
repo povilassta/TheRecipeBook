@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ThumbnailComponent } from './thumbnail/thumbnail.component';
 import { DropZoneDirective } from '../directives/drop-zone.directive';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { DropZoneDirective } from '../directives/drop-zone.directive';
     MatButtonModule,
     MatIconModule,
     ReactiveFormsModule,
+    MatSnackBarModule,
   ],
 })
 export class CreateRecipeModule {}
