@@ -13,6 +13,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { LayoutModule } from '../layout/layout.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     RouterModule,
     LayoutModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
   exports: [CategoryTagComponent],
 })

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from 'src/app/models/category.model';
 import { FilterModel } from 'src/app/models/filter.model';
@@ -21,7 +22,8 @@ export class RecipeCatalogComponent implements OnInit {
     private componentCommunicationService: ComponentCommunicationService,
     private router: Router,
     private categoryService: CategoryService,
-    private codingService: CodingService
+    private codingService: CodingService,
+    private _snackBar: MatSnackBar
   ) {
     this._Activatedroute.queryParamMap.subscribe((params) => {
       this.page = Number(params.get('page')) || 1;
@@ -65,13 +67,22 @@ export class RecipeCatalogComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.recipeService
-      .getRecipes(this.page, this.filterObj)
-      .subscribe((res) => {
+    this.recipeService.getRecipes(this.page, this.filterObj).subscribe({
+      next: (res) => {
         this.recipes = res.recipes;
         this.count = res.count;
         this.isLoading = false;
-      });
+      },
+      error: (error: any) => {
+        this._snackBar.open(
+          'Something went wrong with the server. Please try to access the site again in a few minutes',
+          'Refresh'
+        );
+        this._snackBar._openedSnackBarRef?.afterDismissed().subscribe(() => {
+          window.location.reload();
+        });
+      },
+    });
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
