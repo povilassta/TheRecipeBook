@@ -14,6 +14,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @UntilDestroy()
 @Component({
@@ -30,7 +31,8 @@ export class RecipeComponent implements OnInit {
     private recipeService: RecipeService,
     private commentService: CommentService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private _snackBar: MatSnackBar
   ) {
     this._Activatedroute.paramMap.subscribe((params) => {
       this.recipeId = params.get('recipeId') || '';
@@ -85,8 +87,16 @@ export class RecipeComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err: any) => {
-        if (err.status === 400 || 404) {
+        if (err.status === 400 || err.status === 404) {
           this.router.navigateByUrl('/404');
+        } else {
+          this._snackBar.open(
+            'Something went wrong with the server. Please try to access the site again in a few minutes',
+            'Refresh'
+          );
+          this._snackBar._openedSnackBarRef?.afterDismissed().subscribe(() => {
+            window.location.reload();
+          });
         }
       },
     });
