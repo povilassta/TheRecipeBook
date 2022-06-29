@@ -17,11 +17,15 @@
       <mat-label>Repeat password</mat-label>
       <input matInput type="password" formControlName="repeatPassword" />
     </mat-form-field>
-
     <mat-checkbox formControlName="agreeToTerms">
       Check here to indicate that you have read and agree to the terms of
       TheRecipeBook Customer Agreement
     </mat-checkbox>
+    <app-error-box
+      *ngIf="errorMessage"
+      [errorMessage]="errorMessage"
+      (discardErr)="errorMessage = ''"
+    ></app-error-box>
     <div class="buttons">
       <button mat-flat-button mat-dialog-close type="button" color="warn">
         Cancel

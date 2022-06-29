@@ -8,7 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +20,9 @@ import { AuthService } from 'src/app/services/auth.service';
 export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthService,
-    private dialogRef: MatDialogRef<RegisterComponent>
+    private dialogRef: MatDialogRef<RegisterComponent>,
+    private componentCommunicationService: ComponentCommunicationService,
+    private router: Router
   ) {}
 
   public registerForm = new FormGroup(
@@ -31,6 +35,7 @@ export class RegisterComponent implements OnInit {
     },
     [this.confirmPasswordValidator('password', 'repeatPassword')]
   );
+  public errorMessage = '';
 
   ngOnInit(): void {}
 
@@ -56,9 +61,19 @@ export class RegisterComponent implements OnInit {
         password: password || '',
         repeatPassword: repeatPassword || '',
       })
-      .subscribe((response: any) => {
-        console.log(response.email + ' registered!');
-        this.dialogRef.close();
+      .subscribe({
+        next: (response: any) => {
+          this.authService.login(email || '', password || '').subscribe(() => {
+            this.componentCommunicationService.callUpdateUser();
+            this.router.navigateByUrl('/recipes');
+          });
+          this.dialogRef.close();
+        },
+        error: (error: any) => {
+          if (error.status === 400) {
+            this.errorMessage = 'This email is already in use.';
+          }
+        },
       });
   }
 }
