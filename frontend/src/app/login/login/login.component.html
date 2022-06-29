@@ -37,7 +37,12 @@
         <a href="#">Forgot password?</a>
       </div>
       <div class="btn-wrapper">
-        <button mat-raised-button color="primary" class="btn-login">
+        <button
+          mat-raised-button
+          color="primary"
+          class="btn-login"
+          [disabled]="!loginForm.valid"
+        >
           Sign in
         </button>
       </div>
