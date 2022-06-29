@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Recipe } from 'src/app/models/recipe.model';
 import { CommentService } from 'src/app/services/comment.service';
@@ -29,7 +29,8 @@ export class RecipeComponent implements OnInit {
     private _Activatedroute: ActivatedRoute,
     private recipeService: RecipeService,
     private commentService: CommentService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
     this._Activatedroute.paramMap.subscribe((params) => {
       this.recipeId = params.get('recipeId') || '';
@@ -78,9 +79,16 @@ export class RecipeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.recipeService.getRecipe(this.recipeId).subscribe((data: Recipe) => {
-      this.recipe = data;
-      this.isLoading = false;
+    this.recipeService.getRecipe(this.recipeId).subscribe({
+      next: (data: Recipe) => {
+        this.recipe = data;
+        this.isLoading = false;
+      },
+      error: (err: any) => {
+        if (err.status === 400 || 404) {
+          this.router.navigateByUrl('/404');
+        }
+      },
     });
     this.commentService
       .getComments(this.recipeId)
