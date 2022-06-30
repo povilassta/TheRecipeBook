@@ -74,6 +74,7 @@ export class RecipeCatalogComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error: any) => {
+        this.isLoading = false;
         this._snackBar.open(
           'Something went wrong with the server. Please try to access the site again in a few minutes',
           'Refresh'

@@ -56,7 +56,7 @@ export class RecipeFormComponent implements OnInit {
   public isEditing = false;
   public recipeId = '';
   public recipe: Recipe | undefined;
-  public isLoading = false;
+  public isLoading = true;
   public initialPreviews: string[] = [];
   public markedForDeletion: string[] = [];
 
@@ -64,13 +64,14 @@ export class RecipeFormComponent implements OnInit {
     this.categoryService.getCategories().subscribe({
       next: (categories) => {
         this.allCategories = categories;
+        this.isLoading = false;
       },
       error: (error: any) => {
+        this.isLoading = false;
         this.openSnackBar('Refresh');
       },
     });
     if (this.recipeId) {
-      this.isLoading = true;
       this.recipeService.getRecipe(this.recipeId).subscribe({
         next: (data: Recipe) => {
           this.recipe = data;
@@ -81,6 +82,7 @@ export class RecipeFormComponent implements OnInit {
           this.isLoading = false;
         },
         error: (error: any) => {
+          this.isLoading = false;
           this.openSnackBar('Refresh');
         },
       });
