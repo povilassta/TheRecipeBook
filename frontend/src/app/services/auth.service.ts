@@ -6,7 +6,6 @@ import { environment } from 'src/environments/environment';
 import { LoginResponse } from '../models/loginResponse.model';
 import { Register } from '../models/register.model';
 import { ComponentCommunicationService } from './componentCommunication.service';
-import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
