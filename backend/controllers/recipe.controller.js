@@ -17,10 +17,12 @@ const RecipeController = {
     }
   },
 
-  uploadPictures: async (req, res, next) => {
+  post: async (req, res, next) => {
     const { files } = req;
+    const data = JSON.parse(req.body.data);
+    const { _id: userId } = req.user;
     try {
-      const response = await RecipeService.uploadPictures(files);
+      const response = await RecipeService.post(files, data, userId);
       res.json(response).status(201);
     } catch (e) {
       next(e);
@@ -37,26 +39,19 @@ const RecipeController = {
     }
   },
 
-  post: async (req, res, next) => {
-    const { _id: userId } = req.user;
-    try {
-      const response = await RecipeService.post(req.body, userId);
-      res.json(response).status(201);
-    } catch (e) {
-      next(e);
-    }
-  },
-
   put: async (req, res, next) => {
     const { _id: userId } = req.user;
     const { recipeId } = req.params;
-    const { markedForDeletion, ...data } = req.body;
+    const { files } = req;
+    const markedForDeletion = JSON.parse(req.body.markedForDeletion);
+    const data = JSON.parse(req.body.data);
     try {
       const response = await RecipeService.put(
         data,
         userId,
         recipeId,
-        markedForDeletion
+        markedForDeletion,
+        files
       );
       res.json(response).send(200);
     } catch (e) {

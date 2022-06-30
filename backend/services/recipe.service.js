@@ -37,20 +37,15 @@ const RecipeService = {
     req.recipeId = req.params.recipeId;
   },
 
-  uploadPictures: async (files) => {
-    let urls = [];
-    for (const file in files) {
-      files[file].name = `${Date.now()}-${files[file].name}`;
-      files[file].mv(`${picturePath}${files[file].name}`, (err) => {
-        if (err) throw err;
-      });
-      urls.push(files[file].name);
-    }
-    return { urls };
-  },
-
-  post: async (data, userId) => {
+  post: async (files, data, userId) => {
     try {
+      for (const file in files) {
+        files[file].name = `${Date.now()}-${files[file].name}`;
+        files[file].mv(`${picturePath}${files[file].name}`, (err) => {
+          if (err) throw err;
+        });
+        data.imageUrls.push(files[file].name);
+      }
       const recipe = await Recipe.create({ ...data, userId });
       return recipe;
     } catch (errors) {
@@ -58,13 +53,22 @@ const RecipeService = {
     }
   },
 
-  put: async (data, userId, recipeId, markedForDeletion) => {
+  put: async (data, userId, recipeId, markedForDeletion, files) => {
     try {
+      // Upload the files
+      for (const file in files) {
+        files[file].name = `${Date.now()}-${files[file].name}`;
+        files[file].mv(`${picturePath}${files[file].name}`, (err) => {
+          if (err) throw err;
+        });
+        data.imageUrls.push(files[file].name);
+      }
       const recipe = await Recipe.findOneAndUpdate(
         { _id: recipeId, userId },
         data,
         { new: true }
       );
+      // Delete marked for deletion
       if (recipe) {
         for (const img of markedForDeletion) {
           unlink(`${picturePath}${img}`, (err) => {
