@@ -70,9 +70,13 @@ export class RecipeFormComponent implements OnInit {
       },
     });
     if (this.recipeId) {
+      this.isLoading = true;
       this.recipeService.getRecipe(this.recipeId).subscribe({
         next: (data: Recipe) => {
           this.recipe = data;
+          if (localStorage.getItem('userId') !== this.recipe.userId) {
+            this.router.navigateByUrl('/recipes');
+          }
           this.setInitialValues();
           this.isLoading = false;
         },

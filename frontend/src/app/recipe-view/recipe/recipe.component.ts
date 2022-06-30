@@ -88,6 +88,7 @@ export class RecipeComponent implements OnInit {
       next: (data: Recipe) => {
         this.recipe = data;
         this.isLoading = false;
+        this.isOwner = localStorage.getItem('userId') === this.recipe.userId;
       },
       error: (err: any) => {
         if (err.status === 400 || err.status === 404) {
