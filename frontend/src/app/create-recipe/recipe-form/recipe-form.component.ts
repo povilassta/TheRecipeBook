@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Category } from 'src/app/models/category.model';
 import { Recipe } from 'src/app/models/recipe.model';
 import { CategoryService } from 'src/app/services/category.service';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-recipe-form',
   templateUrl: './recipe-form.component.html',
@@ -22,17 +24,18 @@ export class RecipeFormComponent implements OnInit {
     private componentCommunicationService: ComponentCommunicationService,
     private _snackBar: MatSnackBar
   ) {
-    this._Activatedroute.paramMap.subscribe((params) => {
-      this.recipeId = params.get('recipeId') || '';
-      this.isEditing = this.recipeId ? true : false;
-      this.isLoading = true;
-    });
-    this.componentCommunicationService.unselectInitialFileCalled$.subscribe(
-      (index: number) => {
+    this._Activatedroute.paramMap
+      .pipe(untilDestroyed(this))
+      .subscribe((params) => {
+        this.recipeId = params.get('recipeId') || '';
+        this.isEditing = this.recipeId ? true : false;
+      });
+    this.componentCommunicationService.unselectInitialFileCalled$
+      .pipe(untilDestroyed(this))
+      .subscribe((index: number) => {
         this.markedForDeletion.push(this.initialPreviews[index].slice(16));
         this.initialPreviews.splice(index, 1);
-      }
-    );
+      });
   }
 
   public recipeForm = new FormGroup({

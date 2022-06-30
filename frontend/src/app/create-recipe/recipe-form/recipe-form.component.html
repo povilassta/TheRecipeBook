@@ -2,7 +2,12 @@
   <h1 class="header">
     {{ isEditing ? "Edit a recipe" : "Create a new recipe" }}
   </h1>
-  <form class="form" [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+  <form
+    class="form"
+    [formGroup]="recipeForm"
+    (ngSubmit)="onSubmit()"
+    *ngIf="!isLoading; else elseBlock"
+  >
     <div class="form__row">
       <mat-form-field appearance="outline" class="medium-field">
         <mat-label>title</mat-label>
@@ -103,17 +108,24 @@
         </ng-template>
       </div>
     </div>
-    <button
-      mat-flat-button
-      class="btn-submit"
-      [disabled]="
-        !recipeForm.valid ||
-        !ingredients.length ||
-        !instructions.length ||
-        (!files.length && !initialPreviews.length)
-      "
-    >
-      Submit
-    </button>
+    <div class="btn-container">
+      <button
+        mat-flat-button
+        class="btn-submit"
+        [disabled]="
+          !recipeForm.valid ||
+          !ingredients.length ||
+          !instructions.length ||
+          (!files.length && !initialPreviews.length)
+        "
+      >
+        Submit
+      </button>
+    </div>
   </form>
+  <ng-template #elseBlock>
+    <div class="spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
 </div>
