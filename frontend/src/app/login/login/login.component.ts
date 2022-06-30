@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
       error: (err: any) => {
         if (err.status === 401) {
           this.errorMessage = 'Incorrect email or password.';
-        } else if (err.status === 500) {
+        } else {
           this.errorMessage = 'Something went wrong. Please try again later.';
         }
       },

@@ -5,7 +5,7 @@
       <li>
         <a [routerLinkActive]="['active']" routerLink="/recipes">Recipes</a>
       </li>
-      <li>
+      <li *ngIf="currentUser">
         <a [routerLinkActive]="['active']" routerLink="/create"
           >Share your own recipie!</a
         >
