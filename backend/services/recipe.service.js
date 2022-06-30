@@ -65,16 +65,17 @@ const RecipeService = {
       }
       const recipe = await Recipe.findOneAndUpdate(
         { _id: recipeId, userId },
-        data,
-        { new: true }
+        data
       );
       // Delete marked for deletion
       if (recipe) {
         for (const img of markedForDeletion) {
-          unlink(`${picturePath}${img}`, (err) => {
-            if (err) throw err;
-            console.log(img + " was deleted.");
-          });
+          if (recipe.imageUrls.includes(img)) {
+            unlink(`${picturePath}${img}`, (err) => {
+              if (err) throw err;
+              console.log(img + " was deleted.");
+            });
+          }
         }
         return recipe;
       } else {
