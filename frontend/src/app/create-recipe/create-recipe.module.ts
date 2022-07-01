@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ThumbnailComponent } from './thumbnail/thumbnail.component';
 import { DropZoneDirective } from '../directives/drop-zone.directive';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
@@ -28,6 +29,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatButtonModule,
     MatIconModule,
     ReactiveFormsModule,
+    MatSnackBarModule,
     MatProgressSpinnerModule,
   ],
 })

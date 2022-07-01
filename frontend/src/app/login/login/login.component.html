@@ -32,15 +32,25 @@
       <div class="links">
         <p>
           Don't have an account yet?
-          <a (click)="openRegisterDialog()">Sign up here</a>
+          <a class="signup-link" (click)="openRegisterDialog()">Sign up here</a>
         </p>
         <a href="#">Forgot password?</a>
       </div>
       <div class="btn-wrapper">
-        <button mat-raised-button color="primary" class="btn-login">
+        <button
+          mat-raised-button
+          color="primary"
+          class="btn-login"
+          [disabled]="!loginForm.valid"
+        >
           Sign in
         </button>
       </div>
     </form>
+    <app-error-box
+      *ngIf="errorMessage"
+      [errorMessage]="errorMessage"
+      (discardErr)="errorMessage = ''"
+    ></app-error-box>
   </div>
 </div>

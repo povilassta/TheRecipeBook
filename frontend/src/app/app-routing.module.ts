@@ -4,6 +4,7 @@ import { RecipeFormComponent } from './create-recipe/recipe-form/recipe-form.com
 import { AnonymousGuard } from './guards/anonymous.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './login/login/login.component';
+import { NotFoundComponent } from './not-found/not-found/not-found.component';
 import { RecipeCatalogComponent } from './recipe-catalog/recipe-catalog/recipe-catalog.component';
 import { RecipeComponent } from './recipe-view/recipe/recipe.component';
 
@@ -36,6 +37,14 @@ const routes: Routes = [
     path: '',
     redirectTo: 'recipes',
     pathMatch: 'full',
+  },
+  {
+    path: '404',
+    component: NotFoundComponent,
+  },
+  {
+    path: '**',
+    redirectTo: '404',
   },
 ];
 

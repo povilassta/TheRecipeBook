@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Recipe } from 'src/app/models/recipe.model';
 import { CommentService } from 'src/app/services/comment.service';
@@ -14,6 +14,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @UntilDestroy()
 @Component({
@@ -29,7 +30,9 @@ export class RecipeComponent implements OnInit {
     private _Activatedroute: ActivatedRoute,
     private recipeService: RecipeService,
     private commentService: CommentService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router,
+    private _snackBar: MatSnackBar
   ) {
     this._Activatedroute.paramMap.subscribe((params) => {
       this.recipeId = params.get('recipeId') || '';
@@ -81,10 +84,26 @@ export class RecipeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.recipeService.getRecipe(this.recipeId).subscribe((data: Recipe) => {
-      this.recipe = data;
-      this.isLoading = false;
-      this.isOwner = localStorage.getItem('userId') === this.recipe.userId;
+    this.recipeService.getRecipe(this.recipeId).subscribe({
+      next: (data: Recipe) => {
+        this.recipe = data;
+        this.isLoading = false;
+        this.isOwner = localStorage.getItem('userId') === this.recipe.userId;
+      },
+      error: (err: any) => {
+        if (err.status === 400 || err.status === 404) {
+          this.router.navigateByUrl('/404');
+        } else {
+          this.isLoading = false;
+          this._snackBar.open(
+            'Something went wrong with the server. Please try to access the site again in a few minutes',
+            'Refresh'
+          );
+          this._snackBar._openedSnackBarRef?.afterDismissed().subscribe(() => {
+            window.location.reload();
+          });
+        }
+      },
     });
     this.commentService
       .getComments(this.recipeId)

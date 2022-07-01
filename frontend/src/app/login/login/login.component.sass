@@ -7,7 +7,6 @@
     @media screen and ( max-width: 460px )
         width: 100%
         margin: 15px
-        
 
 .header
     font-size: 3rem
@@ -23,9 +22,19 @@
 .btn-login
     float: right
     width: 6rem
+    &:disabled
+        background-color: #00968866
+        color: #FFFFFF
 
 .container
     display: flex
     justify-content: center
     align-items: center
     height: calc( 100%  - 85.8px )  // Compensation for header size
+
+.signup-link
+    text-decoration: underline
+    cursor: pointer
+    &:hover
+        color: #E9C46A
+        

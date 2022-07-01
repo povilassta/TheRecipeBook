@@ -10,6 +10,7 @@ import { LayoutModule } from './layout/layout.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CreateRecipeModule } from './create-recipe/create-recipe.module';
+import { NotFoundModule } from './not-found/not-found.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +24,7 @@ import { CreateRecipeModule } from './create-recipe/create-recipe.module';
     LayoutModule,
     HttpClientModule,
     CreateRecipeModule,
+    NotFoundModule,
   ],
   providers: [
     {

@@ -61,6 +61,7 @@
       ></app-recipe-card>
     </div>
     <app-paginator
+      *ngIf="count"
       [perPageCount]="20"
       [currentPage]="page"
       [itemCount]="count"

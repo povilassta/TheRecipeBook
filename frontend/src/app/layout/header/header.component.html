@@ -5,7 +5,7 @@
       <li>
         <a [routerLinkActive]="['active']" routerLink="/recipes">Recipes</a>
       </li>
-      <li>
+      <li *ngIf="currentUser">
         <a [routerLinkActive]="['active']" routerLink="/create"
           >Share your own recipie!</a
         >
@@ -20,7 +20,7 @@
       </mat-menu>
     </div>
     <ng-template #elseBlock>
-      <a class="login-button" routerLink="/login">Sign in</a>
+      <a mat-flat-button class="login-button" routerLink="/login">Sign in</a>
     </ng-template>
   </div>
 </nav>
