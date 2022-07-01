@@ -15,6 +15,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteRecipeDialogComponent } from '../delete-recipe-dialog/delete-recipe-dialog.component';
 
 @UntilDestroy()
 @Component({
@@ -32,7 +34,8 @@ export class RecipeComponent implements OnInit {
     private commentService: CommentService,
     private userService: UserService,
     private router: Router,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public deleteDialog: MatDialog
   ) {
     this._Activatedroute.paramMap.subscribe((params) => {
       this.recipeId = params.get('recipeId') || '';
@@ -81,6 +84,25 @@ export class RecipeComponent implements OnInit {
         formDirective.resetForm();
         this.updateComments();
       });
+  }
+
+  public openDeleteDialog(): void {
+    const dialogRef = this.deleteDialog.open(DeleteRecipeDialogComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.recipeService.deleteRecipe(this.recipeId).subscribe({
+          next: (res: any) => {
+            this.router.navigateByUrl('/recipes');
+          },
+          error: (error: any) => {
+            this._snackBar.open(
+              'Something went wrong with the server. Please try again in a few minutes',
+              'Close'
+            );
+          },
+        });
+      }
+    });
   }
 
   ngOnInit(): void {

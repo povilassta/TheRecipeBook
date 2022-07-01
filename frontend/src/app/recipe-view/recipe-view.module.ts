@@ -11,9 +11,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
+import { DeleteRecipeDialogComponent } from './delete-recipe-dialog/delete-recipe-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [RecipeComponent, CommentCardComponent],
+  declarations: [
+    RecipeComponent,
+    CommentCardComponent,
+    DeleteRecipeDialogComponent,
+  ],
   imports: [
     CommonModule,
     RecipeCatalogModule,
@@ -26,6 +32,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatMenuModule,
+    MatDialogModule,
   ],
 })
 export class RecipeViewModule {}
