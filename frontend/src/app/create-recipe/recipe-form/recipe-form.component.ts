@@ -197,8 +197,8 @@ export class RecipeFormComponent implements OnInit {
     this.instructions.splice(index, 1);
   }
 
-  filesAdded(event: any): void {
-    this.files = event;
+  filesAdded(files: File[]): void {
+    this.files = files;
   }
 
   openSnackBar(action: string): void {
