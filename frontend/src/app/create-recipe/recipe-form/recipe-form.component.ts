@@ -39,7 +39,7 @@ export class RecipeFormComponent implements OnInit {
   }
 
   public recipeForm = new FormGroup({
-    title: new FormControl('', [Validators.required]),
+    title: new FormControl<string>('', [Validators.required]),
     categories: new FormControl<string[]>([], [Validators.required]),
     timeMinutes: new FormControl<number>(15, [Validators.required]),
     currentIngredient: new FormControl(''),
@@ -56,7 +56,7 @@ export class RecipeFormComponent implements OnInit {
   public isEditing = false;
   public recipeId = '';
   public recipe: Recipe | undefined;
-  public isLoading = false;
+  public isLoading = true;
   public initialPreviews: string[] = [];
   public markedForDeletion: string[] = [];
 
@@ -64,13 +64,14 @@ export class RecipeFormComponent implements OnInit {
     this.categoryService.getCategories().subscribe({
       next: (categories) => {
         this.allCategories = categories;
+        this.isLoading = false;
       },
       error: (error: any) => {
+        this.isLoading = false;
         this.openSnackBar('Refresh');
       },
     });
     if (this.recipeId) {
-      this.isLoading = true;
       this.recipeService.getRecipe(this.recipeId).subscribe({
         next: (data: Recipe) => {
           this.recipe = data;
@@ -81,6 +82,7 @@ export class RecipeFormComponent implements OnInit {
           this.isLoading = false;
         },
         error: (error: any) => {
+          this.isLoading = false;
           this.openSnackBar('Refresh');
         },
       });
@@ -103,12 +105,24 @@ export class RecipeFormComponent implements OnInit {
 
   onSubmit(): void {
     const { title, categories, timeMinutes } = this.recipeForm.value;
+    let titleStr = '';
+    let categoriesArr: string[] = [];
+    let timeMinutesNum = 0;
+    if (title !== null && title !== undefined) {
+      titleStr = title;
+    }
+    if (categories !== null && categories !== undefined) {
+      categoriesArr = categories;
+    }
+    if (timeMinutes !== null && timeMinutes !== undefined) {
+      timeMinutesNum = timeMinutes;
+    }
     if (!this.isEditing) {
       this.recipeService
         .postRecipe(this.files, {
-          title: title as string,
-          categories: categories as string[],
-          timeMinutes: timeMinutes as number,
+          title: titleStr,
+          categories: categoriesArr,
+          timeMinutes: timeMinutesNum,
           ingredients: this.ingredients,
           instructions: this.instructions,
           imageUrls: [],
@@ -129,9 +143,9 @@ export class RecipeFormComponent implements OnInit {
         .putRecipe(
           this.files,
           {
-            title: title as string,
-            categories: categories as string[],
-            timeMinutes: timeMinutes as number,
+            title: titleStr,
+            categories: categoriesArr,
+            timeMinutes: timeMinutesNum,
             ingredients: this.ingredients,
             instructions: this.instructions,
             imageUrls: [...trimmedInitialUrls],
@@ -168,11 +182,11 @@ export class RecipeFormComponent implements OnInit {
     this.instructions.splice(index, 1);
   }
 
-  filesAdded(event: any): void {
-    this.files = event;
+  filesAdded(files: File[]): void {
+    this.files = files;
   }
 
-  openSnackBar(action: string): void {
+  openSnackBar(action: 'Refresh' | 'Close'): void {
     this._snackBar.open(
       'Something went wrong with the server. Please try again in a few minutes',
       action

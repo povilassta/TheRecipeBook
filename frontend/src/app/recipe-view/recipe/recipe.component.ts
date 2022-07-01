@@ -116,6 +116,7 @@ export class RecipeComponent implements OnInit {
         if (err.status === 400 || err.status === 404) {
           this.router.navigateByUrl('/404');
         } else {
+          this.isLoading = false;
           this._snackBar.open(
             'Something went wrong with the server. Please try to access the site again in a few minutes',
             'Refresh'
