@@ -110,9 +110,9 @@ export class RecipeFormComponent implements OnInit {
         next: (res) => {
           this.recipeService
             .postRecipe({
-              title: title as string,
-              categories: categories as string[],
-              timeMinutes: timeMinutes as number,
+              title: title,
+              categories: categories,
+              timeMinutes: timeMinutes,
               ingredients: this.ingredients,
               instructions: this.instructions,
               imageUrls: res.urls,
@@ -139,9 +139,9 @@ export class RecipeFormComponent implements OnInit {
           this.recipeService
             .putRecipe(
               {
-                title: title as string,
-                categories: categories as string[],
-                timeMinutes: timeMinutes as number,
+                title: title,
+                categories: categories,
+                timeMinutes: timeMinutes,
                 ingredients: this.ingredients,
                 instructions: this.instructions,
                 imageUrls: [...trimmedInitialUrls, ...res.urls],
