@@ -1,8 +1,8 @@
 export interface RecipePost {
-  title: string | null | undefined;
-  categories: string[] | null | undefined;
+  title: string;
+  categories: string[];
   instructions: string[];
   ingredients: string[];
-  timeMinutes: number | null | undefined;
+  timeMinutes: number;
   imageUrls?: string[];
 }

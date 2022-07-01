@@ -39,7 +39,7 @@ export class RecipeFormComponent implements OnInit {
   }
 
   public recipeForm = new FormGroup({
-    title: new FormControl('', [Validators.required]),
+    title: new FormControl<string>('', [Validators.required]),
     categories: new FormControl<string[]>([], [Validators.required]),
     timeMinutes: new FormControl<number>(15, [Validators.required]),
     currentIngredient: new FormControl(''),
@@ -105,14 +105,26 @@ export class RecipeFormComponent implements OnInit {
 
   onSubmit(): void {
     const { title, categories, timeMinutes } = this.recipeForm.value;
+    let titleStr = '';
+    let categoriesArr: string[] = [];
+    let timeMinutesNum = 0;
+    if (title !== null && title !== undefined) {
+      titleStr = title;
+    }
+    if (categories !== null && categories !== undefined) {
+      categoriesArr = categories;
+    }
+    if (timeMinutes !== null && timeMinutes !== undefined) {
+      timeMinutesNum = timeMinutes;
+    }
     if (!this.isEditing) {
       this.recipeService.uploadPictures(this.files).subscribe({
         next: (res) => {
           this.recipeService
             .postRecipe({
-              title: title,
-              categories: categories,
-              timeMinutes: timeMinutes,
+              title: titleStr,
+              categories: categoriesArr,
+              timeMinutes: timeMinutesNum,
               ingredients: this.ingredients,
               instructions: this.instructions,
               imageUrls: res.urls,
@@ -139,9 +151,9 @@ export class RecipeFormComponent implements OnInit {
           this.recipeService
             .putRecipe(
               {
-                title: title,
-                categories: categories,
-                timeMinutes: timeMinutes,
+                title: titleStr,
+                categories: categoriesArr,
+                timeMinutes: timeMinutesNum,
                 ingredients: this.ingredients,
                 instructions: this.instructions,
                 imageUrls: [...trimmedInitialUrls, ...res.urls],
@@ -157,9 +169,9 @@ export class RecipeFormComponent implements OnInit {
         this.recipeService
           .putRecipe(
             {
-              title: title as string,
-              categories: categories as string[],
-              timeMinutes: timeMinutes as number,
+              title: titleStr,
+              categories: categoriesArr,
+              timeMinutes: timeMinutesNum,
               ingredients: this.ingredients,
               instructions: this.instructions,
               imageUrls: trimmedInitialUrls,
