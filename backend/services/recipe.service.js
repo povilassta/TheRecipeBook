@@ -1,6 +1,7 @@
 import NotFoundError from "../errors/notfound.error.js";
 import Recipe from "../models/recipe.model.js";
 import { unlink } from "node:fs";
+import ForbiddenError from "../errors/forbidden.error.js";
 
 const picturePath = "../backend/public/images/recipes/";
 
@@ -73,13 +74,34 @@ const RecipeService = {
           if (recipe.imageUrls.includes(img)) {
             unlink(`${picturePath}${img}`, (err) => {
               if (err) throw err;
-              console.log(img + " was deleted.");
             });
           }
         }
         return recipe;
       } else {
         throw new NotFoundError("Recipe not found or not yours to edit.");
+      }
+    } catch (errors) {
+      throw errors;
+    }
+  },
+
+  delete: async (recipeId, userId) => {
+    try {
+      const recipe = await Recipe.findById(recipeId);
+      if (!recipe) {
+        throw new NotFoundError("Recipe not found.");
+      } else if (!recipe.userId.equals(userId)) {
+        throw new ForbiddenError("Recipe is not yours to delete.");
+      } else {
+        const deletedRecipe = await Recipe.findByIdAndDelete(recipeId);
+        // Delete images
+        for (const img of recipe.imageUrls) {
+          unlink(`${picturePath}${img}`, (err) => {
+            if (err) throw err;
+          });
+        }
+        return deletedRecipe;
       }
     } catch (errors) {
       throw errors;

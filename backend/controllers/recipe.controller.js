@@ -53,7 +53,19 @@ const RecipeController = {
         markedForDeletion,
         files
       );
-      res.json(response).send(200);
+      res.json(response).status(200);
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  delete: async (req, res, next) => {
+    const { _id: userId } = req.user;
+    const { recipeId } = req.params;
+
+    try {
+      const response = await RecipeService.delete(recipeId, userId);
+      res.json(response).status(200);
     } catch (e) {
       next(e);
     }

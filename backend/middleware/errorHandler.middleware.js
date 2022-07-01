@@ -3,6 +3,7 @@ function errorHandler(err, req, res, next) {
     "NotFoundError",
     "UnauthorizedError",
     "ConflictError",
+    "ForbiddenError",
   ];
   if (customErrorNames.includes(err.name)) {
     return res.status(err.statusCode).json({ message: err.message });

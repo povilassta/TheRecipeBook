@@ -55,4 +55,8 @@ export class RecipeService {
     }
     return this.http.post(`${this.BASE_URL}create`, formData);
   }
+
+  public deleteRecipe(recipeId: string): Observable<any> {
+    return this.http.delete(`${this.BASE_URL}${recipeId}`);
+  }
 }

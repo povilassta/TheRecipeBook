@@ -18,6 +18,9 @@ recipeRouter.post("/create", authJwt, RecipeController.post);
 // PUT RECIPE
 recipeRouter.put("/:recipeId", authJwt, RecipeController.put);
 
+// DELETE RECIPE
+recipeRouter.delete("/:recipeId", authJwt, RecipeController.delete);
+
 recipeRouter.use(
   "/:recipeId/comments",
   function (req, res, next) {
