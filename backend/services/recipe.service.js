@@ -74,7 +74,6 @@ const RecipeService = {
           if (recipe.imageUrls.includes(img)) {
             unlink(`${picturePath}${img}`, (err) => {
               if (err) throw err;
-              console.log(img + " was deleted.");
             });
           }
         }
@@ -100,7 +99,6 @@ const RecipeService = {
         for (const img of recipe.imageUrls) {
           unlink(`${picturePath}${img}`, (err) => {
             if (err) throw err;
-            console.log(img + " was deleted.");
           });
         }
         return deletedRecipe;
