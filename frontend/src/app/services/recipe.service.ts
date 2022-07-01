@@ -32,26 +32,27 @@ export class RecipeService {
     return this.http.get<Recipe>(`${this.BASE_URL}/${id}`);
   }
 
-  public postRecipe(data: RecipePost): Observable<any> {
-    return this.http.post(`${this.BASE_URL}create`, data);
-  }
-
   public putRecipe(
+    files: File[],
     data: RecipePost,
     recipeId: string,
     markedForDeletion: string[]
   ): Observable<any> {
-    return this.http.put(`${this.BASE_URL}${recipeId}`, {
-      ...data,
-      markedForDeletion,
-    });
-  }
-
-  public uploadPictures(files: File[]): Observable<any> {
     const formData = new FormData();
     for (let file of files) {
       formData.append(file.name, file);
     }
-    return this.http.post(`${this.BASE_URL}upload`, formData);
+    formData.append('data', JSON.stringify(data));
+    formData.append('markedForDeletion', JSON.stringify(markedForDeletion));
+    return this.http.put(`${this.BASE_URL}${recipeId}`, formData);
+  }
+
+  public postRecipe(files: File[], data: RecipePost): Observable<any> {
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(data));
+    for (let file of files) {
+      formData.append(file.name, file);
+    }
+    return this.http.post(`${this.BASE_URL}create`, formData);
   }
 }

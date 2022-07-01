@@ -118,71 +118,44 @@ export class RecipeFormComponent implements OnInit {
       timeMinutesNum = timeMinutes;
     }
     if (!this.isEditing) {
-      this.recipeService.uploadPictures(this.files).subscribe({
-        next: (res) => {
-          this.recipeService
-            .postRecipe({
-              title: titleStr,
-              categories: categoriesArr,
-              timeMinutes: timeMinutesNum,
-              ingredients: this.ingredients,
-              instructions: this.instructions,
-              imageUrls: res.urls,
-            })
-            .subscribe({
-              next: () => {
-                this.router.navigateByUrl('/recipes');
-              },
-              error: (error: any) => {
-                this.openSnackBar('Close');
-              },
-            });
-        },
-        error: (error: any) => {
-          this.openSnackBar('Close');
-        },
-      });
+      this.recipeService
+        .postRecipe(this.files, {
+          title: titleStr,
+          categories: categoriesArr,
+          timeMinutes: timeMinutesNum,
+          ingredients: this.ingredients,
+          instructions: this.instructions,
+          imageUrls: [],
+        })
+        .subscribe({
+          next: (res) => {
+            this.router.navigateByUrl('/recipes');
+          },
+          error: (error: any) => {
+            this.openSnackBar('Close');
+          },
+        });
     } else {
       const trimmedInitialUrls = this.initialPreviews.map((url) =>
         url.slice(16)
       );
-      if (this.files) {
-        this.recipeService.uploadPictures(this.files).subscribe((res) => {
-          this.recipeService
-            .putRecipe(
-              {
-                title: titleStr,
-                categories: categoriesArr,
-                timeMinutes: timeMinutesNum,
-                ingredients: this.ingredients,
-                instructions: this.instructions,
-                imageUrls: [...trimmedInitialUrls, ...res.urls],
-              },
-              this.recipeId,
-              this.markedForDeletion
-            )
-            .subscribe(() => {
-              this.router.navigateByUrl('/recipes');
-            });
+      this.recipeService
+        .putRecipe(
+          this.files,
+          {
+            title: titleStr,
+            categories: categoriesArr,
+            timeMinutes: timeMinutesNum,
+            ingredients: this.ingredients,
+            instructions: this.instructions,
+            imageUrls: [...trimmedInitialUrls],
+          },
+          this.recipeId,
+          this.markedForDeletion
+        )
+        .subscribe(() => {
+          this.router.navigateByUrl('/recipes');
         });
-      } else {
-        this.recipeService
-          .putRecipe(
-            {
-              title: titleStr,
-              categories: categoriesArr,
-              timeMinutes: timeMinutesNum,
-              ingredients: this.ingredients,
-              instructions: this.instructions,
-              imageUrls: trimmedInitialUrls,
-            },
-            this.recipeId,
-            this.markedForDeletion
-          )
-          .subscribe(() => {
-            this.router.navigateByUrl('/recipes');
-          });
-      }
     }
   }
 

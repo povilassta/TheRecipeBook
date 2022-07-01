@@ -12,9 +12,6 @@ recipeRouter.post("/", RecipeController.getAll);
 // GET (one)
 recipeRouter.get("/:recipeId", RecipeController.get);
 
-// POST pictures
-recipeRouter.post("/upload", authJwt, RecipeController.uploadPictures);
-
 // POST RECIPE
 recipeRouter.post("/create", authJwt, RecipeController.post);
 
