@@ -1,5 +1,10 @@
 <nav class="navbar">
-  <div class="navbar__logo">The Recipe Book</div>
+  <div class="navbar__logo">
+    <button mat-icon-button class="btn-menu" (click)="toggleSidenav.emit()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>The Recipe Book</span>
+  </div>
   <div class="navbar__links">
     <ul>
       <li>
