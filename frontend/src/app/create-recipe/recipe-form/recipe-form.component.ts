@@ -201,7 +201,7 @@ export class RecipeFormComponent implements OnInit {
     this.files = files;
   }
 
-  openSnackBar(action: string): void {
+  openSnackBar(action: 'Refresh' | 'Close'): void {
     this._snackBar.open(
       'Something went wrong with the server. Please try again in a few minutes',
       action
