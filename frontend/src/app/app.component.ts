@@ -1,6 +1,7 @@
 import { Component, HostListener, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ComponentCommunicationService } from './services/componentCommunication.service';
+import { User } from './models/user.model';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,18 +9,16 @@ import { ComponentCommunicationService } from './services/componentCommunication
   styleUrls: ['./app.component.sass'],
 })
 export class AppComponent {
-  constructor(
-    private componentCommunicationService: ComponentCommunicationService
-  ) {
-    this.componentCommunicationService.updateUserCalled$.subscribe(
-      () => (this.currentUser = localStorage.getItem('username') || '')
-    );
+  constructor(private authService: AuthService) {
+    this.authService.user$.subscribe((res) => {
+      this.currentUser = res.isAuthenticated ? res.user : undefined;
+    });
   }
   title = 'recipe-book';
 
   @ViewChild('sidenav')
   private sidenav: MatSidenav | undefined;
-  public currentUser: string = localStorage.getItem('username') || '';
+  public currentUser: User | null | undefined;
 
   @HostListener('window:resize', ['$event'])
   public onResize(event: { target: { innerWidth: number } }): void {
