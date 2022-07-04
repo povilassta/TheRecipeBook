@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 
@@ -12,22 +13,19 @@ import { ComponentCommunicationService } from 'src/app/services/componentCommuni
 export class HeaderComponent implements OnInit {
   constructor(
     private componentCommunicationService: ComponentCommunicationService,
-    private authService: AuthService
+    public authService: AuthService
   ) {
-    componentCommunicationService.updateUserCalled$
-      .pipe(untilDestroyed(this))
-      .subscribe(
-        () => (this.currentUser = localStorage.getItem('username') || '')
-      );
+    this.authService.user$.subscribe((res) => {
+      this.currentUser = res.isAuthenticated ? res.user : undefined;
+    });
   }
 
-  public currentUser: string = localStorage.getItem('username') || '';
+  public currentUser: User | null | undefined;
   @Output()
   public toggleSidenav = new EventEmitter<void>();
 
   public logout(): void {
     this.authService.logout();
-    this.currentUser = '';
     this.componentCommunicationService.callUpdateUser();
   }
 

@@ -15,6 +15,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { StoreModule } from '@ngrx/store';
+import { userReducer } from './store/reducers/user.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +35,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatListModule,
     MatButtonModule,
     MatIconModule,
+    StoreModule.forRoot({ user: userReducer }),
   ],
   providers: [
     {
