@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 import { RegisterComponent } from '../register/register.component';
 
 @Component({
@@ -14,7 +13,6 @@ import { RegisterComponent } from '../register/register.component';
 export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
-    private componentCommunicationService: ComponentCommunicationService,
     private authService: AuthService,
     public registerDialog: MatDialog
   ) {}

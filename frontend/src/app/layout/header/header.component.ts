@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 
 @UntilDestroy()
 @Component({
@@ -11,10 +10,7 @@ import { ComponentCommunicationService } from 'src/app/services/componentCommuni
   styleUrls: ['./header.component.sass'],
 })
 export class HeaderComponent implements OnInit {
-  constructor(
-    private componentCommunicationService: ComponentCommunicationService,
-    public authService: AuthService
-  ) {
+  constructor(public authService: AuthService) {
     this.authService.user$.subscribe((res) => {
       this.currentUser = res.isAuthenticated ? res.user : undefined;
     });

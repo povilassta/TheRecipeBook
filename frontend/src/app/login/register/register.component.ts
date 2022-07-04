@@ -10,7 +10,6 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +20,6 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private dialogRef: MatDialogRef<RegisterComponent>,
-    private componentCommunicationService: ComponentCommunicationService,
     private router: Router
   ) {}
 

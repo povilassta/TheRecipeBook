@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Recipe } from 'src/app/models/recipe.model';
 import { CommentService } from 'src/app/services/comment.service';
-import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Comment } from 'src/app/models/comment.model';
 import { UserService } from 'src/app/services/user.service';
@@ -29,7 +28,6 @@ import { AuthService } from 'src/app/services/auth.service';
 export class RecipeComponent implements OnInit {
   constructor(
     private renderer: Renderer2,
-    private componentCommunicationService: ComponentCommunicationService,
     private _Activatedroute: ActivatedRoute,
     private recipeService: RecipeService,
     private commentService: CommentService,

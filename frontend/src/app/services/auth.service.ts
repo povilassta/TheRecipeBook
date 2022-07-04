@@ -8,7 +8,6 @@ import { LoginResponse } from '../models/loginResponse.model';
 import { Register } from '../models/register.model';
 import { reset, set } from '../store/actions/user.actions';
 import { State } from '../store/reducers/user.reducer';
-import { ComponentCommunicationService } from './componentCommunication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,11 +17,7 @@ export class AuthService {
   private token$ = new Subscription();
   public user$: Observable<State>;
 
-  constructor(
-    private http: HttpClient,
-    private componentCommunicationService: ComponentCommunicationService,
-    private store: Store<{ user: State }>
-  ) {
+  constructor(private http: HttpClient, private store: Store<{ user: State }>) {
     this.user$ = store.select('user');
   }
 

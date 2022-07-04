@@ -5,8 +5,6 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FilterModel } from 'src/app/models/filter.model';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 
