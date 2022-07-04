@@ -4,7 +4,6 @@ import { Observable, tap } from 'rxjs';
 import { FilterModel } from '../models/filter.model';
 import { environment } from 'src/environments/environment';
 import { Recipe } from '../models/recipe.model';
-import { RecipeParams } from '../models/recipeParams.model';
 import { RecipePost } from '../models/recipePost.model';
 
 @Injectable({

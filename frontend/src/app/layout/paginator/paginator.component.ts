@@ -1,27 +1,25 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
-import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
-import { RecipeService } from 'src/app/services/recipe.service';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { AppStateService } from 'src/app/services/appState.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-paginator',
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.sass'],
 })
 export class PaginatorComponent implements OnInit, OnChanges {
-  constructor(
-    private recipeService: RecipeService,
-    private componentCommunicationService: ComponentCommunicationService
-  ) {}
+  constructor(private appStateService: AppStateService) {
+    this.appStateService
+      .select('pageNumber')
+      .pipe(untilDestroyed(this))
+      .subscribe((pn) => {
+        this.currentPage = pn;
+      });
+  }
 
   @Input()
   public perPageCount = 0;
-  @Input()
   public currentPage = 0;
   @Input()
   public itemCount = 0;
@@ -31,14 +29,10 @@ export class PaginatorComponent implements OnInit, OnChanges {
   public displayedPages: number[] = [];
 
   public changePage(pageNum: number): void {
-    // Change current page number
-    this.currentPage = pageNum;
+    // Update page state
+    this.appStateService.setState({ pageNumber: pageNum });
     //Change displayed pages
-    this.displayedPages = this.pages.slice(
-      this.currentPage < 5 ? 0 : this.currentPage - 3
-    );
-    // Call to update displayed values
-    this.componentCommunicationService.callUpdateRecipes(pageNum);
+    this.displayedPages = this.pages.slice(pageNum < 5 ? 0 : pageNum - 3);
     // Reset scrolling
     window.scrollTo(0, 0);
   }
