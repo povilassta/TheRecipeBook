@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(email, password).subscribe({
       next: () => {
-        this.componentCommunicationService.callUpdateUser();
         this.router.navigateByUrl('/recipes');
       },
       error: (err: any) => {

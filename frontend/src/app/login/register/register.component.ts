@@ -64,7 +64,6 @@ export class RegisterComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           this.authService.login(email || '', password || '').subscribe(() => {
-            this.componentCommunicationService.callUpdateUser();
             this.router.navigateByUrl('/recipes');
           });
           this.dialogRef.close();
