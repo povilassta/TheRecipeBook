@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   constructor(public authService: AuthService) {
-    this.authService.user$.subscribe((res) => {
+    this.authService.user$.pipe(untilDestroyed(this)).subscribe((res) => {
       this.currentUser = res.isAuthenticated ? res.user : undefined;
     });
   }

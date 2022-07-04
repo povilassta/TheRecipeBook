@@ -39,7 +39,7 @@ export class RecipeFormComponent implements OnInit {
         this.markedForDeletion.push(this.initialPreviews[index].slice(16));
         this.initialPreviews.splice(index, 1);
       });
-    this.authService.user$.subscribe((res) => {
+    this.authService.user$.pipe(untilDestroyed(this)).subscribe((res) => {
       this.currentUser = res.isAuthenticated ? res.user : undefined;
       if (this.recipe && this.recipe.userId !== this.currentUser?._id) {
         this.router.navigateByUrl('/recipes');

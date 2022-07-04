@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Category } from 'src/app/models/category.model';
 import { FilterModel } from 'src/app/models/filter.model';
 import { Recipe } from 'src/app/models/recipe.model';
@@ -10,6 +11,7 @@ import { CodingService } from 'src/app/services/coding.service';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-recipe-catalog',
   templateUrl: './recipe-catalog.component.html',
@@ -25,17 +27,19 @@ export class RecipeCatalogComponent implements OnInit {
     private codingService: CodingService,
     private _snackBar: MatSnackBar
   ) {
-    this._Activatedroute.queryParamMap.subscribe((params) => {
-      this.page = Number(params.get('page')) || 1;
-      this.filterObj =
-        this.codingService.decode(params.get('filter')) || this.filterObj;
-    });
-    this.componentCommunicationService.updateRecipesCalled$.subscribe(
-      (pageNum) => {
+    this._Activatedroute.queryParamMap
+      .pipe(untilDestroyed(this))
+      .subscribe((params) => {
+        this.page = Number(params.get('page')) || 1;
+        this.filterObj =
+          this.codingService.decode(params.get('filter')) || this.filterObj;
+      });
+    this.componentCommunicationService.updateRecipesCalled$
+      .pipe(untilDestroyed(this))
+      .subscribe((pageNum) => {
         this.page = pageNum;
         this.updateRecipes();
-      }
-    );
+      });
   }
 
   public filterObj: FilterModel = {

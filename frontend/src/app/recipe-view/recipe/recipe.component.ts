@@ -5,7 +5,6 @@ import { Recipe } from 'src/app/models/recipe.model';
 import { CommentService } from 'src/app/services/comment.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Comment } from 'src/app/models/comment.model';
-import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import {
   FormControl,
@@ -31,16 +30,17 @@ export class RecipeComponent implements OnInit {
     private _Activatedroute: ActivatedRoute,
     private recipeService: RecipeService,
     private commentService: CommentService,
-    private userService: UserService,
     private router: Router,
     private _snackBar: MatSnackBar,
     public deleteDialog: MatDialog,
     private authService: AuthService
   ) {
-    this._Activatedroute.paramMap.subscribe((params) => {
-      this.recipeId = params.get('recipeId') || '';
-    });
-    this.authService.user$.subscribe((state) => {
+    this._Activatedroute.paramMap
+      .pipe(untilDestroyed(this))
+      .subscribe((params) => {
+        this.recipeId = params.get('recipeId') || '';
+      });
+    this.authService.user$.pipe(untilDestroyed(this)).subscribe((state) => {
       this.currentUser = state.isAuthenticated ? state.user : undefined;
     });
   }
