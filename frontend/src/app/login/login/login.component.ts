@@ -44,8 +44,6 @@ export class LoginComponent implements OnInit {
   }
 
   public openRegisterDialog(): void {
-    const dialogRef = this.registerDialog.open(RegisterComponent, {
-      width: '40%',
-    });
+    const dialogRef = this.registerDialog.open(RegisterComponent);
   }
 }
