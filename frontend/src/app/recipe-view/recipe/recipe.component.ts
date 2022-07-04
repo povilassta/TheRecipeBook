@@ -15,7 +15,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteRecipeDialogComponent } from '../delete-recipe-dialog/delete-recipe-dialog.component';
-import { AuthService } from 'src/app/services/auth.service';
+import { AppStateService } from 'src/app/services/appState.service';
 
 @UntilDestroy()
 @Component({
@@ -33,16 +33,18 @@ export class RecipeComponent implements OnInit {
     private router: Router,
     private _snackBar: MatSnackBar,
     public deleteDialog: MatDialog,
-    private authService: AuthService
+    private appStateService: AppStateService
   ) {
     this._Activatedroute.paramMap
       .pipe(untilDestroyed(this))
       .subscribe((params) => {
         this.recipeId = params.get('recipeId') || '';
       });
-    this.authService.user$.pipe(untilDestroyed(this)).subscribe((state) => {
-      this.currentUser = state.isAuthenticated ? state.user : undefined;
-    });
+    this.appStateService
+      .select('currentUser')
+      .subscribe((user: User | undefined) => {
+        this.currentUser = user;
+      });
   }
 
   public recipe: Recipe | undefined;

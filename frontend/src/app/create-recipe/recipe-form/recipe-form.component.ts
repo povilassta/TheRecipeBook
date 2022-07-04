@@ -6,10 +6,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Category } from 'src/app/models/category.model';
 import { Recipe } from 'src/app/models/recipe.model';
 import { User } from 'src/app/models/user.model';
-import { AuthService } from 'src/app/services/auth.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 import { RecipeService } from 'src/app/services/recipe.service';
+import { AppStateService } from 'src/app/services/appState.service';
 
 @UntilDestroy()
 @Component({
@@ -25,7 +25,7 @@ export class RecipeFormComponent implements OnInit {
     private _Activatedroute: ActivatedRoute,
     private componentCommunicationService: ComponentCommunicationService,
     private _snackBar: MatSnackBar,
-    private authService: AuthService
+    private appStateService: AppStateService
   ) {
     this._Activatedroute.paramMap
       .pipe(untilDestroyed(this))
@@ -39,12 +39,14 @@ export class RecipeFormComponent implements OnInit {
         this.markedForDeletion.push(this.initialPreviews[index].slice(16));
         this.initialPreviews.splice(index, 1);
       });
-    this.authService.user$.pipe(untilDestroyed(this)).subscribe((res) => {
-      this.currentUser = res.isAuthenticated ? res.user : undefined;
-      if (this.recipe && this.recipe.userId !== this.currentUser?._id) {
-        this.router.navigateByUrl('/recipes');
-      }
-    });
+    this.appStateService
+      .select('currentUser')
+      .subscribe((user: User | undefined) => {
+        this.currentUser = user;
+        if (this.recipe && this.recipe.userId !== this.currentUser?._id) {
+          this.router.navigateByUrl('/recipes');
+        }
+      });
   }
 
   public recipeForm = new FormGroup({

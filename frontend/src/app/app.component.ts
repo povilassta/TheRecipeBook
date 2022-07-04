@@ -1,7 +1,7 @@
 import { Component, HostListener, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { User } from './models/user.model';
-import { AuthService } from './services/auth.service';
+import { AppStateService } from './services/appState.service';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +9,12 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.sass'],
 })
 export class AppComponent {
-  constructor(private authService: AuthService) {
-    this.authService.user$.subscribe((res) => {
-      this.currentUser = res.isAuthenticated ? res.user : undefined;
-    });
+  constructor(private appStateService: AppStateService) {
+    this.appStateService
+      .select('currentUser')
+      .subscribe((user: User | undefined) => {
+        this.currentUser = user;
+      });
   }
   title = 'recipe-book';
 

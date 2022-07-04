@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { delay, Observable, of, Subscription, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginResponse } from '../models/loginResponse.model';
 import { Register } from '../models/register.model';
-import { reset, set } from '../store/actions/user.actions';
-import { State } from '../store/reducers/user.reducer';
+import { AppStateService } from './appState.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +13,11 @@ import { State } from '../store/reducers/user.reducer';
 export class AuthService {
   private BASE_URL = environment.baseUrl;
   private token$ = new Subscription();
-  public user$: Observable<State>;
 
-  constructor(private http: HttpClient, private store: Store<{ user: State }>) {
-    this.user$ = store.select('user');
-  }
+  constructor(
+    private http: HttpClient,
+    private appStateService: AppStateService
+  ) {}
 
   public login(email: string, password: string): Observable<any> {
     return this.http
@@ -40,7 +38,7 @@ export class AuthService {
     localStorage.removeItem('expiresAt');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    this.store.dispatch(reset());
+    this.appStateService.setState({ currentUser: undefined });
   }
 
   private setSession(res: LoginResponse): void {
@@ -48,7 +46,7 @@ export class AuthService {
     localStorage.setItem('token', res.token);
     localStorage.setItem('expiresAt', JSON.stringify(expiresAt.valueOf()));
     localStorage.setItem('user', JSON.stringify(res.user));
-    this.store.dispatch(set({ user: res.user }));
+    this.appStateService.setState({ currentUser: res.user });
     this.expirationCounter();
   }
 
