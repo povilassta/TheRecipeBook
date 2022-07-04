@@ -42,6 +42,7 @@ export class RecipeComponent implements OnInit {
       });
     this.appStateService
       .select('currentUser')
+      .pipe(untilDestroyed(this))
       .subscribe((user: User | undefined) => {
         this.currentUser = user;
       });

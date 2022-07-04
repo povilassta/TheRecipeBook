@@ -41,6 +41,7 @@ export class RecipeFormComponent implements OnInit {
       });
     this.appStateService
       .select('currentUser')
+      .pipe(untilDestroyed(this))
       .subscribe((user: User | undefined) => {
         this.currentUser = user;
         if (this.recipe && this.recipe.userId !== this.currentUser?._id) {

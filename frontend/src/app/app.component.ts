@@ -1,8 +1,10 @@
 import { Component, HostListener, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { User } from './models/user.model';
 import { AppStateService } from './services/appState.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,6 +14,7 @@ export class AppComponent {
   constructor(private appStateService: AppStateService) {
     this.appStateService
       .select('currentUser')
+      .pipe(untilDestroyed(this))
       .subscribe((user: User | undefined) => {
         this.currentUser = user;
       });
