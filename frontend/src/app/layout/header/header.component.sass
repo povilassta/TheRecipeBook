@@ -6,16 +6,21 @@
     @media screen and ( max-width: 770px )
         padding: 1rem 1rem
     &__logo
-        width: 150px
+        display: flex
+        align-items: center
         line-height: 1.1
         font-size: 1.5rem
         font-weight: 800
         color: #264653
+        & span
+            width: 150px
     &__user
         display: flex
         justify-content: center
         align-items: center
     &__links
+        @media screen and ( max-width: 700px )
+            display: none
         margin-right: auto
         & ul
             display: flex
@@ -38,3 +43,8 @@
 .active
     border-color: #E9C46A !important
     font-weight: 500
+
+.btn-menu
+    margin-right: 10px
+    @media screen and ( min-width: 700px )
+        display: none

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AuthService } from 'src/app/services/auth.service';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
@@ -22,6 +22,8 @@ export class HeaderComponent implements OnInit {
   }
 
   public currentUser: string = localStorage.getItem('username') || '';
+  @Output()
+  public toggleSidenav = new EventEmitter<void>();
 
   public logout(): void {
     this.authService.logout();

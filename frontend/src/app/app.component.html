@@ -1,1 +1,31 @@
-<app-header></app-header> <router-outlet></router-outlet>
+<app-header (toggleSidenav)="sidenav.toggle()"></app-header>
+<mat-drawer-container>
+  <mat-drawer #sidenav mode="over" class="sidenav">
+    <div class="sidenav__logo">
+      <button mat-icon-button class="btn-menu" (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>The Recipe Book</span>
+    </div>
+    <mat-nav-list class="sidenav__list">
+      <a
+        mat-list-item
+        routerLink="/recipes"
+        [routerLinkActive]="['active']"
+        (click)="sidenav.toggle()"
+        >Recipes</a
+      >
+      <a
+        *ngIf="currentUser"
+        mat-list-item
+        routerLink="/create"
+        [routerLinkActive]="['active']"
+        (click)="sidenav.toggle()"
+        >Share your own recipe!</a
+      >
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content class="main">
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

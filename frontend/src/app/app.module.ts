@@ -11,6 +11,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CreateRecipeModule } from './create-recipe/create-recipe.module';
 import { NotFoundModule } from './not-found/not-found.module';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +29,10 @@ import { NotFoundModule } from './not-found/not-found.module';
     HttpClientModule,
     CreateRecipeModule,
     NotFoundModule,
+    MatSidenavModule,
+    MatListModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   providers: [
     {
