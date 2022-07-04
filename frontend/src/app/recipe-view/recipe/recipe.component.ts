@@ -17,6 +17,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteRecipeDialogComponent } from '../delete-recipe-dialog/delete-recipe-dialog.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @UntilDestroy()
 @Component({
@@ -35,25 +36,25 @@ export class RecipeComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private _snackBar: MatSnackBar,
-    public deleteDialog: MatDialog
+    public deleteDialog: MatDialog,
+    private authService: AuthService
   ) {
     this._Activatedroute.paramMap.subscribe((params) => {
       this.recipeId = params.get('recipeId') || '';
     });
-    this.componentCommunicationService.updateUserCalled$.subscribe(() => {
-      this.currentUser = undefined;
+    this.authService.user$.subscribe((state) => {
+      this.currentUser = state.isAuthenticated ? state.user : undefined;
     });
   }
 
   public recipe: Recipe | undefined;
   public comments: Comment[] | undefined;
   public recipeId = '';
-  public currentUser: User | undefined;
+  public currentUser: User | undefined | null;
   public commentForm: FormGroup = new FormGroup({
     commentContent: new FormControl('', [Validators.required]),
   });
   public isLoading = true;
-  public isOwner = false;
 
   toggleClass(event: any, className: string) {
     if (event.view.getSelection().type !== 'Range') {
@@ -110,7 +111,6 @@ export class RecipeComponent implements OnInit {
       next: (data: Recipe) => {
         this.recipe = data;
         this.isLoading = false;
-        this.isOwner = localStorage.getItem('userId') === this.recipe.userId;
       },
       error: (err: any) => {
         if (err.status === 400 || err.status === 404) {
@@ -131,11 +131,6 @@ export class RecipeComponent implements OnInit {
       .getComments(this.recipeId)
       .subscribe((data: Comment[]) => {
         this.comments = data;
-      });
-    this.userService
-      .getUser(localStorage.getItem('userId') || '')
-      .subscribe((data: User) => {
-        this.currentUser = data;
       });
   }
 }
