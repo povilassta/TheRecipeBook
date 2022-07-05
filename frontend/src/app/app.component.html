@@ -1,4 +1,7 @@
-<app-header (toggleSidenav)="sidenav.toggle()"></app-header>
+<app-header
+  (toggleSidenav)="sidenav.toggle()"
+  (changeLanguage)="useLanguage($event)"
+></app-header>
 <mat-drawer-container>
   <mat-drawer #sidenav mode="over" class="sidenav">
     <div class="sidenav__logo">
@@ -13,7 +16,7 @@
         routerLink="/recipes"
         [routerLinkActive]="['active']"
         (click)="sidenav.toggle()"
-        >Recipes</a
+        >{{ "navbar.recipes" | translate }}</a
       >
       <a
         *ngIf="currentUser"
@@ -21,7 +24,7 @@
         routerLink="/create"
         [routerLinkActive]="['active']"
         (click)="sidenav.toggle()"
-        >Share your own recipe!</a
+        >{{ "navbar.create" | translate }}</a
       >
     </mat-nav-list>
   </mat-drawer>

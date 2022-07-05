@@ -1,6 +1,7 @@
 import { Component, HostListener, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 import { User } from './models/user.model';
 import { AppStateService } from './services/appState.service';
 
@@ -11,7 +12,12 @@ import { AppStateService } from './services/appState.service';
   styleUrls: ['./app.component.sass'],
 })
 export class AppComponent {
-  constructor(private appStateService: AppStateService) {
+  constructor(
+    private appStateService: AppStateService,
+    public translate: TranslateService
+  ) {
+    translate.addLangs(['en', 'lt']);
+    translate.setDefaultLang('en');
     this.appStateService
       .select('currentUser')
       .pipe(untilDestroyed(this))
@@ -30,5 +36,9 @@ export class AppComponent {
     if (event.target.innerWidth > 700) {
       this.sidenav?.close();
     }
+  }
+
+  public useLanguage(language: string): void {
+    this.translate.use(language);
   }
 }
