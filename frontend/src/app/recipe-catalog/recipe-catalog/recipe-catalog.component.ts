@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Category } from 'src/app/models/category.model';
 import { FilterModel } from 'src/app/models/filter.model';
 import { Recipe } from 'src/app/models/recipe.model';
-import { RecipeParams } from 'src/app/models/recipeParams.model';
+import { AppStateService } from 'src/app/services/appState.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { CodingService } from 'src/app/services/coding.service';
-import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-recipe-catalog',
   templateUrl: './recipe-catalog.component.html',
@@ -19,23 +20,28 @@ export class RecipeCatalogComponent implements OnInit {
   constructor(
     private recipeService: RecipeService,
     private _Activatedroute: ActivatedRoute,
-    private componentCommunicationService: ComponentCommunicationService,
     private router: Router,
     private categoryService: CategoryService,
     private codingService: CodingService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private appStateService: AppStateService
   ) {
-    this._Activatedroute.queryParamMap.subscribe((params) => {
-      this.page = Number(params.get('page')) || 1;
-      this.filterObj =
-        this.codingService.decode(params.get('filter')) || this.filterObj;
-    });
-    this.componentCommunicationService.updateRecipesCalled$.subscribe(
-      (pageNum) => {
-        this.page = pageNum;
-        this.updateRecipes();
-      }
-    );
+    this._Activatedroute.queryParamMap
+      .pipe(untilDestroyed(this))
+      .subscribe((params) => {
+        this.appStateService.setState({
+          pageNumber: Number(params.get('page')) || 1,
+        });
+        this.filterObj =
+          this.codingService.decode(params.get('filter')) || this.filterObj;
+      });
+
+    this.appStateService
+      .select('pageNumber')
+      .pipe(untilDestroyed(this))
+      .subscribe((pn) => {
+        this.page = pn;
+      });
   }
 
   public filterObj: FilterModel = {
@@ -43,15 +49,16 @@ export class RecipeCatalogComponent implements OnInit {
     categories: [],
     time: 60,
   };
-  public page = 0;
+  public page = 1;
   public count = 0;
   public recipes: Recipe[] = [];
   public categories: Category[] = [];
   public isLoading = true;
 
-  public updateRecipes(): void {
+  public updateRecipes(pageNum: number): void {
+    this.appStateService.setState({ pageNumber: pageNum });
     this.recipeService
-      .getRecipes(this.page, this.filterObj)
+      .getRecipes(pageNum - 1, this.filterObj)
       .subscribe((res) => {
         this.recipes = res.recipes;
         this.count = res.count;
@@ -59,7 +66,7 @@ export class RecipeCatalogComponent implements OnInit {
     this.router.navigate([], {
       relativeTo: this._Activatedroute,
       queryParams: {
-        page: this.page,
+        page: pageNum,
         filter: this.codingService.encode(this.filterObj),
       },
       skipLocationChange: false,
@@ -67,7 +74,7 @@ export class RecipeCatalogComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.recipeService.getRecipes(this.page, this.filterObj).subscribe({
+    this.recipeService.getRecipes(this.page - 1, this.filterObj).subscribe({
       next: (res) => {
         this.recipes = res.recipes;
         this.count = res.count;

@@ -40,11 +40,12 @@ export async function login(email, password) {
           expiresIn: process.env.JWT_EXPIRES_IN,
         }
       );
+      let responseObj = user.toObject();
+      delete responseObj.password;
       return {
         token: `Bearer ${token}`,
         expiresIn: process.env.JWT_EXPIRES_IN,
-        userId: user._id,
-        username: user.username,
+        user: responseObj,
       };
     } else {
       throw new UnauthorizedError("Invalid credentials");

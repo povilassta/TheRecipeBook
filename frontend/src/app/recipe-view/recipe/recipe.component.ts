@@ -3,10 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Recipe } from 'src/app/models/recipe.model';
 import { CommentService } from 'src/app/services/comment.service';
-import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Comment } from 'src/app/models/comment.model';
-import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import {
   FormControl,
@@ -17,6 +15,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteRecipeDialogComponent } from '../delete-recipe-dialog/delete-recipe-dialog.component';
+import { AppStateService } from 'src/app/services/appState.service';
 
 @UntilDestroy()
 @Component({
@@ -28,32 +27,35 @@ import { DeleteRecipeDialogComponent } from '../delete-recipe-dialog/delete-reci
 export class RecipeComponent implements OnInit {
   constructor(
     private renderer: Renderer2,
-    private componentCommunicationService: ComponentCommunicationService,
     private _Activatedroute: ActivatedRoute,
     private recipeService: RecipeService,
     private commentService: CommentService,
-    private userService: UserService,
     private router: Router,
     private _snackBar: MatSnackBar,
-    public deleteDialog: MatDialog
+    public deleteDialog: MatDialog,
+    private appStateService: AppStateService
   ) {
-    this._Activatedroute.paramMap.subscribe((params) => {
-      this.recipeId = params.get('recipeId') || '';
-    });
-    this.componentCommunicationService.updateUserCalled$.subscribe(() => {
-      this.currentUser = undefined;
-    });
+    this._Activatedroute.paramMap
+      .pipe(untilDestroyed(this))
+      .subscribe((params) => {
+        this.recipeId = params.get('recipeId') || '';
+      });
+    this.appStateService
+      .select('currentUser')
+      .pipe(untilDestroyed(this))
+      .subscribe((user: User | undefined) => {
+        this.currentUser = user;
+      });
   }
 
   public recipe: Recipe | undefined;
   public comments: Comment[] | undefined;
   public recipeId = '';
-  public currentUser: User | undefined;
+  public currentUser: User | undefined | null;
   public commentForm: FormGroup = new FormGroup({
     commentContent: new FormControl('', [Validators.required]),
   });
   public isLoading = true;
-  public isOwner = false;
 
   toggleClass(event: any, className: string) {
     if (event.view.getSelection().type !== 'Range') {
@@ -110,7 +112,6 @@ export class RecipeComponent implements OnInit {
       next: (data: Recipe) => {
         this.recipe = data;
         this.isLoading = false;
-        this.isOwner = localStorage.getItem('userId') === this.recipe.userId;
       },
       error: (err: any) => {
         if (err.status === 400 || err.status === 404) {
@@ -131,11 +132,6 @@ export class RecipeComponent implements OnInit {
       .getComments(this.recipeId)
       .subscribe((data: Comment[]) => {
         this.comments = data;
-      });
-    this.userService
-      .getUser(localStorage.getItem('userId') || '')
-      .subscribe((data: User) => {
-        this.currentUser = data;
       });
   }
 }

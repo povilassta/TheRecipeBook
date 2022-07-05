@@ -10,7 +10,6 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +20,6 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private dialogRef: MatDialogRef<RegisterComponent>,
-    private componentCommunicationService: ComponentCommunicationService,
     private router: Router
   ) {}
 
@@ -64,7 +62,6 @@ export class RegisterComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           this.authService.login(email || '', password || '').subscribe(() => {
-            this.componentCommunicationService.callUpdateUser();
             this.router.navigateByUrl('/recipes');
           });
           this.dialogRef.close();

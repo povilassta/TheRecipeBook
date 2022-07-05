@@ -5,7 +5,7 @@ import { delay, Observable, of, Subscription, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginResponse } from '../models/loginResponse.model';
 import { Register } from '../models/register.model';
-import { ComponentCommunicationService } from './componentCommunication.service';
+import { AppStateService } from './appState.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private componentCommunicationService: ComponentCommunicationService
+    private appStateService: AppStateService
   ) {}
 
   public login(email: string, password: string): Observable<any> {
@@ -37,18 +37,16 @@ export class AuthService {
   public logout(): void {
     localStorage.removeItem('expiresAt');
     localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('username');
-    this.componentCommunicationService.callUpdateUser();
+    localStorage.removeItem('user');
+    this.appStateService.setState({ currentUser: undefined });
   }
 
   private setSession(res: LoginResponse): void {
     const expiresAt = moment().add(1, 'h');
     localStorage.setItem('token', res.token);
-    localStorage.setItem('userId', res.userId);
-    localStorage.setItem('username', res.username);
     localStorage.setItem('expiresAt', JSON.stringify(expiresAt.valueOf()));
-
+    localStorage.setItem('user', JSON.stringify(res.user));
+    this.appStateService.setState({ currentUser: res.user });
     this.expirationCounter();
   }
 

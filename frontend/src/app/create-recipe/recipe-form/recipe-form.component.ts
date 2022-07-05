@@ -5,9 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Category } from 'src/app/models/category.model';
 import { Recipe } from 'src/app/models/recipe.model';
+import { User } from 'src/app/models/user.model';
 import { CategoryService } from 'src/app/services/category.service';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 import { RecipeService } from 'src/app/services/recipe.service';
+import { AppStateService } from 'src/app/services/appState.service';
 
 @UntilDestroy()
 @Component({
@@ -22,7 +24,8 @@ export class RecipeFormComponent implements OnInit {
     private router: Router,
     private _Activatedroute: ActivatedRoute,
     private componentCommunicationService: ComponentCommunicationService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private appStateService: AppStateService
   ) {
     this._Activatedroute.paramMap
       .pipe(untilDestroyed(this))
@@ -35,6 +38,15 @@ export class RecipeFormComponent implements OnInit {
       .subscribe((index: number) => {
         this.markedForDeletion.push(this.initialPreviews[index].slice(16));
         this.initialPreviews.splice(index, 1);
+      });
+    this.appStateService
+      .select('currentUser')
+      .pipe(untilDestroyed(this))
+      .subscribe((user: User | undefined) => {
+        this.currentUser = user;
+        if (this.recipe && this.recipe.userId !== this.currentUser?._id) {
+          this.router.navigateByUrl('/recipes');
+        }
       });
   }
 
@@ -51,6 +63,8 @@ export class RecipeFormComponent implements OnInit {
   public instructions: string[] = [];
 
   public allCategories: Category[] = [];
+
+  public currentUser: User | null | undefined = undefined;
 
   // Editing variables
   public isEditing = false;
@@ -75,7 +89,7 @@ export class RecipeFormComponent implements OnInit {
       this.recipeService.getRecipe(this.recipeId).subscribe({
         next: (data: Recipe) => {
           this.recipe = data;
-          if (localStorage.getItem('userId') !== this.recipe.userId) {
+          if (this.currentUser?._id !== this.recipe.userId) {
             this.router.navigateByUrl('/recipes');
           }
           this.setInitialValues();
