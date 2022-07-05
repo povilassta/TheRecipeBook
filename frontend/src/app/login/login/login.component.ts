@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { RegisterComponent } from '../register/register.component';
 
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    public registerDialog: MatDialog
+    public registerDialog: MatDialog,
+    private translate: TranslateService
   ) {}
 
   public hide = true;
@@ -35,9 +37,15 @@ export class LoginComponent implements OnInit {
       },
       error: (err: any) => {
         if (err.status === 401) {
-          this.errorMessage = 'Incorrect email or password.';
+          this.translate
+            .get('errors.incorrectCreds')
+            .subscribe((res: string) => {
+              this.errorMessage = res;
+            });
         } else {
-          this.errorMessage = 'Something went wrong. Please try again later.';
+          this.translate.get('errors.500').subscribe((res: string) => {
+            this.errorMessage = res;
+          });
         }
       },
     });
