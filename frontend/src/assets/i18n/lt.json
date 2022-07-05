@@ -1,0 +1,88 @@
+{
+  "loginPage": {
+    "title": "Prisijungti",
+    "emailLabel": "El. paštas",
+    "passwordLabel": "Slaptažodis",
+    "noAccount": "Dar neturite paskyros?",
+    "registerLink": "Užsiregistruokite čia",
+    "forgotPass": "Pamiršote slaptažodį?",
+    "signinBtn": "Prisijungti"
+  },
+  "register": {
+    "title": "Registracija",
+    "emailLabel": "El. paštas",
+    "usernameLabel": "Slapyvardis",
+    "passwordLabel": "Slaptažodis",
+    "passwordConfirmLabel": "Pakartoti slaptažodį",
+    "agreement": "Pažymėkite čia, jeigu susipažinote ir sutinkate su The Recipe Book naudotojo sąlygomis.",
+    "cancelBtn": "Atšakti",
+    "submitBtn": "Registruotis"
+  },
+  "navbar": {
+    "recipes": "Receptai",
+    "create": "Pasidalink savo receptu!",
+    "signinBtn": "Prisijungti",
+    "languageLabel": "Kalba",
+    "signoutBtn": "Atsijungti"
+  },
+  "catalog": {
+    "title": "Smagių receptų įvairovė",
+    "sortLabel": "Rikiuoti pagal",
+    "sortOptions": {
+      "recent": "Naujausi",
+      "oldest": "Seniausi",
+      "popular": "Populiariausi"
+    },
+    "searchLabel": "Paieška",
+    "categoriesLabel": "Kategorijos",
+    "timeLabel": "Gaminimo laikas:",
+    "minutes": "minučių"
+  },
+  "recipe": {
+    "options": {
+      "edit": "Redaguoti",
+      "delete": "Ištrinti"
+    },
+    "likesLabel": "patinka",
+    "minutesLabel": "minučių",
+    "ingredientsTitle": "INGREDIENTAI:",
+    "instructionsTitle": "INSTRUKCIJOS:",
+    "commentsTitle": "KOMENTARAI",
+    "commentLabel": "Pasidalink savo nuomone",
+    "submitBtn": "Komentuoti",
+    "notSignedin": {
+      "1": "Privalote",
+      "2": "Prisijungti",
+      "3": "norėdami palikti komentarą!"
+    },
+    "delete": {
+      "title": "Ištrinti receptą",
+      "body": "Ar tikrai norite ištrinti šį receptą?",
+      "actions": {
+        "yes": "Taip",
+        "no": "Ne"
+      }
+    }
+  },
+  "recipeForm": {
+    "editTitle": "Redaguoti receptą",
+    "createTitle": "Sukurti naują receptą",
+    "titleLabel": "pavadinimas",
+    "categoriesLabel": "kategorijos",
+    "timeLabel": "gaminimo laikas minutėmis",
+    "ingredientsLabel": "ingredientai",
+    "instructionsLabel": "instrukcijos",
+    "noIngredientsMessage": "Kol kas nėra igredientų...",
+    "noInstructionsMessage": "Kaip gi gaminsime be instrukcijų?",
+    "submitBtn": "Pateikti",
+    "dragNdrop": "Užtempkite ir paleiskite nuotraukas čia arba",
+    "browseBtn": "Naršyti"
+  },
+  "errors": {
+    "500": "Atleiskite, serveris šiuo metu neveikia, prašome pabandyti vėliau.",
+    "incorrectCreds": "Neteisingi prisijungimo duomenys.",
+    "emailConflict": "Šis el. paštas jau yra užimtas.",
+    "refreshBtn": "Perkrauti",
+    "closeBtn": "Uždaryti"
+  }
+}
