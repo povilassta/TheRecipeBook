@@ -1,29 +1,35 @@
 <div class="catalog">
   <div class="catalog__filtering">
     <div class="catalog__filtering__row">
-      <h1 class="title">Variety of silly Recipes</h1>
+      <h1 class="title">{{ "catalog.title" | translate }}</h1>
       <mat-form-field appearance="outline" class="sort-field">
-        <mat-label>Sort by</mat-label>
+        <mat-label>{{ "catalog.sortLabel" | translate }}</mat-label>
         <mat-select
           [(value)]="filterObj.sort"
           (selectionChange)="updateRecipes(1)"
         >
-          <mat-option value="recent">Most recent</mat-option>
-          <mat-option value="oldest">Oldest</mat-option>
-          <mat-option value="popular">Popularity</mat-option>
+          <mat-option value="recent">{{
+            "catalog.sortOptions.recent" | translate
+          }}</mat-option>
+          <mat-option value="oldest">{{
+            "catalog.sortOptions.oldest" | translate
+          }}</mat-option>
+          <mat-option value="popular">{{
+            "catalog.sortOptions.popular" | translate
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div class="catalog__filtering__row">
       <mat-form-field appearance="outline" class="long-field">
-        <mat-label>Search</mat-label>
-        <input matInput placeholder="type to search..." />
+        <mat-label>{{ "catalog.searchLabel" | translate }}</mat-label>
+        <input matInput />
         <button matSuffix mat-icon-button aria-label="Search">
           <mat-icon>search</mat-icon>
         </button>
       </mat-form-field>
       <mat-form-field appearance="outline" class="long-field">
-        <mat-label>Categories</mat-label>
+        <mat-label>{{ "catalog.categoriesLabel" | translate }}</mat-label>
         <mat-select
           [(value)]="filterObj.categories"
           (selectionChange)="updateRecipes(1)"
@@ -39,8 +45,10 @@
     </div>
     <div class="catalog__filtering__slider">
       <p class="catalog__filtering__slider__text">
-        Cooking time:
-        <span class="text-regular">&lt; {{ filterObj.time }} minutes</span>
+        {{ "catalog.timeLabel" | translate }}
+        <span class="text-regular"
+          >&lt; {{ filterObj.time }} {{ "catalog.minutes" | translate }}</span
+        >
       </p>
       <mat-slider
         class="slider"

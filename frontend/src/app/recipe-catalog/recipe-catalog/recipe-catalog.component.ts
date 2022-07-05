@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 import { Category } from 'src/app/models/category.model';
 import { FilterModel } from 'src/app/models/filter.model';
 import { Recipe } from 'src/app/models/recipe.model';
@@ -24,7 +25,8 @@ export class RecipeCatalogComponent implements OnInit {
     private categoryService: CategoryService,
     private codingService: CodingService,
     private _snackBar: MatSnackBar,
-    private appStateService: AppStateService
+    private appStateService: AppStateService,
+    private translate: TranslateService
   ) {
     this._Activatedroute.queryParamMap
       .pipe(untilDestroyed(this))
@@ -82,10 +84,13 @@ export class RecipeCatalogComponent implements OnInit {
       },
       error: (error: any) => {
         this.isLoading = false;
-        this._snackBar.open(
-          'Something went wrong with the server. Please try to access the site again in a few minutes',
-          'Refresh'
-        );
+
+        this.translate
+          .get(['errors.500', 'errors.refreshBtn'])
+          .subscribe((res: any) => {
+            console.log(res);
+            this._snackBar.open(res['errors.500'], res['errors.refreshBtn']);
+          });
         this._snackBar._openedSnackBarRef?.afterDismissed().subscribe(() => {
           window.location.reload();
         });
