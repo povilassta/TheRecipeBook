@@ -23,25 +23,14 @@ export class RecipeCatalogComponent implements OnInit {
     private router: Router,
     private categoryService: CategoryService,
     private codingService: CodingService,
-    private _snackBar: MatSnackBar,
-    private appStateService: AppStateService
+    private _snackBar: MatSnackBar
   ) {
     this._Activatedroute.queryParamMap
       .pipe(untilDestroyed(this))
       .subscribe((params) => {
-        this.appStateService.setState({
-          pageNumber: Number(params.get('page')) || 1,
-        }); // Set state
+        this.page = Number(params.get('page')) || 1;
         this.filterObj =
           this.codingService.decode(params.get('filter')) || this.filterObj;
-      });
-
-    this.appStateService
-      .select('pageNumber')
-      .pipe(untilDestroyed(this))
-      .subscribe((pn) => {
-        this.page = pn;
-        this.updateRecipes();
       });
   }
 
@@ -56,7 +45,8 @@ export class RecipeCatalogComponent implements OnInit {
   public categories: Category[] = [];
   public isLoading = true;
 
-  public updateRecipes(): void {
+  public updateRecipes(pageNum: number): void {
+    this.page = pageNum;
     this.recipeService
       .getRecipes(this.page - 1, this.filterObj)
       .subscribe((res) => {

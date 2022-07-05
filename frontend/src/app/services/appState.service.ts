@@ -33,14 +33,11 @@ export class AppStateService {
 const initialState: AppState = localStorage.getItem('user')
   ? {
       currentUser: JSON.parse(localStorage.getItem('user') || ''),
-      pageNumber: 1,
     }
   : {
       currentUser: undefined,
-      pageNumber: 1,
     };
 
 interface AppState {
   currentUser: User | undefined;
-  pageNumber: number;
 }
