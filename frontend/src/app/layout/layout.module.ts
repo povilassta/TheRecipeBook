@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [HeaderComponent, PaginatorComponent],
@@ -15,6 +17,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     RouterModule,
     MatIconModule,
+    MatSelectModule,
+    TranslateModule,
   ],
   exports: [HeaderComponent, PaginatorComponent],
 })

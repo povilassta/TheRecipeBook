@@ -16,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteRecipeDialogComponent } from '../delete-recipe-dialog/delete-recipe-dialog.component';
 import { AppStateService } from 'src/app/services/appState.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @UntilDestroy()
 @Component({
@@ -33,7 +34,8 @@ export class RecipeComponent implements OnInit {
     private router: Router,
     private _snackBar: MatSnackBar,
     public deleteDialog: MatDialog,
-    private appStateService: AppStateService
+    private appStateService: AppStateService,
+    private translate: TranslateService
   ) {
     this._Activatedroute.paramMap
       .pipe(untilDestroyed(this))
@@ -97,10 +99,15 @@ export class RecipeComponent implements OnInit {
             this.router.navigateByUrl('/recipes');
           },
           error: (error: any) => {
-            this._snackBar.open(
-              'Something went wrong with the server. Please try again in a few minutes',
-              'Close'
-            );
+            this.translate
+              .get(['errors.500', 'errors.refreshBtn'])
+              .subscribe((res: any) => {
+                console.log(res);
+                this._snackBar.open(
+                  res['errors.500'],
+                  res['errors.refreshBtn']
+                );
+              });
           },
         });
       }
@@ -117,7 +124,7 @@ export class RecipeComponent implements OnInit {
         if (err.status === 400 || err.status === 404) {
           this.router.navigateByUrl('/404');
         } else {
-          this.isLoading = false;
+          //this.isLoading = false;
           this._snackBar.open(
             'Something went wrong with the server. Please try to access the site again in a few minutes',
             'Refresh'
