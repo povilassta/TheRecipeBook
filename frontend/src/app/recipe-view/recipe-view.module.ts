@@ -13,6 +13,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { DeleteRecipeDialogComponent } from './delete-recipe-dialog/delete-recipe-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSnackBarModule,
     MatMenuModule,
     MatDialogModule,
+    TranslateModule,
   ],
 })
 export class RecipeViewModule {}
