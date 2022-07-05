@@ -1,6 +1,10 @@
 <div class="container">
   <h1 class="header">
-    {{ isEditing ? "Edit a recipe" : "Create a new recipe" }}
+    {{
+      isEditing
+        ? ("recipeForm.editTitle" | translate)
+        : ("recipeForm.createTitle" | translate)
+    }}
   </h1>
   <form
     class="form"
@@ -10,11 +14,11 @@
   >
     <div class="form__row">
       <mat-form-field appearance="outline" class="medium-field">
-        <mat-label>title</mat-label>
+        <mat-label>{{ "recipeForm.titleLabel" | translate }}</mat-label>
         <input matInput formControlName="title" />
       </mat-form-field>
       <mat-form-field appearance="outline" class="medium-field">
-        <mat-label>categories</mat-label>
+        <mat-label>{{ "recipeForm.categoriesLabel" | translate }}</mat-label>
         <mat-select multiple formControlName="categories">
           <mat-option
             *ngFor="let category of allCategories; let i = index"
@@ -31,11 +35,11 @@
     <div class="form__row">
       <div class="column">
         <mat-form-field appearance="outline">
-          <mat-label>time in minutes</mat-label>
+          <mat-label>{{ "recipeForm.timeLabel" | translate }}</mat-label>
           <input matInput type="number" formControlName="timeMinutes" />
         </mat-form-field>
         <mat-form-field appearance="outline" class="extra-margin">
-          <mat-label>ingredients</mat-label>
+          <mat-label>{{ "recipeForm.ingredientsLabel" | translate }}</mat-label>
           <input
             matInput
             formControlName="currentIngredient"
@@ -52,7 +56,7 @@
           </button>
         </mat-form-field>
         <h2 class="missing-input" *ngIf="!ingredients.length; else elseBlock1">
-          No ingredients yet...
+          {{ "recipeForm.noIngredientsMessage" | translate }}
         </h2>
         <ng-template #elseBlock1>
           <div *ngFor="let ing of ingredients; let i = index" class="list-item">
@@ -70,7 +74,9 @@
       </div>
       <div class="column">
         <mat-form-field appearance="outline">
-          <mat-label>instructions</mat-label>
+          <mat-label>{{
+            "recipeForm.instructionsLabel" | translate
+          }}</mat-label>
           <textarea
             matInput
             rows="6"
@@ -88,7 +94,7 @@
           </button>
         </mat-form-field>
         <h2 class="missing-input" *ngIf="!instructions.length; else elseBlock2">
-          How will we cook without instructions?
+          {{ "recipeForm.noInstructionsMessage" | translate }}
         </h2>
         <ng-template #elseBlock2>
           <div
@@ -119,7 +125,7 @@
           (!files.length && !initialPreviews.length)
         "
       >
-        Submit
+        {{ "recipeForm.submitBtn" | translate }}
       </button>
     </div>
   </form>

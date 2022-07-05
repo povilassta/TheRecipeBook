@@ -12,6 +12,7 @@ import { ThumbnailComponent } from './thumbnail/thumbnail.component';
 import { DropZoneDirective } from '../directives/drop-zone.directive';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ReactiveFormsModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    TranslateModule,
   ],
 })
 export class CreateRecipeModule {}
