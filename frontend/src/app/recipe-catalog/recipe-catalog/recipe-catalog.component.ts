@@ -23,14 +23,24 @@ export class RecipeCatalogComponent implements OnInit {
     private router: Router,
     private categoryService: CategoryService,
     private codingService: CodingService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private appStateService: AppStateService
   ) {
     this._Activatedroute.queryParamMap
       .pipe(untilDestroyed(this))
       .subscribe((params) => {
-        this.page = Number(params.get('page')) || 1;
+        this.appStateService.setState({
+          pageNumber: Number(params.get('page')) || 1,
+        });
         this.filterObj =
           this.codingService.decode(params.get('filter')) || this.filterObj;
+      });
+
+    this.appStateService
+      .select('pageNumber')
+      .pipe(untilDestroyed(this))
+      .subscribe((pn) => {
+        this.page = pn;
       });
   }
 
@@ -46,9 +56,9 @@ export class RecipeCatalogComponent implements OnInit {
   public isLoading = true;
 
   public updateRecipes(pageNum: number): void {
-    this.page = pageNum;
+    this.appStateService.setState({ pageNumber: pageNum });
     this.recipeService
-      .getRecipes(this.page - 1, this.filterObj)
+      .getRecipes(pageNum - 1, this.filterObj)
       .subscribe((res) => {
         this.recipes = res.recipes;
         this.count = res.count;
@@ -56,7 +66,7 @@ export class RecipeCatalogComponent implements OnInit {
     this.router.navigate([], {
       relativeTo: this._Activatedroute,
       queryParams: {
-        page: this.page,
+        page: pageNum,
         filter: this.codingService.encode(this.filterObj),
       },
       skipLocationChange: false,
