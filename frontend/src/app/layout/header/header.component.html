@@ -20,16 +20,23 @@
     </ul>
   </div>
   <div class="navbar__lang">
-    <mat-form-field appearance="fill">
-      <mat-label>{{ "navbar.languageLabel" | translate }}</mat-label>
-      <mat-select
-        [(value)]="language"
-        (selectionChange)="changeLanguage.emit(language)"
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="langMenu"
+      aria-label="Language menu trigger"
+    >
+      <mat-icon svgIcon="{{ language }}"></mat-icon>
+    </button>
+    <mat-menu #langMenu>
+      <button
+        mat-menu-item
+        *ngFor="let lang of languages"
+        (click)="updateLanguage(lang)"
       >
-        <mat-option value="en">English</mat-option>
-        <mat-option value="lt">Lietuvių</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <mat-icon svgIcon="{{ lang }}"></mat-icon>
+        <span>{{ lang | uppercase }}</span>
+      </button>
+    </mat-menu>
   </div>
   <div class="navbar__user">
     <div *ngIf="currentUser; else elseBlock">

@@ -19,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatIconModule,
     MatSelectModule,
     TranslateModule,
+    MatMenuModule,
   ],
   exports: [HeaderComponent, PaginatorComponent],
 })
