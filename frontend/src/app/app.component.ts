@@ -6,6 +6,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from './models/user.model';
 import { AppStateService } from './services/appState.service';
+import { AuthService } from './services/auth.service';
 
 @UntilDestroy()
 @Component({
@@ -18,7 +19,8 @@ export class AppComponent {
     private appStateService: AppStateService,
     public translate: TranslateService,
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    public authService: AuthService
   ) {
     // Language
     translate.addLangs(['en', 'lt']);
