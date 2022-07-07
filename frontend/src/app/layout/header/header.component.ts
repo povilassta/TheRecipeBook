@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
   public currentUser: User | undefined;
   @Output()
   public toggleSidenav = new EventEmitter<void>();
-  public language = 'en';
+  public language = localStorage.getItem('language') || 'en';
   @Output()
   public changeLanguage = new EventEmitter<string>();
 

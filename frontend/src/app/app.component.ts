@@ -18,6 +18,8 @@ export class AppComponent {
   ) {
     translate.addLangs(['en', 'lt']);
     translate.setDefaultLang('en');
+    // Restore language
+    translate.use(localStorage.getItem('language') || 'en');
     this.appStateService
       .select('currentUser')
       .pipe(untilDestroyed(this))
@@ -40,5 +42,6 @@ export class AppComponent {
 
   public useLanguage(language: string): void {
     this.translate.use(language);
+    localStorage.setItem('language', language);
   }
 }
