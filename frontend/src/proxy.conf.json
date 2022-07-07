@@ -5,5 +5,12 @@
     "pathRewrite": {
       "^/images/recipes": ""
     }
+  },
+  "/icons": {
+    "target": "http://localhost:3000/icons/",
+    "secure": "false",
+    "pathRewrite": {
+      "^/icons": ""
+    }
   }
 }
