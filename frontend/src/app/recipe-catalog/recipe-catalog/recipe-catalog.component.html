@@ -8,14 +8,8 @@
           [(value)]="filterObj.sort"
           (selectionChange)="updateRecipes(1)"
         >
-          <mat-option value="recent">{{
-            "catalog.sortOptions.recent" | translate
-          }}</mat-option>
-          <mat-option value="oldest">{{
-            "catalog.sortOptions.oldest" | translate
-          }}</mat-option>
-          <mat-option value="popular">{{
-            "catalog.sortOptions.popular" | translate
+          <mat-option *ngFor="let opt of sortOptions" value="{{ opt.value }}">{{
+            opt.label
           }}</mat-option>
         </mat-select>
       </mat-form-field>

@@ -49,6 +49,7 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
         useFactory: httpTranslateLoaderFactory,
         deps: [HttpClient],
       },
+      defaultLanguage: 'en',
     }),
   ],
   providers: [

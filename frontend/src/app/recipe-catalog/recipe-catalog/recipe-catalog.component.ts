@@ -44,6 +44,25 @@ export class RecipeCatalogComponent implements OnInit {
       .subscribe((pn) => {
         this.page = pn;
       });
+
+    this.translate.onLangChange.pipe(untilDestroyed(this)).subscribe(() => {
+      this.translate.get(['catalog.sortOptions']).subscribe((res: any) => {
+        this.sortOptions = [
+          {
+            label: res['catalog.sortOptions'].recent,
+            value: 'recent',
+          },
+          {
+            label: res['catalog.sortOptions'].oldest,
+            value: 'oldest',
+          },
+          {
+            label: res['catalog.sortOptions'].popular,
+            value: 'popular',
+          },
+        ];
+      });
+    });
   }
 
   public filterObj: FilterModel = {
@@ -56,6 +75,7 @@ export class RecipeCatalogComponent implements OnInit {
   public recipes: Recipe[] = [];
   public categories: Category[] = [];
   public isLoading = true;
+  public sortOptions: { label: string; value: string }[] = [];
 
   public updateRecipes(pageNum: number): void {
     this.appStateService.setState({ pageNumber: pageNum });
