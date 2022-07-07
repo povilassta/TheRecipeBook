@@ -1,5 +1,4 @@
 <div class="recipe" *ngIf="!isLoading && recipe">
-  <p>Meals >> Chicken >></p>
   <div class="recipe__title">
     <h1>{{ recipe?.title }}</h1>
     <div *ngIf="recipe.userId === currentUser?._id">
@@ -13,11 +12,13 @@
       <mat-menu #menu="matMenu" xPosition="before">
         <a routerLink="/recipes/{{ recipe?._id }}/edit" mat-menu-item>
           <mat-icon class="menu-icon">edit</mat-icon>
-          <span class="menu-link">Edit</span>
+          <span class="menu-link">{{ "recipe.options.edit" | translate }}</span>
         </a>
         <button mat-menu-item (click)="openDeleteDialog()">
           <mat-icon class="menu-icon">delete</mat-icon>
-          <span class="menu-link">Delete</span>
+          <span class="menu-link">{{
+            "recipe.options.delete" | translate
+          }}</span>
         </button>
       </mat-menu>
     </div>
@@ -34,15 +35,19 @@
       <button mat-icon-button aria-label="Like button">
         <mat-icon>favorite</mat-icon>
       </button>
-      <span>{{ recipe?.likeCounter }} likes</span>
+      <span
+        >{{ recipe?.likeCounter }} {{ "recipe.likesLabel" | translate }}</span
+      >
     </div>
     <div class="recipe__likes-time__time">
       <mat-icon>timer</mat-icon>
-      <span>{{ recipe?.timeMinutes }} minutes</span>
+      <span
+        >{{ recipe?.timeMinutes }} {{ "recipe.minutesLabel" | translate }}</span
+      >
     </div>
   </div>
   <section class="recipe__ingridients">
-    <h2>INGRIDIENTS:</h2>
+    <h2>{{ "recipe.ingredientsTitle" | translate }}</h2>
     <ul>
       <li *ngFor="let ing of recipe?.ingredients; let i = index">{{ ing }}</li>
     </ul>
@@ -52,7 +57,7 @@
     alt="Picture of finished recipe"
   />
   <section class="recipe__instructions">
-    <h2>INSTRUCTIONS:</h2>
+    <h2>{{ "recipe.instructionsTitle" | translate }}</h2>
     <ol>
       <li
         (click)="toggleClass($event, 'completed')"
@@ -63,7 +68,7 @@
     </ol>
   </section>
   <section class="recipe__comments">
-    <h2>COMMENTS</h2>
+    <h2>{{ "recipe.commentsTitle" | translate }}</h2>
     <div *ngIf="currentUser; else elseBlock" class="recipe__comments__form">
       <img
         src="{{ currentUser?.profilePictureUrl }}"
@@ -78,10 +83,9 @@
           appearance="outline"
           class="recipe__comments__form__input"
         >
-          <mat-label>Leave a comment</mat-label>
+          <mat-label>{{ "recipe.commentLabel" | translate }}</mat-label>
           <textarea
             matInput
-            placeholder="Ex. It makes me feel..."
             formControlName="commentContent"
             cdkTextareaAutosize
             cdkAutosizeMinRows="1"
@@ -93,16 +97,18 @@
           color="primary"
           [disabled]="commentForm.invalid"
         >
-          Submit
+          {{ "recipe.submitBtn" | translate }}
         </button>
       </form>
     </div>
     <ng-template #elseBlock>
       <div class="recipe__comments__signin-message">
         <p>
-          You must
-          <a routerLink="/login" routerLinkActive="active">Sign in</a> in order
-          to comment!
+          {{ "recipe.notSignedin.1" | translate }}
+          <a routerLink="/login" routerLinkActive="active">{{
+            "recipe.notSignedin.2" | translate
+          }}</a>
+          {{ "recipe.notSignedin.3" | translate }}
         </p>
       </div>
     </ng-template>

@@ -1,0 +1,88 @@
+{
+  "loginPage": {
+    "title": "Sign in",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "noAccount": "Don't have an account yet?",
+    "registerLink": "Sign up here",
+    "forgotPass": "Forgot password?",
+    "signinBtn": "Sign in"
+  },
+  "register": {
+    "title": "Sign up",
+    "emailLabel": "Email",
+    "usernameLabel": "Username",
+    "passwordLabel": "Password",
+    "passwordConfirmLabel": "Repeat password",
+    "agreement": "Check here to indicate that you have read and agree to the terms of TheRecipeBook Customer Agreement",
+    "cancelBtn": "Cancel",
+    "submitBtn": "Submit"
+  },
+  "navbar": {
+    "recipes": "Recipes",
+    "create": "Share your own recipe!",
+    "signinBtn": "Sign in",
+    "languageLabel": "Language",
+    "signoutBtn": "Sign out"
+  },
+  "catalog": {
+    "title": "Variety of silly Recipes",
+    "sortLabel": "Sort by",
+    "sortOptions": {
+      "recent": "Most recent",
+      "oldest": "Oldest",
+      "popular": "Popularity"
+    },
+    "searchLabel": "Search",
+    "categoriesLabel": "Categories",
+    "timeLabel": "Cooking time:",
+    "minutes": "minutes"
+  },
+  "recipe": {
+    "options": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "likesLabel": "likes",
+    "minutesLabel": "minutes",
+    "ingredientsTitle": "INGREDIENTS:",
+    "instructionsTitle": "INSTRUCTIONS:",
+    "commentsTitle": "COMMENTS",
+    "commentLabel": "Leave a comment",
+    "submitBtn": "Submit",
+    "notSignedin": {
+      "1": "You must",
+      "2": "Sign in",
+      "3": "in order to comment!"
+    },
+    "delete": {
+      "title": "Delete recipe",
+      "body": "Are you sure you want to delete this recipe?",
+      "actions": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    }
+  },
+  "recipeForm": {
+    "editTitle": "Edit a recipe",
+    "createTitle": "Create a new recipe",
+    "titleLabel": "title",
+    "categoriesLabel": "categories",
+    "timeLabel": "time in minutes",
+    "ingredientsLabel": "ingredients",
+    "instructionsLabel": "instructions",
+    "noIngredientsMessage": "No ingredients yet...",
+    "noInstructionsMessage": "How will we cook without instructions?",
+    "submitBtn": "Submit",
+    "dragNdrop": "Drag and drop pictures here or",
+    "browseBtn": "Browse photos"
+  },
+  "errors": {
+    "500": "Something went wrong. Please try again later.",
+    "incorrectCreds": "Incorrect email or password.",
+    "emailConflict": "This email is already in use.",
+    "refreshBtn": "Refresh",
+    "closeBtn": "Close"
+  }
+}

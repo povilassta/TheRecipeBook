@@ -8,14 +8,35 @@
   <div class="navbar__links">
     <ul>
       <li>
-        <a [routerLinkActive]="['active']" routerLink="/recipes">Recipes</a>
+        <a [routerLinkActive]="['active']" routerLink="/recipes">{{
+          "navbar.recipes" | translate
+        }}</a>
       </li>
       <li *ngIf="currentUser">
-        <a [routerLinkActive]="['active']" routerLink="/create"
-          >Share your own recipie!</a
-        >
+        <a [routerLinkActive]="['active']" routerLink="/create">{{
+          "navbar.create" | translate
+        }}</a>
       </li>
     </ul>
+  </div>
+  <div class="navbar__lang">
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="langMenu"
+      aria-label="Language menu trigger"
+    >
+      <mat-icon svgIcon="{{ language }}"></mat-icon>
+    </button>
+    <mat-menu #langMenu>
+      <button
+        mat-menu-item
+        *ngFor="let lang of languages"
+        (click)="updateLanguage(lang)"
+      >
+        <mat-icon svgIcon="{{ lang }}"></mat-icon>
+        <span>{{ lang | uppercase }}</span>
+      </button>
+    </mat-menu>
   </div>
   <div class="navbar__user">
     <div *ngIf="currentUser; else elseBlock">
@@ -23,11 +44,15 @@
         {{ currentUser?.username }}
       </button>
       <mat-menu #menu="matMenu" xPosition="before">
-        <button mat-menu-item (click)="logout()">Log out</button>
+        <button mat-menu-item (click)="logout()">
+          {{ "navbar.signoutBtn" | translate }}
+        </button>
       </mat-menu>
     </div>
     <ng-template #elseBlock>
-      <a mat-flat-button class="login-button" routerLink="/login">Sign in</a>
+      <a mat-flat-button class="login-button" routerLink="/login">{{
+        "navbar.signinBtn" | translate
+      }}</a>
     </ng-template>
   </div>
 </nav>

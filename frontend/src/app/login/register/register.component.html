@@ -1,25 +1,24 @@
-<h1 mat-dialog-title class="title">Sign up</h1>
+<h1 mat-dialog-title class="title">{{ "register.title" | translate }}</h1>
 <mat-dialog-content>
   <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
+      <mat-label>{{ "register.emailLabel" | translate }}</mat-label>
       <input matInput type="email" formControlName="email" />
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <mat-label>Username</mat-label>
+      <mat-label>{{ "register.usernameLabel" | translate }}</mat-label>
       <input matInput type="text" formControlName="username" />
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
+      <mat-label>{{ "register.passwordLabel" | translate }}</mat-label>
       <input matInput type="password" formControlName="password" />
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <mat-label>Repeat password</mat-label>
+      <mat-label>{{ "register.passwordConfirmLabel" | translate }}</mat-label>
       <input matInput type="password" formControlName="repeatPassword" />
     </mat-form-field>
     <mat-checkbox formControlName="agreeToTerms">
-      Check here to indicate that you have read and agree to the terms of
-      TheRecipeBook Customer Agreement
+      {{ "register.agreement" | translate }}
     </mat-checkbox>
     <app-error-box
       *ngIf="errorMessage"
@@ -28,10 +27,10 @@
     ></app-error-box>
     <div class="buttons">
       <button mat-flat-button mat-dialog-close type="button" color="warn">
-        Cancel
+        {{ "register.cancelBtn" | translate }}
       </button>
       <button mat-flat-button color="primary" [disabled]="!registerForm.valid">
-        Submit
+        {{ "register.submitBtn" | translate }}
       </button>
     </div>
   </form>

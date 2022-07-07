@@ -10,6 +10,7 @@ import { CategoryService } from 'src/app/services/category.service';
 import { ComponentCommunicationService } from 'src/app/services/componentCommunication.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { AppStateService } from 'src/app/services/appState.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @UntilDestroy()
 @Component({
@@ -25,7 +26,8 @@ export class RecipeFormComponent implements OnInit {
     private _Activatedroute: ActivatedRoute,
     private componentCommunicationService: ComponentCommunicationService,
     private _snackBar: MatSnackBar,
-    private appStateService: AppStateService
+    private appStateService: AppStateService,
+    private translate: TranslateService
   ) {
     this._Activatedroute.paramMap
       .pipe(untilDestroyed(this))
@@ -201,14 +203,22 @@ export class RecipeFormComponent implements OnInit {
   }
 
   openSnackBar(action: 'Refresh' | 'Close'): void {
-    this._snackBar.open(
-      'Something went wrong with the server. Please try again in a few minutes',
-      action
-    );
     if (action === 'Refresh') {
+      this.translate
+        .get(['errors.500', 'errors.refreshBtn'])
+        .subscribe((res: any) => {
+          console.log(res);
+          this._snackBar.open(res['errors.500'], res['errors.refreshBtn']);
+        });
       this._snackBar._openedSnackBarRef?.afterDismissed().subscribe(() => {
         window.location.reload();
       });
+    } else {
+      this.translate
+        .get(['errors.500', 'errors.closeBtn'])
+        .subscribe((res: any) => {
+          this._snackBar.open(res['errors.500'], res['errors.closeBtn']);
+        });
     }
   }
 }

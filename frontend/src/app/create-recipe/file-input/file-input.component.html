@@ -13,14 +13,14 @@
   (dropped)="onFileChange($event)"
 >
   <div *ngIf="!previews.length && !initialPreviews.length; else elseBlock">
-    <span class="hide-on-small">Drag and drop pictures here or</span>
+    <span class="hide-on-small">{{ "recipeForm.dragNdrop" | translate }}</span>
     <button
       mat-stroked-button
       type="button"
       class="btn-browse"
       (click)="fileUpload.click()"
     >
-      Browse photos
+      {{ "recipeForm.browseBtn" | translate }}
     </button>
   </div>
   <ng-template #elseBlock>
@@ -41,7 +41,7 @@
         class="btn-browse"
         (click)="fileUpload.click()"
       >
-        Browse photos
+        {{ "recipeForm.browseBtn" | translate }}
       </button>
     </div>
   </ng-template>

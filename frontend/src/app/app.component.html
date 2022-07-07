@@ -1,4 +1,7 @@
-<app-header (toggleSidenav)="sidenav.toggle()"></app-header>
+<app-header
+  (toggleSidenav)="sidenav.toggle()"
+  (changeLanguage)="useLanguage($event)"
+></app-header>
 <mat-drawer-container>
   <mat-drawer #sidenav mode="over" class="sidenav">
     <div class="sidenav__logo">
@@ -7,23 +10,40 @@
       </button>
       <span>The Recipe Book</span>
     </div>
-    <mat-nav-list class="sidenav__list">
-      <a
-        mat-list-item
-        routerLink="/recipes"
-        [routerLinkActive]="['active']"
-        (click)="sidenav.toggle()"
-        >Recipes</a
-      >
-      <a
-        *ngIf="currentUser"
-        mat-list-item
-        routerLink="/create"
-        [routerLinkActive]="['active']"
-        (click)="sidenav.toggle()"
-        >Share your own recipe!</a
-      >
-    </mat-nav-list>
+    <div class="sidenav__container">
+      <mat-nav-list class="sidenav__list">
+        <a
+          mat-list-item
+          routerLink="/recipes"
+          [routerLinkActive]="['active']"
+          (click)="sidenav.toggle()"
+          >{{ "navbar.recipes" | translate }}</a
+        >
+        <a
+          *ngIf="currentUser"
+          mat-list-item
+          routerLink="/create"
+          [routerLinkActive]="['active']"
+          (click)="sidenav.toggle()"
+          >{{ "navbar.create" | translate }}</a
+        >
+      </mat-nav-list>
+      <mat-nav-list>
+        <a
+          mat-list-item
+          routerLink="/login"
+          (click)="sidenav.toggle()"
+          *ngIf="!currentUser"
+          >{{ "navbar.signinBtn" | translate }}</a
+        >
+        <div *ngIf="currentUser" class="sidenav__user">
+          <span>{{ currentUser.username }}</span>
+          <button mat-icon-button (click)="authService.logout()">
+            <mat-icon>logout</mat-icon>
+          </button>
+        </div>
+      </mat-nav-list>
+    </div>
   </mat-drawer>
   <mat-drawer-content class="main">
     <router-outlet></router-outlet>

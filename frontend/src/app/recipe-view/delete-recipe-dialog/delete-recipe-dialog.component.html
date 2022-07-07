@@ -1,6 +1,10 @@
-<h1 mat-dialog-title>Delete recipe</h1>
-<div mat-dialog-content>Are you sure you want to delete this recipe?</div>
+<h1 mat-dialog-title>{{ "recipe.delete.title" | translate }}</h1>
+<div mat-dialog-content>{{ "recipe.delete.body" | translate }}</div>
 <div mat-dialog-actions>
-  <button color="warn" mat-button mat-dialog-close cdkFocusInitial>No</button>
-  <button mat-button [mat-dialog-close]="true">Yes</button>
+  <button color="warn" mat-button mat-dialog-close cdkFocusInitial>
+    {{ "recipe.delete.actions.no" | translate }}
+  </button>
+  <button mat-button [mat-dialog-close]="true">
+    {{ "recipe.delete.actions.yes" | translate }}
+  </button>
 </div>

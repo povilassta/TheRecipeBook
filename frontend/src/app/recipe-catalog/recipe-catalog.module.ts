@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { LayoutModule } from '../layout/layout.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     LayoutModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    TranslateModule,
   ],
   exports: [CategoryTagComponent],
 })

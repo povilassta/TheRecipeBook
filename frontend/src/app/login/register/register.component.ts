@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -20,7 +21,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private dialogRef: MatDialogRef<RegisterComponent>,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {}
 
   public registerForm = new FormGroup(
@@ -68,7 +70,11 @@ export class RegisterComponent implements OnInit {
         },
         error: (error: any) => {
           if (error.status === 400) {
-            this.errorMessage = 'This email is already in use.';
+            this.translate
+              .get('errors.emailConflict')
+              .subscribe((res: string) => {
+                this.errorMessage = res;
+              });
           }
         },
       });

@@ -9,6 +9,7 @@ import { RegisterComponent } from './register/register.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ErrorBoxComponent } from './error-box/error-box.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent, ErrorBoxComponent],
@@ -20,6 +21,7 @@ import { ErrorBoxComponent } from './error-box/error-box.component';
     ReactiveFormsModule,
     MatDialogModule,
     MatCheckboxModule,
+    TranslateModule,
   ],
 })
 export class LoginModule {}
