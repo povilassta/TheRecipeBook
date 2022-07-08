@@ -207,7 +207,6 @@ export class RecipeFormComponent implements OnInit {
       this.translate
         .get(['errors.500', 'errors.refreshBtn'])
         .subscribe((res: any) => {
-          console.log(res);
           this._snackBar.open(res['errors.500'], res['errors.refreshBtn']);
         });
       this._snackBar._openedSnackBarRef?.afterDismissed().subscribe(() => {

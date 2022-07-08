@@ -1,5 +1,6 @@
 <div class="pagination">
   <button
+    id="previousBtn"
     mat-icon-button
     aria-label="Previous page"
     (click)="changePage(currentPage - 1)"
@@ -8,7 +9,12 @@
     <mat-icon>navigate_before</mat-icon>
   </button>
   <span class="pagination__end" *ngIf="currentPage > 4">
-    <button mat-button aria-label="First page button" (click)="changePage(1)">
+    <button
+      mat-button
+      aria-label="First page button"
+      (click)="changePage(1)"
+      id="firstBtn"
+    >
       {{ 1 }}
     </button>
     <span class="pagination__end__icon">
@@ -30,6 +36,7 @@
       <mat-icon>more_horiz</mat-icon>
     </span>
     <button
+      id="lastBtn"
       mat-button
       aria-label="Last page button"
       (click)="changePage(pages[pages.length - 1])"
@@ -38,8 +45,9 @@
     </button>
   </span>
   <button
+    id="nextBtn"
     mat-icon-button
-    aria-label="Previous page"
+    aria-label="Next page"
     (click)="changePage(currentPage + 1)"
     [disabled]="currentPage === pages[pages.length - 1]"
   >
