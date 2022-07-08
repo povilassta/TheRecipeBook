@@ -92,10 +92,4 @@ describe('PaginatorComponent', () => {
     button.dispatchEvent(new Event('click'));
     expect(component.changePage).toHaveBeenCalledWith(6);
   });
-  it('should update count when input values change', () => {
-    spyOn(component, 'ngOnChanges');
-    component.itemCount = 100;
-    fixture.detectChanges;
-    expect(component.ngOnChanges).toHaveBeenCalled();
-  });
 });
