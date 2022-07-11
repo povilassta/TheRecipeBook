@@ -11,7 +11,7 @@ import { AppStateService } from './appState.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private BASE_URL = environment.baseUrl;
+  public BASE_URL = environment.baseUrl;
   private token$ = new Subscription();
 
   constructor(
@@ -29,7 +29,7 @@ export class AuthService {
     return moment().isBefore(this.getExpiration());
   }
 
-  private getExpiration(): moment.Moment {
+  public getExpiration(): moment.Moment {
     const expiresAt = JSON.parse(localStorage.getItem('expiresAt') || '{}');
     return moment(expiresAt);
   }
@@ -41,7 +41,7 @@ export class AuthService {
     this.appStateService.setState({ currentUser: undefined });
   }
 
-  private setSession(res: LoginResponse): void {
+  public setSession(res: LoginResponse): void {
     const expiresAt = moment().add(1, 'h');
     localStorage.setItem('token', res.token);
     localStorage.setItem('expiresAt', JSON.stringify(expiresAt.valueOf()));
@@ -54,7 +54,7 @@ export class AuthService {
     return this.http.post(`${this.BASE_URL}/register`, data);
   }
 
-  private expirationCounter(): void {
+  public expirationCounter(): void {
     const timeout = new Date();
     timeout.setHours(timeout.getHours() + 1);
     this.token$.unsubscribe();

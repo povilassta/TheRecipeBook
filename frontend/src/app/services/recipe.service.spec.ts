@@ -5,7 +5,6 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { FilterModel } from '../models/filter.model';
-import { Recipe } from '../models/recipe.model';
 import { RecipePost } from '../models/recipePost.model';
 
 import { RecipeService } from './recipe.service';
