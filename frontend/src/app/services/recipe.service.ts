@@ -10,7 +10,7 @@ import { RecipePost } from '../models/recipePost.model';
   providedIn: 'root',
 })
 export class RecipeService {
-  private BASE_URL: string = `${environment.baseUrl}/recipes/`;
+  public BASE_URL: string = `${environment.baseUrl}/recipes/`;
 
   constructor(private http: HttpClient) {}
 
@@ -19,7 +19,7 @@ export class RecipeService {
   }
 
   public getRecipe(id: string): Observable<Recipe> {
-    return this.http.get<Recipe>(`${this.BASE_URL}/${id}`);
+    return this.http.get<Recipe>(`${this.BASE_URL}${id}`);
   }
 
   public putRecipe(
