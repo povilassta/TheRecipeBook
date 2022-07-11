@@ -10,21 +10,12 @@ import { RecipePost } from '../models/recipePost.model';
   providedIn: 'root',
 })
 export class RecipeService {
-  public recipes: Recipe[] = [];
-  public count = 0;
   private BASE_URL: string = `${environment.baseUrl}/recipes/`;
 
   constructor(private http: HttpClient) {}
 
   public getRecipes(page: number, filterObj: FilterModel): Observable<any> {
-    return this.http.post(this.BASE_URL, { ...filterObj, page }).pipe(
-      tap({
-        next: (res: any) => {
-          this.recipes = res.recipes;
-          this.count = res.count;
-        },
-      })
-    );
+    return this.http.post(this.BASE_URL, { ...filterObj, page });
   }
 
   public getRecipe(id: string): Observable<Recipe> {
