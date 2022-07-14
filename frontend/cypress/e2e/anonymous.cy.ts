@@ -41,7 +41,7 @@ describe('My First Test', () => {
   });
 
   it('Redirects to 404', () => {
-    cy.visit('/someroutethatdeifnetlydoesnotexist');
+    cy.visit('/someroutethatdefinitelydoesnotexist');
     cy.contains(404).should('exist');
     cy.url().should('include', '/404');
     cy.contains('Go back home').click();
