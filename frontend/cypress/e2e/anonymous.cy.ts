@@ -33,4 +33,15 @@ describe('Anonymous tests', () => {
     cy.contains('Go back home').click();
     cy.url().should('include', '/recipes');
   });
+
+  it('Does not let anonymous user comment, edit, create or delete', () => {
+    cy.visit('/');
+    cy.get('.navbar__links a')
+      .contains('Share your own recipe!')
+      .should('not.exist');
+    cy.get('.card').first().click();
+    cy.get('[aria-label="Recipe options menu button"]').should('not.exist');
+    cy.contains('Submit').should('not.exist');
+    cy.contains('You must Sign in in order to comment!');
+  });
 });
