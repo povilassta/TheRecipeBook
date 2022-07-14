@@ -1,51 +1,20 @@
 describe('Authenticated tests', () => {
   beforeEach(() => {
-    // Intercept requests and return mock data
-    cy.fixture('recipes.json').then((res) => {
-      cy.intercept('POST', '/api/recipes', res);
-    });
-    cy.fixture('categories.json').then((res) => {
-      cy.intercept('GET', '/api/categories', res);
-    });
-    cy.fixture('images/gb.svg').then((img) => {
-      cy.intercept('GET', '/icons/gb.svg', img);
-    });
-    cy.fixture('images/lt.svg').then((img) => {
-      cy.intercept('GET', '/icons/lt.svg', img);
-    });
-    // Intercept login request
-    cy.fixture('login.json').then((res) => {
-      cy.intercept('post', '/api/login', res);
-    });
-
     cy.visit('/login');
 
-    cy.get('[type=email]').type('test@test.ts');
-    cy.get('[type=password]').type('password');
+    cy.get('[type=email]').type('test@test.com');
+    cy.get('[type=password]').type('test');
     cy.get('button').contains('Sign in').click();
 
     cy.url().should('include', '/recipes');
   });
 
-  it('creates a comment', () => {
-    cy.fixture('recipes.json').then((res) => {
-      cy.intercept('get', '/api/recipes/**', res.recipes[0]);
-    });
-    cy.intercept('post', '/api/recipes/**/comments', {});
-
-    cy.get('div[class=card]').first().click();
-    cy.contains('Submit').should('be.disabled');
-    cy.get('textarea').type('Test comment');
-    cy.contains('Submit').should('not.be.disabled').click();
-  });
-
   it('creates a recipe', () => {
-    cy.intercept('post', '/api/recipes/create', {});
     cy.get('.navbar__links a').contains('Share your own recipe!').click();
     cy.url().should('include', '/create');
     cy.contains('Submit').should('be.disabled');
     // Input data
-    cy.get('[formcontrolname=title]').type('TITLE');
+    cy.get('[formcontrolname=title]').type('RECIPE USED IN E2E TESTING');
     // Open select box and select first category
     cy.get('[formcontrolname=categories]').click();
     cy.get('mat-option').first().click();
@@ -73,12 +42,41 @@ describe('Authenticated tests', () => {
     cy.url().should('include', '/recipes');
   });
 
+  it('creates a comment', () => {
+    cy.contains('RECIPE USED IN E2E TESTING').first().click();
+    cy.contains('Submit').should('be.disabled');
+    cy.get('textarea').type('TEST COMMENT USED IN E2E TESTING');
+    cy.contains('Submit').should('not.be.disabled').click();
+    cy.contains('TEST COMMENT USED IN E2E TESTING').should('exist');
+  });
+
+  it('edits a recipe', () => {
+    cy.contains('RECIPE USED IN E2E TESTING').first().click();
+    cy.get('[aria-label="Recipe options menu button"]').click();
+    cy.get('a').contains('Edit').click();
+    cy.url().should('include', 'edit');
+    cy.get('[formcontrolname=title]').type(' EDITED');
+    cy.contains('Submit').should('not.be.disabled').click();
+    cy.contains('RECIPE USED IN E2E TESTING EDITED').should('exist');
+  });
+
+  it('deletes a recipe', () => {
+    cy.intercept('delete', '/api/recipes/**').as('deleteRecipe');
+    cy.contains('RECIPE USED IN E2E TESTING EDITED').first().click();
+    cy.get('[aria-label="Recipe options menu button"]').click();
+    cy.get('button').contains('Delete').click();
+    cy.get('button').contains('Yes').click();
+    cy.wait('@deleteRecipe');
+    cy.url().should('include', '/recipes');
+    cy.contains('RECIPE USED IN E2E TESTING EDITED').should('not.exist');
+  });
+
   it('signs out', () => {
     cy.get('.navbar__links a')
       .contains('Share your own recipe!')
       .should('exist');
 
-    cy.get('button').contains('test').click();
+    cy.get('button').contains('janedoe39').click();
     cy.get('button').contains('Sign out').click();
     cy.contains('Sign in').should('exist');
   });

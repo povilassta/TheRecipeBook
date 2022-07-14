@@ -1,19 +1,5 @@
-describe('My First Test', () => {
-  beforeEach(() => {
-    // Intercept requests and return mock data
-    cy.fixture('recipes.json').then((res) => {
-      cy.intercept('POST', '/api/recipes', res);
-    });
-    cy.fixture('categories.json').then((res) => {
-      cy.intercept('GET', '/api/categories', res);
-    });
-    cy.fixture('images/gb.svg').then((img) => {
-      cy.intercept('GET', '/icons/gb.svg', img);
-    });
-    cy.fixture('images/lt.svg').then((img) => {
-      cy.intercept('GET', '/icons/lt.svg', img);
-    });
-  });
+describe('Anonymous tests', () => {
+  beforeEach(() => {});
 
   it('Visits the initial project page', () => {
     cy.visit('/');
