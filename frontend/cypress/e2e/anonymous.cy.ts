@@ -26,9 +26,25 @@ describe('My First Test', () => {
     cy.contains('Variety of silly Recipes');
     cy.get('[aria-label="Language menu trigger"]').click();
     cy.get('button').contains('LT').click();
-    cy.contains('Smagių receptų įvairovė');
+    cy.contains('Smagių receptų įvairovė').should('exist');
     cy.get('[aria-label="Language menu trigger"]').click();
     cy.get('button').contains('EN').click();
-    cy.contains('Variety of silly Recipes');
+    cy.contains('Variety of silly Recipes').should('exist');
+  });
+
+  it('Displays popup when request fails', () => {
+    cy.intercept('post', '/api/recipes', {
+      statusCode: 500,
+    });
+    cy.visit('/');
+    cy.contains('Something went wrong').should('exist');
+  });
+
+  it('Redirects to 404', () => {
+    cy.visit('/someroutethatdeifnetlydoesnotexist');
+    cy.contains(404).should('exist');
+    cy.url().should('include', '/404');
+    cy.contains('Go back home').click();
+    cy.url().should('include', '/recipes');
   });
 });
