@@ -1,0 +1,235 @@
+{
+  "recipes": [
+    {
+      "_id": "62be9a2bc91396a9882fdb1b",
+      "title": "Pasta with Bacon and Peas",
+      "categories": [
+        {
+          "_id": "62ac823fb926fe97e50ac4ae",
+          "name": "fast"
+        },
+        {
+          "_id": "62ac8261b926fe97e50ac4af",
+          "name": "healthy"
+        }
+      ],
+      "likeCounter": 0,
+      "timeMinutes": 35,
+      "ingredients": [
+        "8 oz. pasta",
+        "6 oz. bacon",
+        "1 small onion",
+        "1 cup frozen peas",
+        "1/4 cup grated Parmesan",
+        "1/4 tsp salt",
+        "1/4 tsp freshly cracked black pepper",
+        "1/8 tsp crushed red pepper"
+      ],
+      "instructions": [
+        "Bring a pot of water to a boil for the pasta. Once boiling, add the pasta and continue to boil until the pasta is tender (7-10 minutes). Reserve about a half cup of the starchy pasta water before draining the pasta in a colander.",
+        "While the pasta is boiling, cook the bacon. Add the bacon to a large skillet and cook over medium heat until brown and crispy. Transfer the cooked bacon to a paper towel lined plate with a slotted spoon. Drain most of the bacon grease from the pan, leaving about 2 Tbsp.",
+        "While the bacon is cooking, finely dice the onion. Add the diced onion to the remaining bacon grease and sauté until tender (about 5 minutes).",
+        "Add the frozen peas and about ¼ cup of the reserved pasta water to the skillet. Continue to cook and stir until the peas have heated through.",
+        "Add the drained pasta to the skillet, stir to combine, and remove from the heat.",
+        "Top the pasta with Parmesan, salt, pepper, crushed red pepper, and crumbled bacon. Stir to combine. Taste and adjust the salt and pepper to your liking."
+      ],
+      "imageUrls": ["1656658475394-Pasta-with-Bacon-and-Peas-V3.jpg"],
+      "date": "2022-07-01T06:47:40.716Z",
+      "userId": "62a88a2c51878c3f054b056e",
+      "__v": 0
+    },
+    {
+      "_id": "62b4511f4a0de1f19b684c7a",
+      "title": "Macaroni Salad",
+      "categories": [
+        {
+          "_id": "62ac823fb926fe97e50ac4ae",
+          "name": "fast"
+        },
+        {
+          "_id": "62ac8278b926fe97e50ac4b1",
+          "name": "vegetarian"
+        }
+      ],
+      "likeCounter": 0,
+      "timeMinutes": 25,
+      "ingredients": [
+        "2 hard-boiled eggs",
+        "1/2 red bell pepper",
+        "1/2 red onion",
+        "2 ribs celery",
+        "8 oz. macaroni",
+        "1 cup mayonnaise",
+        "1 Tbsp Dijon mustard",
+        "1 Tbsp sweet pickle relish",
+        "1 Tbsp red wine vinegar",
+        "1 Tbsp sugar",
+        "1/2 tsp salt",
+        "1/4 tsp freshly cracked pepper"
+      ],
+      "instructions": [
+        "Chop the salad ingredients first, so they're ready to go. Dice the hard-boiled eggs, bell pepper, onion, and celery.",
+        "Boil the macaroni until tender, then drain it in a colander. Briefly rinse the pasta with cool water to cool it off.",
+        "While the macaroni is boiling, prepare the dressing. Stir together the mayonnaise, Dijon, relish, red wine vinegar, sugar, salt, and pepper.",
+        "Combine the cooled and drained macaroni, egg, bell pepper, celery, and onion in a bowl. Pour the dressing over top, then stir until everything is well combined and coated in dressing.",
+        "Serve the macaroni salad immediately or refrigerate until ready to eat."
+      ],
+      "imageUrls": ["1655984415706-Macaroni-Salad-side2.jpg"],
+      "date": "2022-06-23T11:40:11.473Z",
+      "userId": "62a88a2c51878c3f054b056e",
+      "__v": 0
+    },
+    {
+      "_id": "62b431529bb887a0a3e0cae1",
+      "title": "test",
+      "categories": [
+        {
+          "_id": "62ac8235b926fe97e50ac4ad",
+          "name": "chicken"
+        },
+        {
+          "_id": "62ac823fb926fe97e50ac4ae",
+          "name": "fast"
+        },
+        {
+          "_id": "62ac8261b926fe97e50ac4af",
+          "name": "healthy"
+        }
+      ],
+      "likeCounter": 0,
+      "timeMinutes": 15,
+      "ingredients": ["asdf", "asds", "asdds"],
+      "instructions": ["adsadasd", "asdasdasd", "asdasdasdasdasd"],
+      "imageUrls": ["1655976274706-pexels-chokniti-khongchum-2280547.jpg"],
+      "date": "2022-06-23T09:19:52.856Z",
+      "__v": 0
+    },
+    {
+      "_id": "62b449ac9bb887a0a3e0cb1e",
+      "title": "Hearty Black Bean Quesadillas",
+      "categories": [
+        {
+          "_id": "62ac823fb926fe97e50ac4ae",
+          "name": "fast"
+        },
+        {
+          "_id": "62ac8278b926fe97e50ac4b1",
+          "name": "vegetarian"
+        }
+      ],
+      "likeCounter": 0,
+      "timeMinutes": 15,
+      "ingredients": [
+        "1 15oz.can black beans",
+        "1 cup frozen corn",
+        "1/2 cup red onion",
+        "1 clove garlic",
+        "1/4 bunch fresh cilantro (about ½ cup chopped)",
+        "2 cups shredded cheddar cheese",
+        "1 batch taco seasoning",
+        "10 flour tortillas (7-inch diameter)"
+      ],
+      "instructions": [
+        "Drain the black beans and add them to a bowl along with the frozen corn (no need to thaw)",
+        "Finely dice the onion, mince the garlic, and roughly chop the cilantro.",
+        "Add the onion, garlic, cilantro, shredded cheddar, and taco seasoning to the bowl with the beans and corn. Stir until everything is evenly combined and coated in seasoning.",
+        "Place a half cup of the filling on one side of each tortilla and fold over. Cook the quesadillas in a skillet over medium heat on each side until brown and crispy and the cheesy filling has melted. Slice into triangles then serve.",
+        "To freeze the quesadillas, stack the filled and uncooked quesadillas with a piece of parchment paper between each quesadilla. Place in a freezer bag and freeze for up to three months. To reheat either microwave (for a soft quesadilla) or cook in a skillet on low heat (make sure to use low heat so that the filling has time to thaw and melt before the outside burns)."
+      ],
+      "imageUrls": [
+        "1655982508259-Hearty-Black-Bean-Quesadillas-V3.jpg",
+        "1655982508259-Hearty-Black-Bean-Quesadillas-front.jpg"
+      ],
+      "date": "2022-06-23T09:19:52.856Z",
+      "__v": 0
+    },
+    {
+      "_id": "62ac5c80b926fe97e50ac4a6",
+      "title": "Homemade black bean burgers",
+      "likeCounter": 25,
+      "timeMinutes": 45,
+      "ingredients": [
+        "2 15oz. cans black beans",
+        "1/4 red onion",
+        "1 clove garlic",
+        "1/4 bunch fresh cilantro",
+        "1 Tbsp sriracha",
+        "1 Tbsp mayonnaise",
+        "1 tsp ground cumin",
+        "1.5 Tbsp soy sauce",
+        "1/4 tsp pepper",
+        "1 large egg",
+        "1 cup plain breadcrumbs",
+        "2 Tbsp cooking oil"
+      ],
+      "categories": [
+        {
+          "_id": "62ac826cb926fe97e50ac4b0",
+          "name": "american"
+        },
+        {
+          "_id": "62ac8278b926fe97e50ac4b1",
+          "name": "vegetarian"
+        },
+        {
+          "_id": "62ac823fb926fe97e50ac4ae",
+          "name": "fast"
+        }
+      ],
+      "instructions": [
+        "Rinse and drain the canned black beans. Add the black beans to a food processor along with the red onion, garlic, cilantro, sriracha, mayonnaise, cumin, soy sauce, and pepper. Pulse the ingredients until they are evenly mixed, but still slightly chunky.",
+        "Transfer the black bean mixture to a bowl and add one large egg and 1 cup breadcrumbs. Stir the ingredients together until they're evenly combined. Let the mixture sit for about 5 minutes.",
+        "Divide the black bean mixture into six equal portions, then shape each portion into a patty, about 3.5 inches in diameter, ½-inch thick.",
+        "To cook the black bean burgers, heat 1Tbsp cooking oil in a skillet over medium heat. Once the oil is hot, add a few of the black bean burgers and cook for about 4-5 minutes on each side, or until they are well browned and heated through. Repeat with more oil and the rest of the patties until they're all cooked.",
+        "Place each patty in a bun, add your favorite toppings, and enjoy!"
+      ],
+      "date": "2022-06-16T08:29:41.679Z",
+      "imageUrls": ["2.jpg"]
+    },
+    {
+      "_id": "62a98182458b9efb4bb31abf",
+      "title": "Creamy Chicken and Rice Skillet",
+      "likeCounter": 103,
+      "timeMinutes": 50,
+      "ingredients": [
+        "1 yellow onion",
+        "2 Tbsp butter",
+        "1 boneless, skinless chicken breast",
+        "1 cup long grain white rice",
+        "1/2 tsp dried thyme",
+        "1/4 tsp dried sage",
+        "1/4 tsp salt",
+        "freshly cracked pepper",
+        "3 cups chicken broth",
+        "1/2 lb. frozen peas and carrots",
+        "1.3 cup heavy cream",
+        "4 oz. cheddar, shredded"
+      ],
+      "categories": [
+        {
+          "_id": "62ac8235b926fe97e50ac4ad",
+          "name": "chicken"
+        },
+        {
+          "_id": "62ac8261b926fe97e50ac4af",
+          "name": "healthy"
+        },
+        {
+          "_id": "62ac823fb926fe97e50ac4ae",
+          "name": "fast"
+        }
+      ],
+      "instructions": [
+        "Dice the onion and add it to an oven safe deep skillet (3 qt. capacity) along with the butter. Sauté over medium heat until the onions are soft and translucent.",
+        "While the onions are cooking, dice the chicken breast into small, 1/2-inch pieces. Add the chicken to the skillet and continue to sauté for about 3 minutes more, or just until the outside of the chicken pieces have turned opaque (the chicken will finish cooking through as it simmers with the rice).",
+        "Add the rice, thyme, sage, salt, some freshly cracked pepper (about ten cranks of a pepper mill), and the chicken broth to the skillet and stir to combine.",
+        "Place a lid on the skillet, turn the heat up to medium-high, and allow the broth to come to a boil. Once it reaches a full boil, turn the heat down to low and let the skillet simmer for 15 minutes, stirring occasionally, replacing the lid each time. Cooking the rice in an excess of broth and stirring occasionally as it cooks will produce a saucy rice mixture.",
+        "After 15 minutes, the rice should be tender and saucy (if not yet tender, let it continue to cook for 5 more minutes). Stir in the frozen vegetables (no need to thaw), replace the lid, and let it sit over medium-low heat for another 5 minutes to heat the vegetables through. Finally, add the heavy cream, stir to combine, taste, and add extra salt if needed (this will depend on the salt content of the broth you used).",
+        "Turn on the oven's broiler, top the skillet with the shredded cheese, and place the skillet in the oven under the broiler for a few minutes to melt the cheese. Serve hot."
+      ],
+      "date": "2022-06-15T08:29:41.679Z",
+      "imageUrls": ["1.jpg"]
+    }
+  ],
+  "count": 6
+}
