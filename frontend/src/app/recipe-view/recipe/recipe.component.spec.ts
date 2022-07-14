@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -15,6 +15,14 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import { RecipeComponent } from './recipe.component';
 import { MatIconModule } from '@angular/material/icon';
 
+class MatDialogMock {
+  open() {
+    return {
+      afterClosed: () => of(true),
+    };
+  }
+}
+
 describe('RecipeComponent', () => {
   let component: RecipeComponent;
   let fixture: ComponentFixture<RecipeComponent>;
@@ -22,6 +30,7 @@ describe('RecipeComponent', () => {
   let commentService: CommentService;
   let router: Router;
   let snackBar: MatSnackBar;
+  let dialog: MatDialog;
 
   let RECIPE: Recipe = {
     _id: '1',
@@ -69,6 +78,7 @@ describe('RecipeComponent', () => {
         MatIconModule,
       ],
       declarations: [RecipeComponent],
+      providers: [{ provide: MatDialog, useClass: MatDialogMock }],
     }).compileComponents();
 
     // Inject services
@@ -76,6 +86,7 @@ describe('RecipeComponent', () => {
     commentService = TestBed.inject(CommentService);
     router = TestBed.inject(Router);
     snackBar = TestBed.inject(MatSnackBar);
+    dialog = TestBed.inject(MatDialog);
 
     fixture = TestBed.createComponent(RecipeComponent);
     component = fixture.componentInstance;
@@ -180,5 +191,27 @@ describe('RecipeComponent', () => {
       '1'
     );
     expect(component.updateComments).toHaveBeenCalledTimes(1);
+  });
+
+  it('deletes recipe', () => {
+    spyOn(recipeService, 'deleteRecipe').and.returnValue(of({}));
+    spyOn(router, 'navigateByUrl');
+    // Stop loading
+    component.isLoading = false;
+    // Set recipe
+    component.recipe = RECIPE;
+    // Set recipe id
+    component.recipeId = '1';
+    // Set current user
+    component.currentUser = {
+      _id: '3',
+      username: 'test',
+      email: 'test',
+      profilePictureUrl: 'test',
+    };
+    fixture.detectChanges();
+    component.openDeleteDialog();
+    expect(recipeService.deleteRecipe).toHaveBeenCalledOnceWith('1');
+    expect(router.navigateByUrl).toHaveBeenCalledOnceWith('/recipes');
   });
 });
