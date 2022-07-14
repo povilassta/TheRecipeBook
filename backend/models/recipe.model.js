@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Comment from "./comment.model.js";
 
 const recipeSchema = mongoose.Schema({
   title: {
@@ -40,12 +41,22 @@ const recipeSchema = mongoose.Schema({
   ],
   date: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   userId: {
     type: mongoose.ObjectId,
     ref: "User",
   },
 });
+
+// Middleware: when recipe is removed, remove its comments.
+recipeSchema.pre(
+  "deleteOne",
+  { document: true, query: false },
+  function (next) {
+    Comment.deleteMany({ recipeId: this._id }).exec();
+    next();
+  }
+);
 
 export default mongoose.model("Recipe", recipeSchema);
