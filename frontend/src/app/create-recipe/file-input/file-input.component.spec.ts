@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { FileInputComponent } from './file-input.component';
 
@@ -8,9 +9,9 @@ describe('FileInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FileInputComponent ]
-    })
-    .compileComponents();
+      imports: [TranslateModule.forRoot()],
+      declarations: [FileInputComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FileInputComponent);
     component = fixture.componentInstance;

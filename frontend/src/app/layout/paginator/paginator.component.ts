@@ -41,7 +41,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
     window.scrollTo(0, 0);
   }
 
-  private updateCount() {
+  public updateCount() {
     this.pageCount = Math.ceil(this.itemCount / this.perPageCount);
     this.pages = Array.from({ length: this.pageCount }, (_, i) => i + 1);
     this.displayedPages = this.pages.slice(
