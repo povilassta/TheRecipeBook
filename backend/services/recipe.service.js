@@ -95,7 +95,6 @@ const RecipeService = {
         throw new ForbiddenError("Recipe is not yours to delete.");
       } else {
         await recipe.deleteOne();
-        // const deletedRecipe = await Recipe.findByIdAndDelete(recipeId);
         // Delete images
         for (const img of recipe.imageUrls) {
           unlink(`${picturePath}${img}`, (err) => {
