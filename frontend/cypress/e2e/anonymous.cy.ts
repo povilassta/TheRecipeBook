@@ -5,6 +5,13 @@ describe('Anonymous tests', () => {
     cy.visit('/');
     cy.contains('Variety of silly Recipes');
     cy.get('div[class=card]').should('exist');
+    cy.percySnapshot();
+  });
+
+  it('Visits the login page', () => {
+    cy.visit('/login');
+    cy.contains('Sign in').should('exist');
+    cy.percySnapshot();
   });
 
   it('Changes language to Lithuanian and back to english', () => {
@@ -12,6 +19,7 @@ describe('Anonymous tests', () => {
     cy.contains('Variety of silly Recipes');
     cy.get('[aria-label="Language menu trigger"]').click();
     cy.get('button').contains('LT').click();
+    cy.percySnapshot();
     cy.contains('Smagių receptų įvairovė').should('exist');
     cy.get('[aria-label="Language menu trigger"]').click();
     cy.get('button').contains('EN').click();
@@ -24,12 +32,14 @@ describe('Anonymous tests', () => {
     });
     cy.visit('/');
     cy.contains('Something went wrong').should('exist');
+    cy.percySnapshot();
   });
 
   it('Redirects to 404', () => {
     cy.visit('/someroutethatdefinitelydoesnotexist');
     cy.contains(404).should('exist');
     cy.url().should('include', '/404');
+    cy.percySnapshot();
     cy.contains('Go back home').click();
     cy.url().should('include', '/recipes');
   });
@@ -43,5 +53,6 @@ describe('Anonymous tests', () => {
     cy.get('[aria-label="Recipe options menu button"]').should('not.exist');
     cy.contains('Submit').should('not.exist');
     cy.contains('You must Sign in in order to comment!');
+    cy.percySnapshot();
   });
 });

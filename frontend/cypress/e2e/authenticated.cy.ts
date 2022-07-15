@@ -38,6 +38,7 @@ describe('Authenticated tests', () => {
           mimeType: 'image/jpg',
         });
       });
+    cy.percySnapshot();
     cy.contains('Submit').should('not.be.disabled').click();
     cy.url().should('include', '/recipes');
   });
@@ -48,6 +49,7 @@ describe('Authenticated tests', () => {
     cy.get('textarea').type('TEST COMMENT USED IN E2E TESTING');
     cy.contains('Submit').should('not.be.disabled').click();
     cy.contains('TEST COMMENT USED IN E2E TESTING').should('exist');
+    cy.percySnapshot();
   });
 
   it('edits a recipe', () => {
@@ -55,6 +57,7 @@ describe('Authenticated tests', () => {
     cy.get('[aria-label="Recipe options menu button"]').click();
     cy.get('a').contains('Edit').click();
     cy.url().should('include', 'edit');
+    cy.percySnapshot();
     cy.get('[formcontrolname=title]').type(' EDITED');
     cy.contains('Submit').should('not.be.disabled').click();
     cy.contains('RECIPE USED IN E2E TESTING EDITED').should('exist');
@@ -65,6 +68,7 @@ describe('Authenticated tests', () => {
     cy.contains('RECIPE USED IN E2E TESTING EDITED').first().click();
     cy.get('[aria-label="Recipe options menu button"]').click();
     cy.get('button').contains('Delete').click();
+    cy.percySnapshot();
     cy.get('button').contains('Yes').click();
     cy.wait('@deleteRecipe');
     cy.url().should('include', '/recipes');
@@ -75,7 +79,7 @@ describe('Authenticated tests', () => {
     cy.get('.navbar__links a')
       .contains('Share your own recipe!')
       .should('exist');
-
+    cy.percySnapshot();
     cy.get('button').contains('janedoe39').click();
     cy.get('button').contains('Sign out').click();
     cy.contains('Sign in').should('exist');
