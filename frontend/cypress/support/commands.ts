@@ -1,4 +1,5 @@
 import 'cypress-file-upload';
+import '@percy/cypress';
 
 // ***********************************************
 // This example namespace declaration will help
