@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
   },
   profilePictureUrl: {
     type: String,
-    default: "",
+    default: "default.webp",
   },
 });
 
