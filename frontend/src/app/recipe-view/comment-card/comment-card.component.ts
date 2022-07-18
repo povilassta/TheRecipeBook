@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as moment from 'moment';
 import { Comment } from 'src/app/models/comment.model';
 
 @Component({
@@ -12,9 +11,6 @@ export class CommentCardComponent implements OnInit {
 
   @Input()
   public comment: Comment | undefined;
-  public howLongAgo = '';
 
-  public ngOnInit(): void {
-    this.howLongAgo = moment(this.comment?.date).fromNow();
-  }
+  public ngOnInit(): void {}
 }
