@@ -34,8 +34,7 @@ describe('Authenticated tests', () => {
   it('creates a recipe', () => {
     cy.get('.navbar__links a').contains('Share your own recipe!').click();
     cy.url().should('include', '/create');
-    cy.wait('@getCategories');
-    cy.wait(1000); // WAIT FOR SNAPSHOT
+    cy.wait(3000); // WAIT FOR SNAPSHOT
     cy.percySnapshot('Create recipe form'); // SNAPSHOT
     cy.contains('Submit').should('be.disabled');
     // Input data
@@ -74,6 +73,7 @@ describe('Authenticated tests', () => {
     cy.contains('Submit').should('not.be.disabled').click();
     cy.wait('@getComments');
     cy.contains('TEST COMMENT USED IN E2E TESTING').should('exist');
+    cy.wait(3000); // WAIT FOR SNAPSHOT
     cy.percySnapshot("Recipe page (Owner's POV)"); // SNAPSHOT
   });
 
@@ -82,8 +82,7 @@ describe('Authenticated tests', () => {
     cy.get('[aria-label="Recipe options menu button"]').click();
     cy.get('a').contains('Edit').click();
     cy.url().should('include', 'edit');
-    cy.wait(['@getRecipe', '@getCategories']);
-    cy.wait(1000); // WAIT FOR SNAPSHOT
+    cy.wait(3000); // WAIT FOR SNAPSHOT
     cy.percySnapshot('Edit recipe form'); // SNAPSHOT
     cy.get('[formcontrolname=title]').type(' EDITED');
     cy.contains('Submit').should('not.be.disabled').click();
@@ -95,7 +94,8 @@ describe('Authenticated tests', () => {
     cy.contains('RECIPE USED IN E2E TESTING EDITED').first().click();
     cy.get('[aria-label="Recipe options menu button"]').click();
     cy.get('button').contains('Delete').click();
-    cy.percySnapshot('Recipe delete dialog');
+    cy.wait(3000); // WAIT FOR SNAPSHOT
+    cy.percySnapshot('Recipe delete dialog'); // SNAPSHOT
     cy.get('button').contains('Yes').click();
     cy.wait('@deleteRecipe');
     cy.url().should('include', '/recipes');
@@ -106,8 +106,8 @@ describe('Authenticated tests', () => {
     cy.get('.navbar__links a')
       .contains('Share your own recipe!')
       .should('exist');
-    cy.wait('@getRecipes');
-    cy.percySnapshot("Authenticated user's homepage");
+    cy.wait(3000); // WAIT FOR SNAPSHOT
+    cy.percySnapshot("Authenticated user's homepage"); // SNAPSHOT
     cy.get('button').contains('janedoe39').click();
     cy.get('button').contains('Sign out').click();
     cy.contains('Sign in').should('exist');
