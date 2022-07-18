@@ -1,6 +1,5 @@
 import { environment } from '../../src/environments/environment';
 import { LoginResponse } from '../../src/app/models/loginResponse.model';
-import * as moment from 'moment';
 
 const apiUrl = environment.baseUrl;
 
@@ -19,11 +18,15 @@ describe('Authenticated tests', () => {
     })
       .its('body')
       .then((body: LoginResponse) => {
+        let date = new Date();
         window.localStorage.setItem('token', body.token);
         window.localStorage.setItem('user', JSON.stringify(body.user));
         window.localStorage.setItem(
           'expiresAt',
-          JSON.stringify(moment().add(1, 'h').valueOf())
+          date
+            .setTime(date.getTime() + 1 * 60 * 60 * 1000)
+            .valueOf()
+            .toString()
         );
       });
 

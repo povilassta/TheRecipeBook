@@ -22,6 +22,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
+import { registerLocaleData } from '@angular/common';
+import localeLt from '@angular/common/locales/lt';
+
+registerLocaleData(localeLt);
 
 export function httpTranslateLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
