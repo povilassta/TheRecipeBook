@@ -10,13 +10,14 @@ describe('Anonymous tests', () => {
     cy.visit('/');
     cy.contains('Variety of silly Recipes');
     cy.get('div[class=card]').should('exist');
-    cy.wait('@getRecipes');
+    cy.wait(3000); // WAIT FOR SNAPSHOT
     cy.percySnapshot("Unauthenticated user's homepage"); // SNAPSHOT
   });
 
   it('Visits the login page and logs in', () => {
     cy.visit('/login');
     cy.contains('Sign in').should('exist');
+    cy.wait(3000); // WAIT FOR SNAPSHOT
     cy.percySnapshot('Sign in page'); // SNAPSHOT
 
     cy.get('[type=email]').type('test@test.com');
@@ -27,12 +28,11 @@ describe('Anonymous tests', () => {
 
   it('Changes language to Lithuanian and back to english', () => {
     cy.visit('/');
-    cy.wait('@getRecipes');
     cy.contains('Variety of silly Recipes');
     cy.get('[aria-label="Language menu trigger"]').click();
     cy.get('button').contains('LT').click();
     cy.contains('Smagių receptų įvairovė').should('exist');
-    cy.wait(1000); // WAIT FOR SNAPSHOT
+    cy.wait(3000); // WAIT FOR SNAPSHOT
     cy.percySnapshot('Lithuanian homepage'); // SNAPSHOT
     cy.get('[aria-label="Language menu trigger"]').click();
     cy.get('button').contains('EN').click();
@@ -45,6 +45,7 @@ describe('Anonymous tests', () => {
     });
     cy.visit('/');
     cy.contains('Something went wrong').should('exist');
+    cy.wait(3000); // WAIT FOR SNAPSHOT
     cy.percySnapshot('Something went wrong homepage'); // SNAPSHOT
   });
 
@@ -52,6 +53,7 @@ describe('Anonymous tests', () => {
     cy.visit('/someroutethatdefinitelydoesnotexist');
     cy.contains(404).should('exist');
     cy.url().should('include', '/404');
+    cy.wait(3000); // WAIT FOR SNAPSHOT
     cy.percySnapshot('404 page'); // SNAPSHOT
     cy.contains('Go back home').click();
     cy.url().should('include', '/recipes');
@@ -63,11 +65,10 @@ describe('Anonymous tests', () => {
       .contains('Share your own recipe!')
       .should('not.exist');
     cy.get('.card').first().click();
-    cy.wait('@getRecipe');
-    cy.wait('@getComments');
     cy.get('[aria-label="Recipe options menu button"]').should('not.exist');
     cy.contains('Submit').should('not.exist');
     cy.contains('You must Sign in in order to comment!');
+    cy.wait(3000); // WAIT FOR SNAPSHOT
     cy.percySnapshot('Recipe page (Unauth POV)'); // SNAPSHOT
   });
 });
