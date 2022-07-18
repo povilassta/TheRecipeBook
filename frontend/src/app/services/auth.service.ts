@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import * as moment from 'moment';
 import { delay, Observable, of, Subscription, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginResponse } from '../models/loginResponse.model';
 import { Register } from '../models/register.model';
 import { AppStateService } from './appState.service';
+import { DateHelperService } from './dateHelper.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private appStateService: AppStateService
+    private appStateService: AppStateService,
+    private dateHelperService: DateHelperService
   ) {}
 
   public login(email: string, password: string): Observable<any> {
@@ -26,12 +27,14 @@ export class AuthService {
   }
 
   public isLoggedIn(): boolean {
-    return moment().isBefore(this.getExpiration());
+    return new Date() < this.getExpiration();
   }
 
-  public getExpiration(): moment.Moment {
-    const expiresAt = JSON.parse(localStorage.getItem('expiresAt') || '{}');
-    return moment(expiresAt);
+  public getExpiration(): Date {
+    const expiresAt = parseInt(
+      localStorage.getItem('expiresAt') || new Date().valueOf().toString()
+    );
+    return new Date(expiresAt);
   }
 
   public logout(): void {
@@ -42,9 +45,9 @@ export class AuthService {
   }
 
   public setSession(res: LoginResponse): void {
-    const expiresAt = moment().add(1, 'h');
+    const expiresAt = this.dateHelperService.addHours(1);
     localStorage.setItem('token', res.token);
-    localStorage.setItem('expiresAt', JSON.stringify(expiresAt.valueOf()));
+    localStorage.setItem('expiresAt', expiresAt.valueOf().toString());
     localStorage.setItem('user', JSON.stringify(res.user));
     this.appStateService.setState({ currentUser: res.user });
     this.expirationCounter();
