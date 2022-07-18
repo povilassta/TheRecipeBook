@@ -4,11 +4,11 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import * as moment from 'moment';
 import { LoginResponse } from '../models/loginResponse.model';
 import { Register } from '../models/register.model';
 import { AppStateService } from './appState.service';
 import { AuthService } from './auth.service';
+import { DateHelperService } from './dateHelper.service';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -30,6 +30,7 @@ describe('AuthService', () => {
       store = {};
     },
   };
+  let dateHelperService: DateHelperService;
 
   // state management
   let appStateService: AppStateService;
@@ -42,6 +43,7 @@ describe('AuthService', () => {
     httpController = TestBed.inject(HttpTestingController);
     httpClient = TestBed.inject(HttpClient);
     appStateService = TestBed.inject(AppStateService);
+    dateHelperService = new DateHelperService();
 
     // Mock localstorage
     store = {} as any;
@@ -87,19 +89,21 @@ describe('AuthService', () => {
   });
 
   it('should return true if token is not expired', () => {
-    spyOn(service, 'getExpiration').and.returnValue(moment().add(1, 'hours'));
+    spyOn(service, 'getExpiration').and.returnValue(
+      dateHelperService.addHours(1)
+    );
     expect(service.isLoggedIn()).toBeTrue();
   });
 
   it('should return correct expiration date', () => {
     // Mock data
-    const expiresAt = moment().add(1, 'h');
-    mockLocalStorage.setItem('expiresAt', JSON.stringify(expiresAt.valueOf()));
+    const expiresAt = dateHelperService.addHours(1);
+    mockLocalStorage.setItem('expiresAt', expiresAt.valueOf().toString());
     expect(service.getExpiration().valueOf()).toEqual(expiresAt.valueOf());
   });
 
   it('should return now date', () => {
-    expect(service.getExpiration().valueOf()).toEqual(moment().valueOf());
+    expect(service.getExpiration().valueOf()).toEqual(new Date().valueOf());
   });
 
   it('should clear storage', () => {
