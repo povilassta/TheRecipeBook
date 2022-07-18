@@ -7,7 +7,9 @@
   </div>
   <div class="comment__info">
     <p class="comment__info__name">{{ comment?.user?.username }}</p>
-    <p class="comment__info__age">{{ comment?.date | date: "shortDate" }}</p>
+    <p class="comment__info__age">
+      {{ comment?.date | date: "mediumDate":"":locale }}
+    </p>
     <p class="comment__info__content">
       {{ comment?.content }}
     </p>
