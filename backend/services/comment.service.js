@@ -5,10 +5,9 @@ import NotFoundError from "../errors/notfound.error.js";
 const CommentService = {
   get: async (recipeId) => {
     try {
-      const comments = await Comment.find({ recipeId }).populate(
-        "user",
-        "-password -email"
-      );
+      const comments = await Comment.find({ recipeId })
+        .sort("-date")
+        .populate("user", "-password -email");
       return comments;
     } catch (errors) {
       throw errors;
