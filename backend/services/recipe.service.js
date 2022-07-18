@@ -94,14 +94,14 @@ const RecipeService = {
       } else if (!recipe.userId.equals(userId)) {
         throw new ForbiddenError("Recipe is not yours to delete.");
       } else {
-        const deletedRecipe = await Recipe.findByIdAndDelete(recipeId);
+        await recipe.deleteOne();
         // Delete images
         for (const img of recipe.imageUrls) {
           unlink(`${picturePath}${img}`, (err) => {
             if (err) throw err;
           });
         }
-        return deletedRecipe;
+        return recipe;
       }
     } catch (errors) {
       throw errors;
