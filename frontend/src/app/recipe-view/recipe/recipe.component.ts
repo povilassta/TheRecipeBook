@@ -71,6 +71,14 @@ export class RecipeComponent implements OnInit {
     }
   }
 
+  public likeRecipe() {
+    this.recipeService.likeRecipe(this.recipeId).subscribe({
+      next: (recipe: Recipe) => {
+        this.recipe = recipe;
+      },
+    });
+  }
+
   public updateComments() {
     this.commentForm.reset();
     this.commentService

@@ -49,4 +49,8 @@ export class RecipeService {
   public deleteRecipe(recipeId: string): Observable<any> {
     return this.http.delete(`${this.BASE_URL}${recipeId}`);
   }
+
+  public likeRecipe(recipeId: string): Observable<any> {
+    return this.http.patch(`${this.BASE_URL}${recipeId}/like`, {});
+  }
 }

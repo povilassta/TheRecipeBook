@@ -3,7 +3,7 @@ import { Category } from './category.model';
 export interface Recipe {
   _id: string;
   title: string;
-  likeCounter: number;
+  likeCounter: string[];
   timeMinutes: number;
   ingredients: string[];
   categories: Category[];
