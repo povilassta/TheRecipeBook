@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
-const commentSchema = mongoose.Schema({
+const commentSchema = new mongoose.Schema({
   user: {
-    type: mongoose.ObjectId,
+    type: mongoose.Types.ObjectId,
     ref: "User",
     immutable: true,
     required: [true, "User id is required."],
   },
   recipeId: {
-    type: mongoose.ObjectId,
+    type: mongoose.Types.ObjectId,
     ref: "Recipe",
     immutable: true,
     required: [true, "Recipe id is required"],

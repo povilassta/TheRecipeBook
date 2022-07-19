@@ -1,21 +1,21 @@
 import mongoose from "mongoose";
 import Comment from "./comment.model.js";
 
-const recipeSchema = mongoose.Schema({
+const recipeSchema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, "Title is required."],
   },
   categories: [
     {
-      type: mongoose.ObjectId,
+      type: mongoose.Types.ObjectId,
       ref: "Category",
       required: [true, "At least one category is required."],
     },
   ],
   likeCounter: [
     {
-      type: mongoose.ObjectId,
+      type: mongoose.Types.ObjectId,
       ref: "User",
       default: [],
     },
@@ -47,7 +47,7 @@ const recipeSchema = mongoose.Schema({
     default: Date.now,
   },
   userId: {
-    type: mongoose.ObjectId,
+    type: mongoose.Types.ObjectId,
     ref: "User",
   },
 });

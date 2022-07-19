@@ -2,6 +2,7 @@ import NotFoundError from "../errors/notfound.error.js";
 import Recipe from "../models/recipe.model.js";
 import { unlink } from "node:fs";
 import ForbiddenError from "../errors/forbidden.error.js";
+import { SortOrder } from "mongoose";
 
 const picturePath = "../backend/public/images/recipes/";
 
@@ -131,7 +132,7 @@ const RecipeService = {
 
 function queryBuilder(orderBy, filter, time) {
   let query = {};
-  let orderQuery = {};
+  let orderQuery: { [key: string]: SortOrder };
 
   if (filter.length) {
     query["categories"] = {
@@ -145,16 +146,16 @@ function queryBuilder(orderBy, filter, time) {
   }
   switch (orderBy) {
     case "oldest":
-      orderQuery["date"] = "asc";
+      orderQuery = { date: "asc" };
       break;
     case "recent":
-      orderQuery["date"] = "desc";
+      orderQuery = { date: "desc" };
       break;
     case "popular":
-      orderQuery["likeCounter"] = "desc";
+      orderQuery = { likeCounter: "desc" };
       break;
     default:
-      orderQuery["date"] = "desc";
+      orderQuery = { date: "desc" };
       break;
   }
 
