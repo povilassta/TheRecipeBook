@@ -1,4 +1,4 @@
-import { login, register } from "../services/auth.service.js";
+import { login, register } from "../services/auth.service";
 import { validationResult } from "express-validator";
 
 const AuthController = {

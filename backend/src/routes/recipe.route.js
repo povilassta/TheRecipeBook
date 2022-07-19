@@ -1,7 +1,7 @@
 import express from "express";
 import RecipeController from "../controllers/recipe.controller.js";
-import { authJwt } from "../services/auth.service.js";
-import RecipeService from "../services/recipe.service.js";
+import { authJwt } from "../services/auth.service";
+import RecipeService from "../services/recipe.service";
 import commentRouter from "./comment.route.js";
 
 const recipeRouter = express.Router();

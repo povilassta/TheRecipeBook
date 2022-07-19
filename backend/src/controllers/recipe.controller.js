@@ -1,4 +1,4 @@
-import RecipeService from "../services/recipe.service.js";
+import RecipeService from "../services/recipe.service";
 
 const RecipeController = {
   getAll: async (req, res, next) => {

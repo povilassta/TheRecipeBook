@@ -1,4 +1,4 @@
-import RecipeService from "./recipe.service.js";
+import RecipeService from "./recipe.service";
 import Comment from "../models/comment.model.js";
 import NotFoundError from "../errors/notfound.error.js";
 
