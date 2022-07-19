@@ -50,19 +50,18 @@ export class AuthService {
     localStorage.setItem('expiresAt', expiresAt.valueOf().toString());
     localStorage.setItem('user', JSON.stringify(res.user));
     this.appStateService.setState({ currentUser: res.user });
-    this.expirationCounter();
+    this.expirationCounter(expiresAt);
   }
 
   public register(data: Register): Observable<any> {
     return this.http.post(`${this.BASE_URL}/register`, data);
   }
 
-  public expirationCounter(): void {
-    const timeout = new Date();
-    timeout.setHours(timeout.getHours() + 1);
+  public expirationCounter(expiresAt: Date): void {
     this.token$.unsubscribe();
+    console.log(expiresAt);
     this.token$ = of(null)
-      .pipe(delay(timeout))
+      .pipe(delay(expiresAt))
       .subscribe(() => {
         console.log('Token expired');
         this.logout();
