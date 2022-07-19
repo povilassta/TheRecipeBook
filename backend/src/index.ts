@@ -1,12 +1,12 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
-import "./config/db.config.js";
-import recipeRouter from "./routes/recipe.route.js";
-import userRouter from "./routes/user.route.js";
-import authRouter from "./routes/auth.route.js";
-import errorHandler from "./middleware/errorHandler.middleware.js";
-import categoryRouter from "./routes/category.route.js";
+import "./config/db.config";
+import recipeRouter from "./routes/recipe.route";
+import userRouter from "./routes/user.route";
+import authRouter from "./routes/auth.route";
+import errorHandler from "./middleware/errorHandler.middleware";
+import categoryRouter from "./routes/category.route";
 import fileUpload from "express-fileupload";
 
 const app = express();

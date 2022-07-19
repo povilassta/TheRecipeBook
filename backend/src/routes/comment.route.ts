@@ -1,5 +1,5 @@
 import express from "express";
-import CommentController from "../controllers/comment.controller.js";
+import CommentController from "../controllers/comment.controller";
 import { authJwt } from "../services/auth.service";
 
 const commentRouter = express.Router();

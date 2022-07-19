@@ -1,4 +1,4 @@
-import CommentService from "../services/comment.service.js";
+import CommentService from "../services/comment.service";
 
 const CommentController = {
   get: async (req, res, next) => {

@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import "dotenv/config";
-import User from "../models/user.model.js";
-import Recipe from "../models/recipe.model.js";
-import Comment from "../models/comment.model.js";
-import Category from "../models/category.model.js";
+import User from "../models/user.model";
+import Recipe from "../models/recipe.model";
+import Comment from "../models/comment.model";
+import Category from "../models/category.model";
 
 class Connection {
   constructor() {

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Comment from "./comment.model.js";
+import Comment from "./comment.model";
 
 const recipeSchema = new mongoose.Schema({
   title: {

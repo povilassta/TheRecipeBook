@@ -1,5 +1,5 @@
-import NotFoundError from "../errors/notfound.error.js";
-import User from "../models/user.model.js";
+import NotFoundError from "../errors/notfound.error";
+import User from "../models/user.model";
 
 const UserService = {
   get: async (userId) => {

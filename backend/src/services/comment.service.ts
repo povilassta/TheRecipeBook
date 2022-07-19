@@ -1,6 +1,6 @@
 import RecipeService from "./recipe.service";
-import Comment from "../models/comment.model.js";
-import NotFoundError from "../errors/notfound.error.js";
+import Comment from "../models/comment.model";
+import NotFoundError from "../errors/notfound.error";
 
 const CommentService = {
   get: async (recipeId) => {

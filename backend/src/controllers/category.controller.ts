@@ -1,4 +1,4 @@
-import CategoryService from "../services/category.service.js";
+import CategoryService from "../services/category.service";
 
 const CategoryController = {
   getForRecipes: async (req, res, next) => {

@@ -1,7 +1,7 @@
-import NotFoundError from "../errors/notfound.error.js";
-import Recipe from "../models/recipe.model.js";
+import NotFoundError from "../errors/notfound.error";
+import Recipe from "../models/recipe.model";
 import { unlink } from "node:fs";
-import ForbiddenError from "../errors/forbidden.error.js";
+import ForbiddenError from "../errors/forbidden.error";
 import { SortOrder } from "mongoose";
 
 const picturePath = "../backend/public/images/recipes/";

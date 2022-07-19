@@ -3,9 +3,9 @@ import passport from "passport";
 import "dotenv/config";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../models/user.model.js";
-import UnauthorizedError from "../errors/unauthorized.error.js";
-import ConflictError from "../errors/conflict.error.js";
+import User from "../models/user.model";
+import UnauthorizedError from "../errors/unauthorized.error";
+import ConflictError from "../errors/conflict.error";
 
 // JWT Strategy
 const opts = {
