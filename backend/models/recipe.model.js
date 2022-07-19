@@ -13,10 +13,13 @@ const recipeSchema = mongoose.Schema({
       required: [true, "At least one category is required."],
     },
   ],
-  likeCounter: {
-    type: Number,
-    default: 0,
-  },
+  likeCounter: [
+    {
+      type: mongoose.ObjectId,
+      ref: "User",
+      default: [],
+    },
+  ],
   timeMinutes: {
     type: Number,
     required: [true, "Time is required."],
