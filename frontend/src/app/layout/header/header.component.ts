@@ -42,5 +42,8 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const expDate = this.authService.getExpiration();
+    this.authService.expirationCounter(expDate);
+  }
 }
