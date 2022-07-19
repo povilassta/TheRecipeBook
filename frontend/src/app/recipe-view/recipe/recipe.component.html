@@ -71,7 +71,7 @@
     <h2>{{ "recipe.commentsTitle" | translate }}</h2>
     <div *ngIf="currentUser; else elseBlock" class="recipe__comments__form">
       <img
-        src="{{ currentUser?.profilePictureUrl }}"
+        src="/images/users/{{ currentUser?.profilePictureUrl }}"
         alt="Your profile picture"
       />
       <form

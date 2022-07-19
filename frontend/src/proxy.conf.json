@@ -6,6 +6,13 @@
       "^/images/recipes": ""
     }
   },
+  "/images/users": {
+    "target": "http://localhost:3000/images/users/",
+    "secure": "false",
+    "pathRewrite": {
+      "^/images/users": ""
+    }
+  },
   "/icons": {
     "target": "http://localhost:3000/icons/",
     "secure": "false",
