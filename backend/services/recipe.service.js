@@ -110,8 +110,7 @@ const RecipeService = {
 
   like: async (recipeId, userId) => {
     try {
-      let recipe = await Recipe.findById(recipeId);
-      console.log(recipe.likeCounter);
+      let recipe = await Recipe.findById(recipeId).populate("categories");
       if (!recipe) {
         throw new NotFoundError("Recipe not found.");
       } else {
