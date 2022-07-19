@@ -107,6 +107,26 @@ const RecipeService = {
       throw errors;
     }
   },
+
+  like: async (recipeId, userId) => {
+    try {
+      let recipe = await Recipe.findById(recipeId).populate("categories");
+      if (!recipe) {
+        throw new NotFoundError("Recipe not found.");
+      } else {
+        if (!recipe.likeCounter.includes(userId)) {
+          recipe.likeCounter.push(userId);
+        } else {
+          recipe.likeCounter.splice(recipe.likeCounter.indexOf(userId), 1);
+        }
+        recipe.markModified("likeCounter");
+        recipe = await recipe.save();
+        return recipe;
+      }
+    } catch (errors) {
+      throw errors;
+    }
+  },
 };
 
 function queryBuilder(orderBy, filter, time) {

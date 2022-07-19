@@ -12,6 +12,9 @@ recipeRouter.post("/", RecipeController.getAll);
 // GET (one)
 recipeRouter.get("/:recipeId", RecipeController.get);
 
+// LIKE
+recipeRouter.patch("/:recipeId/like", authJwt, RecipeController.like);
+
 // POST RECIPE
 recipeRouter.post("/create", authJwt, RecipeController.post);
 

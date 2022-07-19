@@ -69,6 +69,18 @@ const RecipeController = {
       next(e);
     }
   },
+
+  like: async (req, res, next) => {
+    const { _id: userId } = req.user;
+    const { recipeId } = req.params;
+
+    try {
+      const response = await RecipeService.like(recipeId, userId);
+      res.json(response).status(200);
+    } catch (e) {
+      next(e);
+    }
+  },
 };
 
 export default RecipeController;

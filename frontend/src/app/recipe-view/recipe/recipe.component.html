@@ -32,11 +32,21 @@
   </div>
   <div class="recipe__likes-time">
     <div class="recipe__likes-time__likes">
-      <button mat-icon-button aria-label="Like button">
-        <mat-icon>favorite</mat-icon>
+      <button
+        mat-icon-button
+        aria-label="Like button"
+        [disabled]="!currentUser"
+        (click)="likeRecipe()"
+      >
+        <mat-icon>{{
+          recipe.likeCounter?.includes(currentUser?._id || "")
+            ? "favorite"
+            : "favorite_outline"
+        }}</mat-icon>
       </button>
       <span
-        >{{ recipe?.likeCounter }} {{ "recipe.likesLabel" | translate }}</span
+        >{{ recipe?.likeCounter?.length }}
+        {{ "recipe.likesLabel" | translate }}</span
       >
     </div>
     <div class="recipe__likes-time__time">
