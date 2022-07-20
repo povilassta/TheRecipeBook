@@ -1,7 +1,9 @@
+import { Document } from "mongoose";
+import { ICategory } from "../interfaces/category.interface";
 import Category from "../models/category.model";
 
 const CategoryService = {
-  getForRecipes: async () => {
+  getForRecipes: async function () {
     try {
       const categories = await Category.find({});
       return categories;

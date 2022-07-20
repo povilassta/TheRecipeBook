@@ -20,12 +20,12 @@ type RecipeData = {
 const picturePath = "../backend/public/images/recipes/";
 
 const RecipeService = {
-  getMultiple: async (
+  getMultiple: async function (
     pageNum: number,
     orderBy: string,
     filter: string[],
     time: number
-  ) => {
+  ) {
     const perPage = 20;
     const { query, orderQuery } = queryBuilder(orderBy, filter, time);
     try {
@@ -41,7 +41,7 @@ const RecipeService = {
     }
   },
 
-  get: async (recipeId: string) => {
+  get: async function (recipeId: string) {
     try {
       const recipe = await Recipe.findById(recipeId).populate("categories");
       if (!recipe) {
@@ -53,15 +53,15 @@ const RecipeService = {
     }
   },
 
-  addRecipeIdParam: (req: Express.Request) => {
+  addRecipeIdParam: function (req: Express.Request) {
     req.recipeId = req.params.recipeId;
   },
 
-  post: async (
+  post: async function (
     images: UploadedFile | UploadedFile[] | undefined,
     data: RecipeData,
     userId: string
-  ) => {
+  ) {
     try {
       if (images) {
         data.imageUrls = uploadImages(images);
@@ -76,13 +76,13 @@ const RecipeService = {
     }
   },
 
-  put: async (
+  put: async function (
     data: RecipeData,
     userId: string,
     recipeId: string,
     markedForDeletion: string[],
     images: UploadedFile | UploadedFile[] | undefined
-  ) => {
+  ) {
     try {
       // Upload the files
       if (images) {
@@ -111,7 +111,7 @@ const RecipeService = {
     }
   },
 
-  delete: async (recipeId: string, userId: string) => {
+  delete: async function (recipeId: string, userId: string) {
     try {
       const recipe = await Recipe.findById(recipeId);
       if (!recipe) {
@@ -133,7 +133,7 @@ const RecipeService = {
     }
   },
 
-  like: async (recipeId: string, userId: string) => {
+  like: async function (recipeId: string, userId: string) {
     try {
       let recipe = await Recipe.findById(recipeId).populate("categories");
       if (!recipe) {

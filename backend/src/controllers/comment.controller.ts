@@ -2,11 +2,11 @@ import CommentService from "../services/comment.service";
 import Express from "express";
 
 const CommentController = {
-  get: async (
+  get: async function (
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
-  ) => {
+  ): Promise<void> {
     const { recipeId } = req;
     try {
       const response = await CommentService.get(recipeId || "");
@@ -16,11 +16,11 @@ const CommentController = {
     }
   },
 
-  insert: async (
+  insert: async function (
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
-  ) => {
+  ): Promise<void> {
     const userId = req.user?._id || "";
     const recipeId = req.recipeId || "";
 

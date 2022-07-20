@@ -3,11 +3,11 @@ import { login, register } from "../services/auth.service";
 import { validationResult } from "express-validator";
 
 const AuthController = {
-  login: async (
+  login: async function (
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
-  ) => {
+  ): Promise<void> {
     const { email, password } = req.body;
     try {
       const response = await login(email, password);
@@ -17,11 +17,11 @@ const AuthController = {
     }
   },
 
-  register: async (
+  register: async function (
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
-  ) => {
+  ) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({

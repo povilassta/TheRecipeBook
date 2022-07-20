@@ -2,11 +2,11 @@ import RecipeService from "../services/recipe.service";
 import Express from "express";
 
 const RecipeController = {
-  getAll: async (
+  getAll: async function (
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
-  ) => {
+  ): Promise<void> {
     const { sort, categories, time, page } = req.body;
     try {
       const response = await RecipeService.getMultiple(
@@ -21,11 +21,11 @@ const RecipeController = {
     }
   },
 
-  post: async (
+  post: async function (
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
-  ) => {
+  ): Promise<void> {
     const images = req.files?.images;
     const data = JSON.parse(req.body.data);
     const userId = req.user?._id || "";
@@ -37,11 +37,11 @@ const RecipeController = {
     }
   },
 
-  get: async (
+  get: async function (
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
-  ) => {
+  ): Promise<void> {
     const { recipeId } = req.params;
     try {
       const response = await RecipeService.get(recipeId);
@@ -51,11 +51,11 @@ const RecipeController = {
     }
   },
 
-  put: async (
+  put: async function (
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
-  ) => {
+  ): Promise<void> {
     const userId = req.user?._id || "";
     const { recipeId } = req.params;
     const images = req.files?.images;
@@ -75,11 +75,11 @@ const RecipeController = {
     }
   },
 
-  delete: async (
+  delete: async function (
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
-  ) => {
+  ): Promise<void> {
     const userId = req.user?._id || "";
     const { recipeId } = req.params;
 
@@ -91,11 +91,11 @@ const RecipeController = {
     }
   },
 
-  like: async (
+  like: async function (
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
-  ) => {
+  ): Promise<void> {
     const userId = req.user?._id || "";
     const { recipeId } = req.params;
 

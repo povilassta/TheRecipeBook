@@ -2,7 +2,7 @@ import Express from "express";
 
 function errorHandler(
   err: any,
-  req: Express.Request,
+  _req: Express.Request,
   res: Express.Response,
   next: Express.NextFunction
 ) {
