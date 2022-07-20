@@ -2,8 +2,12 @@ import RecipeService from "./recipe.service";
 import Comment from "../models/comment.model";
 import NotFoundError from "../errors/notfound.error";
 
+type CommentData = {
+  content: string;
+};
+
 const CommentService = {
-  get: async (recipeId) => {
+  get: async (recipeId: string) => {
     try {
       const comments = await Comment.find({ recipeId })
         .sort("-date")
@@ -14,7 +18,7 @@ const CommentService = {
     }
   },
 
-  insert: async (data, recipeId, userId) => {
+  insert: async (data: CommentData, recipeId: string, userId: string) => {
     try {
       if (await RecipeService.get(recipeId)) {
         const comment = await Comment.create({

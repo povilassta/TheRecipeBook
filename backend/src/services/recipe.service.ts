@@ -2,12 +2,30 @@ import NotFoundError from "../errors/notfound.error";
 import Recipe from "../models/recipe.model";
 import { unlink } from "node:fs";
 import ForbiddenError from "../errors/forbidden.error";
-import { SortOrder } from "mongoose";
+import { FilterQuery, SortOrder, Types } from "mongoose";
+import { FileArray, UploadedFile } from "express-fileupload";
+import Express from "express";
+import { IRecipe } from "../interfaces/recipe.interface";
+import ConflictError from "../errors/conflict.error";
+
+type RecipeData = {
+  title: string;
+  categories: string[];
+  instructions: string[];
+  ingredients: string[];
+  timeMinutes: number;
+  imageUrls: string[];
+};
 
 const picturePath = "../backend/public/images/recipes/";
 
 const RecipeService = {
-  getMultiple: async (pageNum, orderBy, filter, time) => {
+  getMultiple: async (
+    pageNum: number,
+    orderBy: string,
+    filter: string[],
+    time: number
+  ) => {
     const perPage = 20;
     const { query, orderQuery } = queryBuilder(orderBy, filter, time);
     try {
@@ -23,7 +41,7 @@ const RecipeService = {
     }
   },
 
-  get: async (recipeId) => {
+  get: async (recipeId: string) => {
     try {
       const recipe = await Recipe.findById(recipeId).populate("categories");
       if (!recipe) {
@@ -35,19 +53,22 @@ const RecipeService = {
     }
   },
 
-  addRecipeIdParam: (req) => {
+  addRecipeIdParam: (req: Express.Request) => {
     req.recipeId = req.params.recipeId;
   },
 
-  post: async (files, data, userId) => {
+  post: async (
+    images: UploadedFile | UploadedFile[] | undefined,
+    data: RecipeData,
+    userId: string
+  ) => {
     try {
-      for (const file in files) {
-        files[file].name = `${Date.now()}-${files[file].name}`;
-        files[file].mv(`${picturePath}${files[file].name}`, (err) => {
-          if (err) throw err;
-        });
-        data.imageUrls.push(files[file].name);
+      if (images) {
+        data.imageUrls = uploadImages(images);
+      } else {
+        throw new ConflictError("No images provided.");
       }
+
       const recipe = await Recipe.create({ ...data, userId });
       return recipe;
     } catch (errors) {
@@ -55,16 +76,19 @@ const RecipeService = {
     }
   },
 
-  put: async (data, userId, recipeId, markedForDeletion, files) => {
+  put: async (
+    data: RecipeData,
+    userId: string,
+    recipeId: string,
+    markedForDeletion: string[],
+    images: UploadedFile | UploadedFile[] | undefined
+  ) => {
     try {
       // Upload the files
-      for (const file in files) {
-        files[file].name = `${Date.now()}-${files[file].name}`;
-        files[file].mv(`${picturePath}${files[file].name}`, (err) => {
-          if (err) throw err;
-        });
-        data.imageUrls.push(files[file].name);
+      if (images) {
+        data.imageUrls = data.imageUrls.concat(uploadImages(images));
       }
+
       const recipe = await Recipe.findOneAndUpdate(
         { _id: recipeId, userId },
         data
@@ -87,7 +111,7 @@ const RecipeService = {
     }
   },
 
-  delete: async (recipeId, userId) => {
+  delete: async (recipeId: string, userId: string) => {
     try {
       const recipe = await Recipe.findById(recipeId);
       if (!recipe) {
@@ -109,16 +133,20 @@ const RecipeService = {
     }
   },
 
-  like: async (recipeId, userId) => {
+  like: async (recipeId: string, userId: string) => {
     try {
       let recipe = await Recipe.findById(recipeId).populate("categories");
       if (!recipe) {
         throw new NotFoundError("Recipe not found.");
       } else {
-        if (!recipe.likeCounter.includes(userId)) {
-          recipe.likeCounter.push(userId);
+        const userIdAsObjId = new Types.ObjectId(userId);
+        if (!recipe.likeCounter.includes(userIdAsObjId)) {
+          recipe.likeCounter.push(userIdAsObjId);
         } else {
-          recipe.likeCounter.splice(recipe.likeCounter.indexOf(userId), 1);
+          recipe.likeCounter.splice(
+            recipe.likeCounter.indexOf(userIdAsObjId),
+            1
+          );
         }
         recipe.markModified("likeCounter");
         recipe = await recipe.save();
@@ -130,8 +158,28 @@ const RecipeService = {
   },
 };
 
-function queryBuilder(orderBy, filter, time) {
-  let query = {};
+function uploadImages(images: UploadedFile | UploadedFile[]): string[] {
+  let imageUrls: string[] = [];
+  if (Array.isArray(images)) {
+    for (const image of images) {
+      image.name = `${Date.now()}-${image.name}`;
+      image.mv(`${picturePath}${image.name}`, (err: any) => {
+        if (err) throw err;
+      });
+      imageUrls.push(image.name);
+    }
+  } else {
+    images.name = `${Date.now()}-${images.name}`;
+    images.mv(`${picturePath}${images.name}`, (err: any) => {
+      if (err) throw err;
+    });
+    imageUrls.push(images.name);
+  }
+  return imageUrls;
+}
+
+function queryBuilder(orderBy: string, filter: string[], time: number) {
+  let query: FilterQuery<IRecipe> = {};
   let orderQuery: { [key: string]: SortOrder };
 
   if (filter.length) {

@@ -2,7 +2,7 @@ import NotFoundError from "../errors/notfound.error";
 import User from "../models/user.model";
 
 const UserService = {
-  get: async (userId) => {
+  get: async (userId: string) => {
     try {
       const user = await User.findById(userId);
       if (!user) {

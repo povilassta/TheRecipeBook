@@ -1,4 +1,8 @@
-import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+import {
+  Strategy as JwtStrategy,
+  ExtractJwt,
+  StrategyOptions,
+} from "passport-jwt";
 import passport from "passport";
 import "dotenv/config";
 import bcrypt from "bcrypt";
@@ -7,8 +11,14 @@ import User from "../models/user.model";
 import UnauthorizedError from "../errors/unauthorized.error";
 import ConflictError from "../errors/conflict.error";
 
+type RegisterData = {
+  email: string;
+  username: string;
+  password: string;
+};
+
 // JWT Strategy
-const opts = {
+const opts: StrategyOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.JWT_SECRET,
 };
@@ -26,10 +36,10 @@ export const authJwt = passport.authenticate("jwt", {
 });
 
 // Login
-export async function login(email, password) {
+export async function login(email: string, password: string) {
   try {
     const user = await User.findOne({ email });
-    if (user && bcrypt.compareSync(password, user.password)) {
+    if (user && bcrypt.compareSync(password, user.password || "")) {
       const token = jwt.sign(
         {
           id: user.id,
@@ -55,7 +65,7 @@ export async function login(email, password) {
   }
 }
 
-export async function register(data) {
+export async function register(data: RegisterData) {
   try {
     const existingUser = await User.findOne({ email: data.email });
     if (existingUser) {
