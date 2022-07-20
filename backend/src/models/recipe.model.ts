@@ -1,21 +1,33 @@
-import mongoose from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import Comment from "./comment.model";
 
-const recipeSchema = new mongoose.Schema({
+interface IRecipe {
+  title: string;
+  categories: Types.ObjectId[];
+  likeCounter: Types.ObjectId[];
+  timeMinutes: number;
+  ingredients: string[];
+  instructions: string[];
+  imageUrls: string[];
+  date: Date;
+  userId: Types.ObjectId;
+}
+
+const recipeSchema = new Schema<IRecipe>({
   title: {
     type: String,
     required: [true, "Title is required."],
   },
   categories: [
     {
-      type: mongoose.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Category",
       required: [true, "At least one category is required."],
     },
   ],
   likeCounter: [
     {
-      type: mongoose.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       default: [],
     },
@@ -47,7 +59,7 @@ const recipeSchema = new mongoose.Schema({
     default: Date.now,
   },
   userId: {
-    type: mongoose.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "User",
   },
 });
@@ -62,4 +74,4 @@ recipeSchema.pre(
   }
 );
 
-export default mongoose.model("Recipe", recipeSchema);
+export default model<IRecipe>("Recipe", recipeSchema);

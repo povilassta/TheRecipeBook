@@ -1,14 +1,21 @@
-import mongoose from "mongoose";
+import { Schema, Types, model } from "mongoose";
 
-const commentSchema = new mongoose.Schema({
+interface IComment {
+  user: Types.ObjectId;
+  recipeId: Types.ObjectId;
+  date: Date;
+  content: string;
+}
+
+const commentSchema = new Schema<IComment>({
   user: {
-    type: mongoose.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "User",
     immutable: true,
     required: [true, "User id is required."],
   },
   recipeId: {
-    type: mongoose.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Recipe",
     immutable: true,
     required: [true, "Recipe id is required"],
@@ -23,4 +30,4 @@ const commentSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("Comment", commentSchema);
+export default model<IComment>("Comment", commentSchema);
