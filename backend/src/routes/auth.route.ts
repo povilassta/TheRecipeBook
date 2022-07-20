@@ -1,6 +1,6 @@
 import express from "express";
 import AuthController from "../controllers/auth.controller";
-import { body, validationResult } from "express-validator";
+import { body } from "express-validator";
 
 const authRouter = express.Router();
 
@@ -9,7 +9,7 @@ authRouter.post("/login", AuthController.login);
 authRouter.post(
   "/register",
   body("email").isEmail(),
-  body("repeatPassword").custom((value, { req }) => {
+  body("repeatPassword").custom((value: string, { req }) => {
     if (value !== req.body.password) {
       throw new Error("Password confirmation does not match password");
     }
