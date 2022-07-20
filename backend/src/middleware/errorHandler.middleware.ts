@@ -1,4 +1,11 @@
-function errorHandler(err, req, res, next) {
+import Express from "express";
+
+function errorHandler(
+  err: any,
+  req: Express.Request,
+  res: Express.Response,
+  next: Express.NextFunction
+) {
   const customErrorNames = [
     "NotFoundError",
     "UnauthorizedError",
