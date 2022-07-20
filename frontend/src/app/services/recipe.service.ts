@@ -30,7 +30,7 @@ export class RecipeService {
   ): Observable<any> {
     const formData = new FormData();
     for (let file of files) {
-      formData.append(file.name, file);
+      formData.append('images', file);
     }
     formData.append('data', JSON.stringify(data));
     formData.append('markedForDeletion', JSON.stringify(markedForDeletion));
@@ -41,7 +41,7 @@ export class RecipeService {
     const formData = new FormData();
     formData.append('data', JSON.stringify(data));
     for (let file of files) {
-      formData.append(file.name, file);
+      formData.append('images', file);
     }
     return this.http.post(`${this.BASE_URL}create`, formData);
   }
