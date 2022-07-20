@@ -1,11 +1,5 @@
 import { Schema, model } from "mongoose";
-
-interface IUser {
-  email: string;
-  password?: string;
-  username: string;
-  profilePictureUrl: string;
-}
+import { IUser } from "../interfaces/user.interface";
 
 const userSchema = new Schema<IUser>({
   email: {

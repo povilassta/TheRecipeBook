@@ -1,17 +1,6 @@
 import { Schema, Types, model } from "mongoose";
+import { IRecipe } from "../interfaces/recipe.interface";
 import Comment from "./comment.model";
-
-interface IRecipe {
-  title: string;
-  categories: Types.ObjectId[];
-  likeCounter: Types.ObjectId[];
-  timeMinutes: number;
-  ingredients: string[];
-  instructions: string[];
-  imageUrls: string[];
-  date: Date;
-  userId: Types.ObjectId;
-}
 
 const recipeSchema = new Schema<IRecipe>({
   title: {

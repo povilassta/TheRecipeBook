@@ -1,11 +1,5 @@
 import { Schema, Types, model } from "mongoose";
-
-interface IComment {
-  user: Types.ObjectId;
-  recipeId: Types.ObjectId;
-  date: Date;
-  content: string;
-}
+import { IComment } from "../interfaces/comment.interface";
 
 const commentSchema = new Schema<IComment>({
   user: {
