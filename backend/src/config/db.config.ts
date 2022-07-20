@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 import "dotenv/config";
-import User from "../models/user.model";
-import Recipe from "../models/recipe.model";
-import Comment from "../models/comment.model";
-import Category from "../models/category.model";
+import "../models/user.model";
+import "../models/recipe.model";
+import "../models/comment.model";
+import "../models/category.model";
 
 class Connection {
   constructor() {
     const url = process.env.DB_URL;
 
-    this.connect(url)
+    this.connect(url || "")
       .then(() => {
         console.log("✔ Database Connected");
       })
@@ -18,7 +18,7 @@ class Connection {
       });
   }
 
-  async connect(url) {
+  async connect(url: string) {
     if (process.env.NODE_ENV !== "test") {
       try {
         await mongoose.connect(url);
