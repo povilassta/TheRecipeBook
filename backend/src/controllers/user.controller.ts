@@ -1,7 +1,12 @@
 import UserService from "../services/user.service";
+import Express from "express";
 
 const UserController = {
-  get: async (req, res, next) => {
+  get: async (
+    req: Express.Request,
+    res: Express.Response,
+    next: Express.NextFunction
+  ) => {
     const { userId } = req.params;
     try {
       const response = await UserService.get(userId);

@@ -1,7 +1,12 @@
 import RecipeService from "../services/recipe.service";
+import Express from "express";
 
 const RecipeController = {
-  getAll: async (req, res, next) => {
+  getAll: async (
+    req: Express.Request,
+    res: Express.Response,
+    next: Express.NextFunction
+  ) => {
     const { sort, categories, time, page } = req.body;
     try {
       const response = await RecipeService.getMultiple(
@@ -16,19 +21,27 @@ const RecipeController = {
     }
   },
 
-  post: async (req, res, next) => {
-    const { files } = req;
+  post: async (
+    req: Express.Request,
+    res: Express.Response,
+    next: Express.NextFunction
+  ) => {
+    const images = req.files?.images;
     const data = JSON.parse(req.body.data);
-    const { _id: userId } = req.user;
+    const userId = req.user?._id || "";
     try {
-      const response = await RecipeService.post(files, data, userId);
+      const response = await RecipeService.post(images, data, userId);
       res.json(response).status(201);
     } catch (e) {
       next(e);
     }
   },
 
-  get: async (req, res, next) => {
+  get: async (
+    req: Express.Request,
+    res: Express.Response,
+    next: Express.NextFunction
+  ) => {
     const { recipeId } = req.params;
     try {
       const response = await RecipeService.get(recipeId);
@@ -38,10 +51,14 @@ const RecipeController = {
     }
   },
 
-  put: async (req, res, next) => {
-    const { _id: userId } = req.user;
+  put: async (
+    req: Express.Request,
+    res: Express.Response,
+    next: Express.NextFunction
+  ) => {
+    const userId = req.user?._id || "";
     const { recipeId } = req.params;
-    const { files } = req;
+    const images = req.files?.images;
     const markedForDeletion = JSON.parse(req.body.markedForDeletion);
     const data = JSON.parse(req.body.data);
     try {
@@ -50,7 +67,7 @@ const RecipeController = {
         userId,
         recipeId,
         markedForDeletion,
-        files
+        images
       );
       res.json(response).status(200);
     } catch (e) {
@@ -58,8 +75,12 @@ const RecipeController = {
     }
   },
 
-  delete: async (req, res, next) => {
-    const { _id: userId } = req.user;
+  delete: async (
+    req: Express.Request,
+    res: Express.Response,
+    next: Express.NextFunction
+  ) => {
+    const userId = req.user?._id || "";
     const { recipeId } = req.params;
 
     try {
@@ -70,8 +91,12 @@ const RecipeController = {
     }
   },
 
-  like: async (req, res, next) => {
-    const { _id: userId } = req.user;
+  like: async (
+    req: Express.Request,
+    res: Express.Response,
+    next: Express.NextFunction
+  ) => {
+    const userId = req.user?._id || "";
     const { recipeId } = req.params;
 
     try {
