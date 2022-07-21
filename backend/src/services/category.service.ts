@@ -1,17 +1,6 @@
 import Category from "../models/category.model";
 
 class CategoryService {
-  private static instance: CategoryService;
-
-  private constructor() {}
-
-  public static getInstance(): CategoryService {
-    if (!CategoryService.instance) {
-      CategoryService.instance = new CategoryService();
-    }
-    return CategoryService.instance;
-  }
-
   public async getForRecipes() {
     try {
       const categories = await Category.find({});
@@ -22,4 +11,4 @@ class CategoryService {
   }
 }
 
-export default CategoryService;
+export default new CategoryService();

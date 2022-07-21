@@ -2,19 +2,6 @@ import CommentService from "../services/comment.service";
 import Express from "express";
 
 class CommentController {
-  private static instance: CommentController;
-
-  private constructor() {}
-
-  public static getInstance(): CommentController {
-    if (!CommentController.instance) {
-      CommentController.instance = new CommentController();
-    }
-    return CommentController.instance;
-  }
-
-  private commentService: CommentService = CommentService.getInstance();
-
   public async get(
     req: Express.Request,
     res: Express.Response,
@@ -22,7 +9,7 @@ class CommentController {
   ): Promise<void> {
     const { recipeId } = req;
     try {
-      const response = await this.commentService.get(recipeId || "");
+      const response = await CommentService.get(recipeId || "");
       res.json(response).status(200);
     } catch (e) {
       next(e);
@@ -38,16 +25,12 @@ class CommentController {
     const recipeId = req.recipeId || "";
 
     try {
-      const response = await this.commentService.insert(
-        req.body,
-        recipeId,
-        userId
-      );
-      res.json(response).send(201);
+      const response = await CommentService.insert(req.body, recipeId, userId);
+      res.json(response).status(201);
     } catch (e) {
       next(e);
     }
   }
 }
 
-export default CommentController;
+export default new CommentController();

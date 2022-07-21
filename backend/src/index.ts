@@ -8,6 +8,8 @@ import authRouter from "./routes/auth.route";
 import errorHandler from "./middleware/errorHandler.middleware";
 import categoryRouter from "./routes/category.route";
 import fileUpload from "express-fileupload";
+import passport from "passport";
+import AuthService from "./services/auth.service";
 
 const app = express();
 const port = 3000;
@@ -30,6 +32,8 @@ app.use("/icons", express.static("icons"));
 
 //Error Handler
 app.use(errorHandler);
+
+passport.use(AuthService.jwtStrategy);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

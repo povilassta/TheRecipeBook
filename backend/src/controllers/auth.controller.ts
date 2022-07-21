@@ -1,5 +1,5 @@
 import Express from "express";
-import { login, register } from "../services/auth.service";
+import AuthService from "../services/auth.service";
 import { validationResult } from "express-validator";
 
 class AuthController {
@@ -21,7 +21,7 @@ class AuthController {
   ): Promise<void> {
     const { email, password } = req.body;
     try {
-      const response = await login(email, password);
+      const response = await AuthService.login(email, password);
       res.status(200).json(response);
     } catch (e) {
       next(e);
@@ -41,7 +41,7 @@ class AuthController {
     }
     const { repeatPassword, ...data } = req.body;
     try {
-      const response = await register(data);
+      const response = await AuthService.register(data);
       res.status(201).json(response);
     } catch (e) {
       next(e);

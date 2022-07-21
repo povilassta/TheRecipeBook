@@ -2,19 +2,6 @@ import RecipeService from "../services/recipe.service";
 import Express from "express";
 
 class RecipeController {
-  private static instance: RecipeController;
-
-  private constructor() {}
-
-  public static getInstance(): RecipeController {
-    if (!RecipeController.instance) {
-      RecipeController.instance = new RecipeController();
-    }
-    return RecipeController.instance;
-  }
-
-  private recipeService: RecipeService = RecipeService.getInstance();
-
   public async getAll(
     req: Express.Request,
     res: Express.Response,
@@ -22,7 +9,7 @@ class RecipeController {
   ): Promise<void> {
     const { sort, categories, time, page } = req.body;
     try {
-      const response = await this.recipeService.getMultiple(
+      const response = await RecipeService.getMultiple(
         page,
         sort,
         categories,
@@ -43,7 +30,7 @@ class RecipeController {
     const data = JSON.parse(req.body.data);
     const userId = req.user?._id || "";
     try {
-      const response = await this.recipeService.post(images, data, userId);
+      const response = await RecipeService.post(images, data, userId);
       res.json(response).status(201);
     } catch (e) {
       next(e);
@@ -57,7 +44,7 @@ class RecipeController {
   ): Promise<void> {
     const { recipeId } = req.params;
     try {
-      const response = await this.recipeService.get(recipeId);
+      const response = await RecipeService.get(recipeId);
       res.json(response).status(200);
     } catch (e) {
       next(e);
@@ -75,7 +62,7 @@ class RecipeController {
     const markedForDeletion = JSON.parse(req.body.markedForDeletion);
     const data = JSON.parse(req.body.data);
     try {
-      const response = await this.recipeService.put(
+      const response = await RecipeService.put(
         data,
         userId,
         recipeId,
@@ -97,7 +84,7 @@ class RecipeController {
     const { recipeId } = req.params;
 
     try {
-      const response = await this.recipeService.delete(recipeId, userId);
+      const response = await RecipeService.delete(recipeId, userId);
       res.json(response).status(200);
     } catch (e) {
       next(e);
@@ -113,7 +100,7 @@ class RecipeController {
     const { recipeId } = req.params;
 
     try {
-      const response = await this.recipeService.like(recipeId, userId);
+      const response = await RecipeService.like(recipeId, userId);
       res.json(response).status(200);
     } catch (e) {
       next(e);
@@ -121,4 +108,4 @@ class RecipeController {
   }
 }
 
-export default RecipeController;
+export default new RecipeController();

@@ -1,35 +1,41 @@
 import express from "express";
 import RecipeController from "../controllers/recipe.controller";
-import { authJwt } from "../services/auth.service";
+import AuthService from "../services/auth.service";
 import RecipeService from "../services/recipe.service";
 import commentRouter from "./comment.route";
 
 const recipeRouter = express.Router();
-const recipeController = RecipeController.getInstance();
-const recipeService = RecipeService.getInstance();
 
 // GET (all)
-recipeRouter.post("/", recipeController.getAll);
+recipeRouter.post("/", RecipeController.getAll);
 
 // GET (one)
-recipeRouter.get("/:recipeId", recipeController.get);
+recipeRouter.get("/:recipeId", RecipeController.get);
 
 // LIKE
-recipeRouter.patch("/:recipeId/like", authJwt, recipeController.like);
+recipeRouter.patch(
+  "/:recipeId/like",
+  AuthService.authJwt,
+  RecipeController.like
+);
 
 // POST RECIPE
-recipeRouter.post("/create", authJwt, recipeController.post);
+recipeRouter.post("/create", AuthService.authJwt, RecipeController.post);
 
 // PUT RECIPE
-recipeRouter.put("/:recipeId", authJwt, recipeController.put);
+recipeRouter.put("/:recipeId", AuthService.authJwt, RecipeController.put);
 
 // DELETE RECIPE
-recipeRouter.delete("/:recipeId", authJwt, recipeController.delete);
+recipeRouter.delete("/:recipeId", AuthService.authJwt, RecipeController.delete);
 
 recipeRouter.use(
   "/:recipeId/comments",
-  function (req, res, next) {
-    recipeService.addRecipeIdParam(req);
+  function (
+    req: express.Request,
+    _res: express.Response,
+    next: express.NextFunction
+  ) {
+    RecipeService.addRecipeIdParam(req);
     next();
   },
   commentRouter
