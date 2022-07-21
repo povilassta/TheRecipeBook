@@ -43,11 +43,15 @@ export class AuthService {
   public logout(): Observable<any> {
     return this.http.get('/api/logout').pipe(
       tap((res: any) => {
-        localStorage.removeItem('expiresAt');
-        localStorage.removeItem('user');
-        this.appStateService.setState({ currentUser: undefined });
+        this.resetState();
       })
     );
+  }
+
+  public resetState(): void {
+    localStorage.removeItem('expiresAt');
+    localStorage.removeItem('user');
+    this.appStateService.setState({ currentUser: undefined });
   }
 
   public setSession(res: LoginResponse): void {
