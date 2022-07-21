@@ -10,6 +10,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.model";
 import UnauthorizedError from "../errors/unauthorized.error";
 import ConflictError from "../errors/conflict.error";
+import Express from "express";
 
 type RegisterData = {
   email: string;
@@ -19,7 +20,7 @@ type RegisterData = {
 
 // JWT Strategy
 const opts: StrategyOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: extractJwtFromCookie,
   secretOrKey: process.env.JWT_SECRET,
 };
 
@@ -53,7 +54,7 @@ export async function login(email: string, password: string) {
       let responseObj = user.toObject();
       delete responseObj.password;
       return {
-        token: `Bearer ${token}`,
+        token: token,
         expiresIn: process.env.JWT_EXPIRES_IN,
         user: responseObj,
       };
@@ -83,4 +84,13 @@ export async function register(data: RegisterData) {
   } catch (errors) {
     throw errors;
   }
+}
+
+function extractJwtFromCookie(req: Express.Request): string | null {
+  let token: string | null = null;
+  if (req && req.cookies) {
+    token = req.cookies["access-token"];
+  }
+
+  return token;
 }
