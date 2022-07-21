@@ -46,22 +46,7 @@ export class RecipeCatalogComponent implements OnInit {
       });
 
     this.translate.onLangChange.pipe(untilDestroyed(this)).subscribe(() => {
-      this.translate.get(['catalog.sortOptions']).subscribe((res: any) => {
-        this.sortOptions = [
-          {
-            label: res['catalog.sortOptions'].recent,
-            value: 'recent',
-          },
-          {
-            label: res['catalog.sortOptions'].oldest,
-            value: 'oldest',
-          },
-          {
-            label: res['catalog.sortOptions'].popular,
-            value: 'popular',
-          },
-        ];
-      });
+      this.setSortOptions();
     });
   }
 
@@ -76,6 +61,25 @@ export class RecipeCatalogComponent implements OnInit {
   public categories: Category[] = [];
   public isLoading = true;
   public sortOptions: { label: string; value: string }[] = [];
+
+  private setSortOptions(): void {
+    this.translate.get(['catalog.sortOptions']).subscribe((res: any) => {
+      this.sortOptions = [
+        {
+          label: res['catalog.sortOptions'].recent,
+          value: 'recent',
+        },
+        {
+          label: res['catalog.sortOptions'].oldest,
+          value: 'oldest',
+        },
+        {
+          label: res['catalog.sortOptions'].popular,
+          value: 'popular',
+        },
+      ];
+    });
+  }
 
   public updateRecipes(pageNum: number): void {
     this.appStateService.setState({ pageNumber: pageNum });
@@ -96,6 +100,7 @@ export class RecipeCatalogComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.setSortOptions();
     this.recipeService.getRecipes(this.page - 1, this.filterObj).subscribe({
       next: (res) => {
         this.recipes = res.recipes;
