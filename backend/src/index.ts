@@ -8,6 +8,7 @@ import authRouter from "./routes/auth.route";
 import errorHandler from "./middleware/errorHandler.middleware";
 import categoryRouter from "./routes/category.route";
 import fileUpload from "express-fileupload";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const port = 3000;
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(fileUpload());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 // Routes
 app.use("/api/recipes", recipeRouter);
