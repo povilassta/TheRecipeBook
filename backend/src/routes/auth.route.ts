@@ -3,8 +3,9 @@ import AuthController from "../controllers/auth.controller";
 import { body } from "express-validator";
 
 const authRouter = express.Router();
+const authController: AuthController = AuthController.getInstance();
 
-authRouter.post("/login", AuthController.login);
+authRouter.post("/login", authController.login);
 
 authRouter.post(
   "/register",
@@ -15,7 +16,7 @@ authRouter.post(
     }
     return true;
   }),
-  AuthController.register
+  authController.register
 );
 
 export default authRouter;

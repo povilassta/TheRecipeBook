@@ -1,15 +1,28 @@
 import RecipeService from "../services/recipe.service";
 import Express from "express";
 
-const RecipeController = {
-  getAll: async function (
+class RecipeController {
+  private static instance: RecipeController;
+
+  private constructor() {}
+
+  public static getInstance(): RecipeController {
+    if (!RecipeController.instance) {
+      RecipeController.instance = new RecipeController();
+    }
+    return RecipeController.instance;
+  }
+
+  private recipeService: RecipeService = RecipeService.getInstance();
+
+  public async getAll(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
   ): Promise<void> {
     const { sort, categories, time, page } = req.body;
     try {
-      const response = await RecipeService.getMultiple(
+      const response = await this.recipeService.getMultiple(
         page,
         sort,
         categories,
@@ -19,9 +32,9 @@ const RecipeController = {
     } catch (e) {
       next(e);
     }
-  },
+  }
 
-  post: async function (
+  public async post(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -30,28 +43,28 @@ const RecipeController = {
     const data = JSON.parse(req.body.data);
     const userId = req.user?._id || "";
     try {
-      const response = await RecipeService.post(images, data, userId);
+      const response = await this.recipeService.post(images, data, userId);
       res.json(response).status(201);
     } catch (e) {
       next(e);
     }
-  },
+  }
 
-  get: async function (
+  public async get(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
   ): Promise<void> {
     const { recipeId } = req.params;
     try {
-      const response = await RecipeService.get(recipeId);
+      const response = await this.recipeService.get(recipeId);
       res.json(response).status(200);
     } catch (e) {
       next(e);
     }
-  },
+  }
 
-  put: async function (
+  public async put(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -62,7 +75,7 @@ const RecipeController = {
     const markedForDeletion = JSON.parse(req.body.markedForDeletion);
     const data = JSON.parse(req.body.data);
     try {
-      const response = await RecipeService.put(
+      const response = await this.recipeService.put(
         data,
         userId,
         recipeId,
@@ -73,9 +86,9 @@ const RecipeController = {
     } catch (e) {
       next(e);
     }
-  },
+  }
 
-  delete: async function (
+  public async delete(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -84,14 +97,14 @@ const RecipeController = {
     const { recipeId } = req.params;
 
     try {
-      const response = await RecipeService.delete(recipeId, userId);
+      const response = await this.recipeService.delete(recipeId, userId);
       res.json(response).status(200);
     } catch (e) {
       next(e);
     }
-  },
+  }
 
-  like: async function (
+  public async like(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -100,12 +113,12 @@ const RecipeController = {
     const { recipeId } = req.params;
 
     try {
-      const response = await RecipeService.like(recipeId, userId);
+      const response = await this.recipeService.like(recipeId, userId);
       res.json(response).status(200);
     } catch (e) {
       next(e);
     }
-  },
-};
+  }
+}
 
 export default RecipeController;

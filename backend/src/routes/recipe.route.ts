@@ -5,29 +5,31 @@ import RecipeService from "../services/recipe.service";
 import commentRouter from "./comment.route";
 
 const recipeRouter = express.Router();
+const recipeController = RecipeController.getInstance();
+const recipeService = RecipeService.getInstance();
 
 // GET (all)
-recipeRouter.post("/", RecipeController.getAll);
+recipeRouter.post("/", recipeController.getAll);
 
 // GET (one)
-recipeRouter.get("/:recipeId", RecipeController.get);
+recipeRouter.get("/:recipeId", recipeController.get);
 
 // LIKE
-recipeRouter.patch("/:recipeId/like", authJwt, RecipeController.like);
+recipeRouter.patch("/:recipeId/like", authJwt, recipeController.like);
 
 // POST RECIPE
-recipeRouter.post("/create", authJwt, RecipeController.post);
+recipeRouter.post("/create", authJwt, recipeController.post);
 
 // PUT RECIPE
-recipeRouter.put("/:recipeId", authJwt, RecipeController.put);
+recipeRouter.put("/:recipeId", authJwt, recipeController.put);
 
 // DELETE RECIPE
-recipeRouter.delete("/:recipeId", authJwt, RecipeController.delete);
+recipeRouter.delete("/:recipeId", authJwt, recipeController.delete);
 
 recipeRouter.use(
   "/:recipeId/comments",
   function (req, res, next) {
-    RecipeService.addRecipeIdParam(req);
+    recipeService.addRecipeIdParam(req);
     next();
   },
   commentRouter

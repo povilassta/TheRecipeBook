@@ -18,6 +18,17 @@ type RecipeData = {
 };
 
 class RecipeService {
+  private static instance: RecipeService;
+
+  private constructor() {}
+
+  public static getInstance(): RecipeService {
+    if (!RecipeService.instance) {
+      RecipeService.instance = new RecipeService();
+    }
+    return RecipeService.instance;
+  }
+
   private picturePath = "../backend/public/images/recipes/";
 
   public async getMultiple(
@@ -210,4 +221,4 @@ class RecipeService {
   }
 }
 
-export default new RecipeService();
+export default RecipeService;

@@ -2,8 +2,19 @@ import Express from "express";
 import { login, register } from "../services/auth.service";
 import { validationResult } from "express-validator";
 
-const AuthController = {
-  login: async function (
+class AuthController {
+  private static instance: AuthController;
+
+  private constructor() {}
+
+  public static getInstance(): AuthController {
+    if (!AuthController.instance) {
+      AuthController.instance = new AuthController();
+    }
+    return AuthController.instance;
+  }
+
+  public async login(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -15,9 +26,9 @@ const AuthController = {
     } catch (e) {
       next(e);
     }
-  },
+  }
 
-  register: async function (
+  public async register(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -35,7 +46,7 @@ const AuthController = {
     } catch (e) {
       next(e);
     }
-  },
-};
+  }
+}
 
 export default AuthController;
