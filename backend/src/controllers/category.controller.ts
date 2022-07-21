@@ -1,8 +1,8 @@
 import CategoryService from "../services/category.service";
 import Express from "express";
 
-const CategoryController = {
-  getForRecipes: async function (
+class CategoryController {
+  public async getForRecipes(
     _req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -13,7 +13,7 @@ const CategoryController = {
     } catch (e) {
       next(e);
     }
-  },
-};
+  }
+}
 
-export default CategoryController;
+export default new CategoryController();

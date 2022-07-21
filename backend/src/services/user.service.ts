@@ -1,8 +1,8 @@
 import NotFoundError from "../errors/notfound.error";
 import User from "../models/user.model";
 
-const UserService = {
-  get: async function (userId: string) {
+class UserService {
+  public async get(userId: string) {
     try {
       const user = await User.findById(userId);
       if (!user) {
@@ -12,7 +12,7 @@ const UserService = {
     } catch (errors) {
       throw errors;
     }
-  },
-};
+  }
+}
 
-export default UserService;
+export default new UserService();

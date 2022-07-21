@@ -1,8 +1,8 @@
 import CommentService from "../services/comment.service";
 import Express from "express";
 
-const CommentController = {
-  get: async function (
+class CommentController {
+  public async get(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -14,9 +14,9 @@ const CommentController = {
     } catch (e) {
       next(e);
     }
-  },
+  }
 
-  insert: async function (
+  public async insert(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -26,11 +26,11 @@ const CommentController = {
 
     try {
       const response = await CommentService.insert(req.body, recipeId, userId);
-      res.json(response).send(201);
+      res.json(response).status(201);
     } catch (e) {
       next(e);
     }
-  },
-};
+  }
+}
 
-export default CommentController;
+export default new CommentController();

@@ -1,8 +1,8 @@
 import RecipeService from "../services/recipe.service";
 import Express from "express";
 
-const RecipeController = {
-  getAll: async function (
+class RecipeController {
+  public async getAll(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -19,9 +19,9 @@ const RecipeController = {
     } catch (e) {
       next(e);
     }
-  },
+  }
 
-  post: async function (
+  public async post(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -35,9 +35,9 @@ const RecipeController = {
     } catch (e) {
       next(e);
     }
-  },
+  }
 
-  get: async function (
+  public async get(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -49,9 +49,9 @@ const RecipeController = {
     } catch (e) {
       next(e);
     }
-  },
+  }
 
-  put: async function (
+  public async put(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -73,9 +73,9 @@ const RecipeController = {
     } catch (e) {
       next(e);
     }
-  },
+  }
 
-  delete: async function (
+  public async delete(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -89,9 +89,9 @@ const RecipeController = {
     } catch (e) {
       next(e);
     }
-  },
+  }
 
-  like: async function (
+  public async like(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -105,7 +105,7 @@ const RecipeController = {
     } catch (e) {
       next(e);
     }
-  },
-};
+  }
+}
 
-export default RecipeController;
+export default new RecipeController();

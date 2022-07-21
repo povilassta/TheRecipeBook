@@ -1,6 +1,6 @@
 import express from "express";
 import RecipeController from "../controllers/recipe.controller";
-import { authJwt } from "../services/auth.service";
+import AuthService from "../services/auth.service";
 import RecipeService from "../services/recipe.service";
 import commentRouter from "./comment.route";
 
@@ -13,20 +13,28 @@ recipeRouter.post("/", RecipeController.getAll);
 recipeRouter.get("/:recipeId", RecipeController.get);
 
 // LIKE
-recipeRouter.patch("/:recipeId/like", authJwt, RecipeController.like);
+recipeRouter.patch(
+  "/:recipeId/like",
+  AuthService.authJwt,
+  RecipeController.like
+);
 
 // POST RECIPE
-recipeRouter.post("/create", authJwt, RecipeController.post);
+recipeRouter.post("/create", AuthService.authJwt, RecipeController.post);
 
 // PUT RECIPE
-recipeRouter.put("/:recipeId", authJwt, RecipeController.put);
+recipeRouter.put("/:recipeId", AuthService.authJwt, RecipeController.put);
 
 // DELETE RECIPE
-recipeRouter.delete("/:recipeId", authJwt, RecipeController.delete);
+recipeRouter.delete("/:recipeId", AuthService.authJwt, RecipeController.delete);
 
 recipeRouter.use(
   "/:recipeId/comments",
-  function (req, res, next) {
+  function (
+    req: express.Request,
+    _res: express.Response,
+    next: express.NextFunction
+  ) {
     RecipeService.addRecipeIdParam(req);
     next();
   },

@@ -1,17 +1,28 @@
 import Express from "express";
-import { login, register } from "../services/auth.service";
+import AuthService from "../services/auth.service";
 import { validationResult } from "express-validator";
 import "dotenv/config";
 
-const AuthController = {
-  login: async function (
+class AuthController {
+  private static instance: AuthController;
+
+  private constructor() {}
+
+  public static getInstance(): AuthController {
+    if (!AuthController.instance) {
+      AuthController.instance = new AuthController();
+    }
+    return AuthController.instance;
+  }
+
+  public async login(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
   ): Promise<void> {
     const { email, password } = req.body;
     try {
-      const { token, ...response } = await login(email, password);
+      const { token, ...response } = await AuthService.login(email, password);
       res
         .cookie("access-token", token, {
           httpOnly: true,
@@ -23,9 +34,9 @@ const AuthController = {
     } catch (e) {
       next(e);
     }
-  },
+  }
 
-  logout: async function (
+  public async logout(
     _req: Express.Request,
     res: Express.Response,
     _next: Express.NextFunction
@@ -34,9 +45,9 @@ const AuthController = {
       .clearCookie("access-token")
       .status(200)
       .json({ message: "Logged out successfully!" });
-  },
+  }
 
-  register: async function (
+  public async register(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -49,12 +60,12 @@ const AuthController = {
     }
     const { repeatPassword, ...data } = req.body;
     try {
-      const response = await register(data);
+      const response = await AuthService.register(data);
       res.status(201).json(response);
     } catch (e) {
       next(e);
     }
-  },
-};
+  }
+}
 
 export default AuthController;

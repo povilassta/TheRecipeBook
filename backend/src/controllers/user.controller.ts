@@ -1,8 +1,8 @@
 import UserService from "../services/user.service";
 import Express from "express";
 
-const UserController = {
-  get: async function (
+class UserController {
+  public async get(
     req: Express.Request,
     res: Express.Response,
     next: Express.NextFunction
@@ -16,7 +16,7 @@ const UserController = {
     } catch (e) {
       next(e);
     }
-  },
-};
+  }
+}
 
-export default UserController;
+export default new UserController();

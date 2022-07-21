@@ -4,8 +4,9 @@ import { body } from "express-validator";
 import { authJwt } from "../services/auth.service";
 
 const authRouter = express.Router();
+const authController: AuthController = AuthController.getInstance();
 
-authRouter.post("/login", AuthController.login);
+authRouter.post("/login", authController.login);
 
 authRouter.get("/logout", authJwt, AuthController.logout);
 
@@ -18,7 +19,7 @@ authRouter.post(
     }
     return true;
   }),
-  AuthController.register
+  authController.register
 );
 
 export default authRouter;
