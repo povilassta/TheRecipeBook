@@ -6,8 +6,8 @@ type CommentData = {
   content: string;
 };
 
-const CommentService = {
-  get: async function (recipeId: string) {
+class CommentService {
+  public async get(recipeId: string) {
     try {
       const comments = await Comment.find({ recipeId })
         .sort("-date")
@@ -16,9 +16,9 @@ const CommentService = {
     } catch (errors) {
       throw errors;
     }
-  },
+  }
 
-  insert: async function (data: CommentData, recipeId: string, userId: string) {
+  public async insert(data: CommentData, recipeId: string, userId: string) {
     try {
       if (await RecipeService.get(recipeId)) {
         const comment = await Comment.create({
@@ -33,7 +33,7 @@ const CommentService = {
     } catch (errors) {
       throw errors;
     }
-  },
-};
+  }
+}
 
-export default CommentService;
+export default new CommentService();

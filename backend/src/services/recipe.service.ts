@@ -3,7 +3,7 @@ import Recipe from "../models/recipe.model";
 import { unlink } from "node:fs";
 import ForbiddenError from "../errors/forbidden.error";
 import { FilterQuery, SortOrder, Types } from "mongoose";
-import { FileArray, UploadedFile } from "express-fileupload";
+import { UploadedFile } from "express-fileupload";
 import Express from "express";
 import { IRecipe } from "../interfaces/recipe.interface";
 import ConflictError from "../errors/conflict.error";
@@ -17,17 +17,17 @@ type RecipeData = {
   imageUrls: string[];
 };
 
-const picturePath = "../backend/public/images/recipes/";
+class RecipeService {
+  private picturePath = "../backend/public/images/recipes/";
 
-const RecipeService = {
-  getMultiple: async function (
+  public async getMultiple(
     pageNum: number,
     orderBy: string,
     filter: string[],
     time: number
   ) {
     const perPage = 20;
-    const { query, orderQuery } = queryBuilder(orderBy, filter, time);
+    const { query, orderQuery } = this.queryBuilder(orderBy, filter, time);
     try {
       const recipes = await Recipe.find(query)
         .sort(orderQuery)
@@ -39,9 +39,9 @@ const RecipeService = {
     } catch (errors) {
       throw errors;
     }
-  },
+  }
 
-  get: async function (recipeId: string) {
+  public async get(recipeId: string) {
     try {
       const recipe = await Recipe.findById(recipeId).populate("categories");
       if (!recipe) {
@@ -51,20 +51,20 @@ const RecipeService = {
     } catch (errors) {
       throw errors;
     }
-  },
+  }
 
-  addRecipeIdParam: function (req: Express.Request) {
+  public addRecipeIdParam(req: Express.Request) {
     req.recipeId = req.params.recipeId;
-  },
+  }
 
-  post: async function (
+  public async post(
     images: UploadedFile | UploadedFile[] | undefined,
     data: RecipeData,
     userId: string
   ) {
     try {
       if (images) {
-        data.imageUrls = uploadImages(images);
+        data.imageUrls = this.uploadImages(images);
       } else {
         throw new ConflictError("No images provided.");
       }
@@ -74,9 +74,9 @@ const RecipeService = {
     } catch (errors) {
       throw errors;
     }
-  },
+  }
 
-  put: async function (
+  public async put(
     data: RecipeData,
     userId: string,
     recipeId: string,
@@ -86,7 +86,7 @@ const RecipeService = {
     try {
       // Upload the files
       if (images) {
-        data.imageUrls = data.imageUrls.concat(uploadImages(images));
+        data.imageUrls = data.imageUrls.concat(this.uploadImages(images));
       }
 
       const recipe = await Recipe.findOneAndUpdate(
@@ -97,7 +97,7 @@ const RecipeService = {
       if (recipe) {
         for (const img of markedForDeletion) {
           if (recipe.imageUrls.includes(img)) {
-            unlink(`${picturePath}${img}`, (err) => {
+            unlink(`${this.picturePath}${img}`, (err) => {
               if (err) throw err;
             });
           }
@@ -109,9 +109,9 @@ const RecipeService = {
     } catch (errors) {
       throw errors;
     }
-  },
+  }
 
-  delete: async function (recipeId: string, userId: string) {
+  public async delete(recipeId: string, userId: string) {
     try {
       const recipe = await Recipe.findById(recipeId);
       if (!recipe) {
@@ -122,7 +122,7 @@ const RecipeService = {
         await recipe.deleteOne();
         // Delete images
         for (const img of recipe.imageUrls) {
-          unlink(`${picturePath}${img}`, (err) => {
+          unlink(`${this.picturePath}${img}`, (err) => {
             if (err) throw err;
           });
         }
@@ -131,9 +131,9 @@ const RecipeService = {
     } catch (errors) {
       throw errors;
     }
-  },
+  }
 
-  like: async function (recipeId: string, userId: string) {
+  public async like(recipeId: string, userId: string) {
     try {
       let recipe = await Recipe.findById(recipeId).populate("categories");
       if (!recipe) {
@@ -155,59 +155,59 @@ const RecipeService = {
     } catch (errors) {
       throw errors;
     }
-  },
-};
+  }
 
-function uploadImages(images: UploadedFile | UploadedFile[]): string[] {
-  let imageUrls: string[] = [];
-  if (Array.isArray(images)) {
-    for (const image of images) {
-      image.name = `${Date.now()}-${image.name}`;
-      image.mv(`${picturePath}${image.name}`, (err: any) => {
+  private uploadImages(images: UploadedFile | UploadedFile[]): string[] {
+    let imageUrls: string[] = [];
+    if (Array.isArray(images)) {
+      for (const image of images) {
+        image.name = `${Date.now()}-${image.name}`;
+        image.mv(`${this.picturePath}${image.name}`, (err: any) => {
+          if (err) throw err;
+        });
+        imageUrls.push(image.name);
+      }
+    } else {
+      images.name = `${Date.now()}-${images.name}`;
+      images.mv(`${this.picturePath}${images.name}`, (err: any) => {
         if (err) throw err;
       });
-      imageUrls.push(image.name);
+      imageUrls.push(images.name);
     }
-  } else {
-    images.name = `${Date.now()}-${images.name}`;
-    images.mv(`${picturePath}${images.name}`, (err: any) => {
-      if (err) throw err;
-    });
-    imageUrls.push(images.name);
+    return imageUrls;
   }
-  return imageUrls;
+
+  private queryBuilder(orderBy: string, filter: string[], time: number) {
+    let query: FilterQuery<IRecipe> = {};
+    let orderQuery: { [key: string]: SortOrder };
+
+    if (filter.length) {
+      query["categories"] = {
+        $in: filter,
+      };
+    }
+    if (time) {
+      query["timeMinutes"] = {
+        $lte: time,
+      };
+    }
+    switch (orderBy) {
+      case "oldest":
+        orderQuery = { date: "asc" };
+        break;
+      case "recent":
+        orderQuery = { date: "desc" };
+        break;
+      case "popular":
+        orderQuery = { likeCounter: "desc" };
+        break;
+      default:
+        orderQuery = { date: "desc" };
+        break;
+    }
+
+    return { query, orderQuery };
+  }
 }
 
-function queryBuilder(orderBy: string, filter: string[], time: number) {
-  let query: FilterQuery<IRecipe> = {};
-  let orderQuery: { [key: string]: SortOrder };
-
-  if (filter.length) {
-    query["categories"] = {
-      $in: filter,
-    };
-  }
-  if (time) {
-    query["timeMinutes"] = {
-      $lte: time,
-    };
-  }
-  switch (orderBy) {
-    case "oldest":
-      orderQuery = { date: "asc" };
-      break;
-    case "recent":
-      orderQuery = { date: "desc" };
-      break;
-    case "popular":
-      orderQuery = { likeCounter: "desc" };
-      break;
-    default:
-      orderQuery = { date: "desc" };
-      break;
-  }
-
-  return { query, orderQuery };
-}
-
-export default RecipeService;
+export default new RecipeService();
