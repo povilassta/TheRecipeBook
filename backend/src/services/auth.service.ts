@@ -51,7 +51,7 @@ class AuthService {
         let responseObj = user.toObject();
         delete responseObj.password;
         return {
-          token: `Bearer ${token}`,
+          token: token,
           expiresIn: process.env.JWT_EXPIRES_IN,
           user: responseObj,
         };

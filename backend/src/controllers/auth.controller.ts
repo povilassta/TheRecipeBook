@@ -4,17 +4,6 @@ import { validationResult } from "express-validator";
 import "dotenv/config";
 
 class AuthController {
-  private static instance: AuthController;
-
-  private constructor() {}
-
-  public static getInstance(): AuthController {
-    if (!AuthController.instance) {
-      AuthController.instance = new AuthController();
-    }
-    return AuthController.instance;
-  }
-
   public async login(
     req: Express.Request,
     res: Express.Response,
@@ -68,4 +57,4 @@ class AuthController {
   }
 }
 
-export default AuthController;
+export default new AuthController();
