@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { FilterModel } from '../models/filter.model';
-import { environment } from 'src/environments/environment';
 import { Recipe } from '../models/recipe.model';
 import { RecipePost } from '../models/recipePost.model';
 
@@ -10,7 +9,7 @@ import { RecipePost } from '../models/recipePost.model';
   providedIn: 'root',
 })
 export class RecipeService {
-  public BASE_URL: string = `${environment.baseUrl}/recipes/`;
+  public BASE_URL: string = `/api/recipes/`;
 
   constructor(private http: HttpClient) {}
 
@@ -30,7 +29,7 @@ export class RecipeService {
   ): Observable<any> {
     const formData = new FormData();
     for (let file of files) {
-      formData.append(file.name, file);
+      formData.append('images', file);
     }
     formData.append('data', JSON.stringify(data));
     formData.append('markedForDeletion', JSON.stringify(markedForDeletion));
@@ -41,7 +40,7 @@ export class RecipeService {
     const formData = new FormData();
     formData.append('data', JSON.stringify(data));
     for (let file of files) {
-      formData.append(file.name, file);
+      formData.append('images', file);
     }
     return this.http.post(`${this.BASE_URL}create`, formData);
   }

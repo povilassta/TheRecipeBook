@@ -1,2 +1,6 @@
-/node_modules
+out/
+# TS -incremental file
+tsconfig.tsbuildinfo
+node_modules
 .env
+bin
