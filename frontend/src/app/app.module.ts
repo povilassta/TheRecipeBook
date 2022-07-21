@@ -7,11 +7,7 @@ import { RecipeCatalogModule } from './recipe-catalog/recipe-catalog.module';
 import { LoginModule } from './login/login.module';
 import { RecipeViewModule } from './recipe-view/recipe-view.module';
 import { LayoutModule } from './layout/layout.module';
-import {
-  HttpClient,
-  HttpClientModule,
-  HTTP_INTERCEPTORS,
-} from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CreateRecipeModule } from './create-recipe/create-recipe.module';
 import { NotFoundModule } from './not-found/not-found.module';
@@ -57,13 +53,6 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
       },
       defaultLanguage: 'en',
     }),
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
   ],
   bootstrap: [AppComponent],
 })
