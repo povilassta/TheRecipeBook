@@ -83,8 +83,10 @@ export class RecipeFormComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error: any) => {
-        this.isLoading = false;
-        this.openSnackBar('Refresh');
+        if (error.status !== 401) {
+          this.isLoading = false;
+          this.openSnackBar('Refresh');
+        }
       },
     });
     if (this.recipeId) {
@@ -98,8 +100,10 @@ export class RecipeFormComponent implements OnInit {
           this.isLoading = false;
         },
         error: (error: any) => {
-          this.isLoading = false;
-          this.openSnackBar('Refresh');
+          if (error.status !== 401) {
+            this.isLoading = false;
+            this.openSnackBar('Refresh');
+          }
         },
       });
     }
@@ -148,7 +152,7 @@ export class RecipeFormComponent implements OnInit {
             this.router.navigateByUrl('/recipes');
           },
           error: (error: any) => {
-            this.openSnackBar('Close');
+            if (error.status !== 401) this.openSnackBar('Close');
           },
         });
     } else {
