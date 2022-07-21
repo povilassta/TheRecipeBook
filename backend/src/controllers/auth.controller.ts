@@ -1,19 +1,9 @@
 import Express from "express";
 import AuthService from "../services/auth.service";
 import { validationResult } from "express-validator";
+import "dotenv/config";
 
 class AuthController {
-  private static instance: AuthController;
-
-  private constructor() {}
-
-  public static getInstance(): AuthController {
-    if (!AuthController.instance) {
-      AuthController.instance = new AuthController();
-    }
-    return AuthController.instance;
-  }
-
   public async login(
     req: Express.Request,
     res: Express.Response,
@@ -21,11 +11,29 @@ class AuthController {
   ): Promise<void> {
     const { email, password } = req.body;
     try {
-      const response = await AuthService.login(email, password);
-      res.status(200).json(response);
+      const { token, ...response } = await AuthService.login(email, password);
+      res
+        .cookie("access-token", token, {
+          httpOnly: true,
+          maxAge: 3600000,
+          secure: process.env.NODE_ENV === "production",
+        })
+        .status(200)
+        .json(response);
     } catch (e) {
       next(e);
     }
+  }
+
+  public async logout(
+    _req: Express.Request,
+    res: Express.Response,
+    _next: Express.NextFunction
+  ): Promise<void> {
+    res
+      .clearCookie("access-token")
+      .status(200)
+      .json({ message: "Logged out successfully!" });
   }
 
   public async register(
@@ -49,4 +57,4 @@ class AuthController {
   }
 }
 
-export default AuthController;
+export default new AuthController();

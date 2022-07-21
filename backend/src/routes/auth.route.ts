@@ -1,11 +1,13 @@
 import express from "express";
 import AuthController from "../controllers/auth.controller";
 import { body } from "express-validator";
+import AuthService from "../services/auth.service";
 
 const authRouter = express.Router();
-const authController: AuthController = AuthController.getInstance();
 
-authRouter.post("/login", authController.login);
+authRouter.post("/login", AuthController.login);
+
+authRouter.get("/logout", AuthService.authJwt, AuthController.logout);
 
 authRouter.post(
   "/register",
@@ -16,7 +18,7 @@ authRouter.post(
     }
     return true;
   }),
-  authController.register
+  AuthController.register
 );
 
 export default authRouter;

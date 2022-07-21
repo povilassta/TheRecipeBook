@@ -10,6 +10,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.model";
 import UnauthorizedError from "../errors/unauthorized.error";
 import ConflictError from "../errors/conflict.error";
+import Express from "express";
 
 type RegisterData = {
   email: string;
@@ -19,7 +20,7 @@ type RegisterData = {
 
 class AuthService {
   private opts: StrategyOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: this.extractJwtFromCookie,
     secretOrKey: process.env.JWT_SECRET,
   };
 
@@ -50,7 +51,7 @@ class AuthService {
         let responseObj = user.toObject();
         delete responseObj.password;
         return {
-          token: `Bearer ${token}`,
+          token: token,
           expiresIn: process.env.JWT_EXPIRES_IN,
           user: responseObj,
         };
@@ -81,6 +82,14 @@ class AuthService {
       throw errors;
     }
   }
-}
 
+  private extractJwtFromCookie(req: Express.Request): string | null {
+    let token: string | null = null;
+    if (req && req.cookies) {
+      token = req.cookies["access-token"];
+    }
+
+    return token;
+  }
+}
 export default new AuthService();
