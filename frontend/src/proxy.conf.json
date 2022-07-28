@@ -13,13 +13,6 @@
       "^/images/users": ""
     }
   },
-  "/icons": {
-    "target": "http://localhost:3000/icons/",
-    "secure": "false",
-    "pathRewrite": {
-      "^/icons": ""
-    }
-  },
   "/api": {
     "target": "http://localhost:3000/api/",
     "secure": false,

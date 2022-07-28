@@ -29,11 +29,11 @@ export class AppComponent {
 
     this.matIconRegistry.addSvgIcon(
       'en',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('/icons/gb.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/gb.svg')
     );
     this.matIconRegistry.addSvgIcon(
       'lt',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('/icons/lt.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/lt.svg')
     );
 
     this.appStateService

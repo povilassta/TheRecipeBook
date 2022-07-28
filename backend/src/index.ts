@@ -30,7 +30,6 @@ app.use("/api/", authRouter);
 app.use(express.static("public"));
 app.use("/images/recipes", express.static("images/recipes"));
 app.use("/images/users", express.static("images/users"));
-app.use("/icons", express.static("icons"));
 
 //Error Handler
 app.use(errorHandler);
