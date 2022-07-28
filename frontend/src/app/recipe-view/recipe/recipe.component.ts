@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteRecipeDialogComponent } from '../delete-recipe-dialog/delete-recipe-dialog.component';
 import { AppStateService } from 'src/app/services/appState.service';
 import { TranslateService } from '@ngx-translate/core';
+import { catchError, Observable, of, switchMap } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -25,7 +26,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./recipe.component.sass'],
   encapsulation: ViewEncapsulation.None,
 })
-export class RecipeComponent implements OnInit {
+export class RecipeComponent {
   constructor(
     private renderer: Renderer2,
     private _Activatedroute: ActivatedRoute,
@@ -48,21 +49,29 @@ export class RecipeComponent implements OnInit {
       .subscribe((user: User | undefined) => {
         this.currentUser = user;
       });
+
+    this.recipe$ = recipeService.getRecipe(this.recipeId).pipe(
+      catchError((err) => {
+        this.displayErrorPopup();
+        return of();
+      })
+    );
+    this.comments$ = commentService.getComments(this.recipeId);
   }
 
-  public recipe: Recipe | undefined;
-  public comments: Comment[] | undefined;
+  public recipe$: Observable<Recipe>;
+  public comments$: Observable<Comment[]>;
   public recipeId = '';
   public currentUser: User | undefined | null;
   public commentForm: FormGroup = new FormGroup({
-    commentContent: new FormControl('', [Validators.required]),
+    commentContent: new FormControl<string | null>(null, [Validators.required]),
   });
   public isLoading = true;
 
-  toggleClass(event: any, className: string) {
+  // Toggle completed for instruction
+  public toggleClass(event: any, className: string) {
     if (event.view.getSelection().type !== 'Range') {
       const hasClass = event.target.classList.contains(className);
-
       if (hasClass) {
         this.renderer.removeClass(event.target, className);
       } else {
@@ -71,27 +80,41 @@ export class RecipeComponent implements OnInit {
     }
   }
 
+  public displayErrorPopup() {
+    const spinnerEl = document.getElementById('spinner');
+    if (spinnerEl) spinnerEl.style.display = 'none';
+    this.translate
+      .get(['errors.500', 'errors.closeBtn'])
+      .pipe(untilDestroyed(this))
+      .subscribe((res: any) => {
+        this._snackBar.open(res['errors.500'], res['errors.closeBtn']);
+      });
+  }
+
   public likeRecipe() {
-    this.recipeService.likeRecipe(this.recipeId).subscribe({
-      next: (recipe: Recipe) => {
-        this.recipe = recipe;
-      },
-    });
+    this.recipe$ = this.recipeService.likeRecipe(this.recipeId).pipe(
+      catchError((err) => {
+        this.displayErrorPopup();
+        return of();
+      })
+    );
   }
 
   public updateComments() {
     this.commentForm.reset();
-    this.commentService
-      .getComments(this.recipeId)
-      .subscribe((data: Comment[]) => {
-        this.comments = data;
-      });
+    this.comments$ = this.commentService.getComments(this.recipeId).pipe(
+      catchError((err) => {
+        this.displayErrorPopup();
+        return of();
+      })
+    );
   }
 
   public onSubmit(formDirective: FormGroupDirective): void {
     const { commentContent } = this.commentForm.value;
     this.commentService
       .insertComment({ content: commentContent }, this.recipeId)
+      .pipe(untilDestroyed(this))
       .subscribe((data: any) => {
         formDirective.resetForm();
         this.updateComments();
@@ -100,53 +123,32 @@ export class RecipeComponent implements OnInit {
 
   public openDeleteDialog(): void {
     const dialogRef = this.deleteDialog.open(DeleteRecipeDialogComponent);
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.recipeService.deleteRecipe(this.recipeId).subscribe({
-          next: (res: any) => {
-            this.router.navigateByUrl('/recipes');
-          },
-          error: (error: any) => {
-            this.translate
-              .get(['errors.500', 'errors.refreshBtn'])
-              .subscribe((res: any) => {
-                console.log(res);
-                this._snackBar.open(
-                  res['errors.500'],
-                  res['errors.refreshBtn']
-                );
-              });
-          },
-        });
-      }
-    });
-  }
-
-  ngOnInit(): void {
-    this.recipeService.getRecipe(this.recipeId).subscribe({
-      next: (data: Recipe) => {
-        this.recipe = data;
-        this.isLoading = false;
-      },
-      error: (err: any) => {
-        if (err.status === 400 || err.status === 404) {
-          this.router.navigateByUrl('/404');
-        } else {
-          //this.isLoading = false;
-          this._snackBar.open(
-            'Something went wrong with the server. Please try to access the site again in a few minutes',
-            'Refresh'
-          );
-          this._snackBar._openedSnackBarRef?.afterDismissed().subscribe(() => {
-            window.location.reload();
-          });
+    dialogRef
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe((result) => {
+        if (result) {
+          this.recipeService
+            .deleteRecipe(this.recipeId)
+            .pipe(untilDestroyed(this))
+            .subscribe({
+              next: (res: any) => {
+                this.router.navigateByUrl('/recipes');
+              },
+              error: (error: any) => {
+                this.translate
+                  .get(['errors.500', 'errors.refreshBtn'])
+                  .pipe(untilDestroyed(this))
+                  .subscribe((res: any) => {
+                    console.log(res);
+                    this._snackBar.open(
+                      res['errors.500'],
+                      res['errors.refreshBtn']
+                    );
+                  });
+              },
+            });
         }
-      },
-    });
-    this.commentService
-      .getComments(this.recipeId)
-      .subscribe((data: Comment[]) => {
-        this.comments = data;
       });
   }
 }
