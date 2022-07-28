@@ -22,7 +22,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
   @Input()
   public currentPage = 0;
   @Input()
-  public itemCount = 0;
+  public itemCount: number | undefined = 0;
   @Output()
   public updateRecipes = new EventEmitter<number>();
 
@@ -42,11 +42,13 @@ export class PaginatorComponent implements OnInit, OnChanges {
   }
 
   public updateCount() {
-    this.pageCount = Math.ceil(this.itemCount / this.perPageCount);
-    this.pages = Array.from({ length: this.pageCount }, (_, i) => i + 1);
-    this.displayedPages = this.pages.slice(
-      this.currentPage < 5 ? 0 : this.currentPage - 3
-    );
+    if (this.itemCount) {
+      this.pageCount = Math.ceil(this.itemCount / this.perPageCount);
+      this.pages = Array.from({ length: this.pageCount }, (_, i) => i + 1);
+      this.displayedPages = this.pages.slice(
+        this.currentPage < 5 ? 0 : this.currentPage - 3
+      );
+    }
   }
 
   ngOnInit(): void {

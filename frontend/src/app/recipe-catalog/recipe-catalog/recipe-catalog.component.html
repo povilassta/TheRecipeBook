@@ -6,7 +6,7 @@
         <mat-label>{{ "catalog.sortLabel" | translate }}</mat-label>
         <mat-select
           [(value)]="filterObj.sort"
-          (selectionChange)="updateRecipes(1)"
+          (selectionChange)="recipeResponse$ = updateRecipes(1)"
         >
           <mat-option *ngFor="let opt of sortOptions" value="{{ opt.value }}">{{
             opt.label
@@ -26,11 +26,11 @@
         <mat-label>{{ "catalog.categoriesLabel" | translate }}</mat-label>
         <mat-select
           [(value)]="filterObj.categories"
-          (selectionChange)="updateRecipes(1)"
+          (selectionChange)="recipeResponse$ = updateRecipes(1)"
           multiple
         >
           <mat-option
-            *ngFor="let category of categories; let i = index"
+            *ngFor="let category of categories$ | async; let i = index"
             value="{{ category._id }}"
             >{{ category.name | titlecase }}</mat-option
           >
@@ -51,23 +51,23 @@
         thumbLabel="true"
         [(ngModel)]="filterObj.time"
         value="60"
-        (change)="updateRecipes(1)"
+        (change)="recipeResponse$ = updateRecipes(1)"
       ></mat-slider>
     </div>
   </div>
-  <div *ngIf="!isLoading; else elseBlock">
+  <div *ngIf="(recipeResponse$ | async) || !isLoading; else elseBlock">
     <div class="catalog__items">
       <app-recipe-card
-        *ngFor="let recipe of recipes; let i = index"
+        *ngFor="let recipe of (recipeResponse$ | async)?.recipes; let i = index"
         [recipe]="recipe"
       ></app-recipe-card>
     </div>
     <app-paginator
-      *ngIf="count"
+      *ngIf="(recipeResponse$ | async)?.count"
       [perPageCount]="20"
       [currentPage]="page"
-      [itemCount]="count"
-      (updateRecipes)="updateRecipes($event)"
+      [itemCount]="(recipeResponse$ | async)?.count"
+      (updateRecipes)="recipeResponse$ = updateRecipes($event)"
     ></app-paginator>
   </div>
   <ng-template #elseBlock>

@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
+import { catchError, Observable, of } from 'rxjs';
 import { Category } from 'src/app/models/category.model';
 import { FilterModel } from 'src/app/models/filter.model';
-import { Recipe } from 'src/app/models/recipe.model';
+import { RecipeResponse } from 'src/app/models/recipeResponse.model';
 import { AppStateService } from 'src/app/services/appState.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { CodingService } from 'src/app/services/coding.service';
@@ -17,7 +18,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
   templateUrl: './recipe-catalog.component.html',
   styleUrls: ['./recipe-catalog.component.sass'],
 })
-export class RecipeCatalogComponent implements OnInit {
+export class RecipeCatalogComponent {
   constructor(
     private recipeService: RecipeService,
     private _Activatedroute: ActivatedRoute,
@@ -28,6 +29,7 @@ export class RecipeCatalogComponent implements OnInit {
     private appStateService: AppStateService,
     private translate: TranslateService
   ) {
+    // Retrieve query info from route query
     this._Activatedroute.queryParamMap
       .pipe(untilDestroyed(this))
       .subscribe((params) => {
@@ -38,6 +40,7 @@ export class RecipeCatalogComponent implements OnInit {
           this.codingService.decode(params.get('filter')) || this.filterObj;
       });
 
+    // Subscription to page state
     this.appStateService
       .select('pageNumber')
       .pipe(untilDestroyed(this))
@@ -45,9 +48,17 @@ export class RecipeCatalogComponent implements OnInit {
         this.page = pn;
       });
 
+    // On language change update sort options
     this.translate.onLangChange.pipe(untilDestroyed(this)).subscribe(() => {
       this.setSortOptions();
     });
+
+    // Recipe and Category observables
+    this.categories$ = this.categoryService.getCategories();
+    this.recipeResponse$ = this.updateRecipes(this.page);
+
+    // Set sort options
+    this.setSortOptions();
   }
 
   public filterObj: FilterModel = {
@@ -57,38 +68,35 @@ export class RecipeCatalogComponent implements OnInit {
   };
   public page = 1;
   public count = 0;
-  public recipes: Recipe[] = [];
-  public categories: Category[] = [];
+  public recipeResponse$: Observable<RecipeResponse>;
+  public categories$: Observable<Category[]>;
   public isLoading = true;
   public sortOptions: { label: string; value: string }[] = [];
 
   private setSortOptions(): void {
-    this.translate.get(['catalog.sortOptions']).subscribe((res: any) => {
-      this.sortOptions = [
-        {
-          label: res['catalog.sortOptions'].recent,
-          value: 'recent',
-        },
-        {
-          label: res['catalog.sortOptions'].oldest,
-          value: 'oldest',
-        },
-        {
-          label: res['catalog.sortOptions'].popular,
-          value: 'popular',
-        },
-      ];
-    });
+    this.translate
+      .get(['catalog.sortOptions'])
+      .pipe(untilDestroyed(this))
+      .subscribe((res: any) => {
+        this.sortOptions = [
+          {
+            label: res['catalog.sortOptions'].recent,
+            value: 'recent',
+          },
+          {
+            label: res['catalog.sortOptions'].oldest,
+            value: 'oldest',
+          },
+          {
+            label: res['catalog.sortOptions'].popular,
+            value: 'popular',
+          },
+        ];
+      });
   }
 
-  public updateRecipes(pageNum: number): void {
+  public updateRecipes(pageNum: number): Observable<RecipeResponse> {
     this.appStateService.setState({ pageNumber: pageNum });
-    this.recipeService
-      .getRecipes(pageNum - 1, this.filterObj)
-      .subscribe((res) => {
-        this.recipes = res.recipes;
-        this.count = res.count;
-      });
     this.router.navigate([], {
       relativeTo: this._Activatedroute,
       queryParams: {
@@ -97,32 +105,18 @@ export class RecipeCatalogComponent implements OnInit {
       },
       skipLocationChange: false,
     });
-  }
-
-  public ngOnInit(): void {
-    this.setSortOptions();
-    this.recipeService.getRecipes(this.page - 1, this.filterObj).subscribe({
-      next: (res) => {
-        this.recipes = res.recipes;
-        this.count = res.count;
+    return this.recipeService.getRecipes(pageNum - 1, this.filterObj).pipe(
+      catchError((err) => {
         this.isLoading = false;
-      },
-      error: (error: any) => {
-        this.isLoading = false;
-
         this.translate
-          .get(['errors.500', 'errors.refreshBtn'])
+          .get(['errors.500', 'errors.closeBtn'])
+          .pipe(untilDestroyed(this))
           .subscribe((res: any) => {
             console.log(res);
-            this._snackBar.open(res['errors.500'], res['errors.refreshBtn']);
+            this._snackBar.open(res['errors.500'], res['errors.closeBtn']);
           });
-        this._snackBar._openedSnackBarRef?.afterDismissed().subscribe(() => {
-          window.location.reload();
-        });
-      },
-    });
-    this.categoryService.getCategories().subscribe((categories) => {
-      this.categories = categories;
-    });
+        return of();
+      })
+    );
   }
 }
