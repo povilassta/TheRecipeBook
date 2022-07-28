@@ -55,23 +55,23 @@
       ></mat-slider>
     </div>
   </div>
-  <div *ngIf="(recipeResponse$ | async) || !isLoading; else elseBlock">
+  <div *ngIf="recipeResponse$ | async as response; else elseBlock">
     <div class="catalog__items">
       <app-recipe-card
-        *ngFor="let recipe of (recipeResponse$ | async)?.recipes; let i = index"
+        *ngFor="let recipe of response.recipes; let i = index"
         [recipe]="recipe"
       ></app-recipe-card>
     </div>
     <app-paginator
-      *ngIf="(recipeResponse$ | async)?.count"
+      *ngIf="response.count"
       [perPageCount]="20"
       [currentPage]="page"
-      [itemCount]="(recipeResponse$ | async)?.count"
+      [itemCount]="response.count"
       (updateRecipes)="recipeResponse$ = updateRecipes($event)"
     ></app-paginator>
   </div>
   <ng-template #elseBlock>
-    <div class="spinner">
+    <div class="spinner" id="spinner">
       <mat-spinner></mat-spinner>
     </div>
   </ng-template>

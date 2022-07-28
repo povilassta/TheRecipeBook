@@ -70,7 +70,6 @@ export class RecipeCatalogComponent {
   public count = 0;
   public recipeResponse$: Observable<RecipeResponse>;
   public categories$: Observable<Category[]>;
-  public isLoading = true;
   public sortOptions: { label: string; value: string }[] = [];
 
   private setSortOptions(): void {
@@ -107,12 +106,12 @@ export class RecipeCatalogComponent {
     });
     return this.recipeService.getRecipes(pageNum - 1, this.filterObj).pipe(
       catchError((err) => {
-        this.isLoading = false;
+        const spinnerEl = document.getElementById('spinner');
+        if (spinnerEl) spinnerEl.style.display = 'none';
         this.translate
           .get(['errors.500', 'errors.closeBtn'])
           .pipe(untilDestroyed(this))
           .subscribe((res: any) => {
-            console.log(res);
             this._snackBar.open(res['errors.500'], res['errors.closeBtn']);
           });
         return of();
