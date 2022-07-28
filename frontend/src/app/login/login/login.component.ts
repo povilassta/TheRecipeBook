@@ -21,34 +21,42 @@ export class LoginComponent implements OnInit {
 
   public hide = true;
   public loginForm: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
+    email: new FormControl<string | null>(null, [
+      Validators.required,
+      Validators.email,
+    ]),
+    password: new FormControl<string | null>(null, [Validators.required]),
   });
   public errorMessage = ''; // Initially there is no error
 
   ngOnInit(): void {}
 
   public onSubmit(): void {
-    const { email, password } = this.loginForm.value;
+    const {
+      email,
+      password,
+    }: { email: string | null; password: string | null } = this.loginForm.value;
 
-    this.authService.login(email, password).subscribe({
-      next: () => {
-        this.router.navigateByUrl('/recipes');
-      },
-      error: (err: any) => {
-        if (err.status === 401) {
-          this.translate
-            .get('errors.incorrectCreds')
-            .subscribe((res: string) => {
+    if (email && password) {
+      this.authService.login(email, password).subscribe({
+        next: () => {
+          this.router.navigateByUrl('/recipes');
+        },
+        error: (err: any) => {
+          if (err.status === 401) {
+            this.translate
+              .get('errors.incorrectCreds')
+              .subscribe((res: string) => {
+                this.errorMessage = res;
+              });
+          } else {
+            this.translate.get('errors.500').subscribe((res: string) => {
               this.errorMessage = res;
             });
-        } else {
-          this.translate.get('errors.500').subscribe((res: string) => {
-            this.errorMessage = res;
-          });
-        }
-      },
-    });
+          }
+        },
+      });
+    }
   }
 
   public openRegisterDialog(): void {

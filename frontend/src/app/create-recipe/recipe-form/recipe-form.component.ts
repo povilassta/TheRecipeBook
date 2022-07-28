@@ -53,11 +53,11 @@ export class RecipeFormComponent implements OnInit {
   }
 
   public recipeForm = new FormGroup({
-    title: new FormControl<string>('', [Validators.required]),
-    categories: new FormControl<string[]>([], [Validators.required]),
-    timeMinutes: new FormControl<number>(15, [Validators.required]),
-    currentIngredient: new FormControl(''),
-    currentInstruction: new FormControl(''),
+    title: new FormControl<string | null>(null, [Validators.required]),
+    categories: new FormControl<string[] | null>(null, [Validators.required]),
+    timeMinutes: new FormControl<number | null>(null, [Validators.required]),
+    currentIngredient: new FormControl<string | null>(null),
+    currentInstruction: new FormControl<string | null>(null),
   });
 
   public files: File[] = [];

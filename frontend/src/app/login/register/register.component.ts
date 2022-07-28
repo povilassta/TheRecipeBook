@@ -27,11 +27,16 @@ export class RegisterComponent implements OnInit {
 
   public registerForm = new FormGroup(
     {
-      email: new FormControl('', [Validators.required, Validators.email]),
-      username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-      repeatPassword: new FormControl('', [Validators.required]),
-      agreeToTerms: new FormControl(false, [Validators.requiredTrue]),
+      email: new FormControl<string | null>(null, [
+        Validators.required,
+        Validators.email,
+      ]),
+      username: new FormControl<string | null>(null, [Validators.required]),
+      password: new FormControl<string | null>(null, [Validators.required]),
+      repeatPassword: new FormControl<string | null>(null, [
+        Validators.required,
+      ]),
+      agreeToTerms: new FormControl<boolean>(false, [Validators.requiredTrue]),
     },
     [this.confirmPasswordValidator('password', 'repeatPassword')]
   );
