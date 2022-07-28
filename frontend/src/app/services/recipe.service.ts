@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { FilterModel } from '../models/filter.model';
 import { Recipe } from '../models/recipe.model';
 import { RecipePost } from '../models/recipePost.model';
+import { RecipeResponse } from '../models/recipeResponse.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +14,14 @@ export class RecipeService {
 
   constructor(private http: HttpClient) {}
 
-  public getRecipes(page: number, filterObj: FilterModel): Observable<any> {
-    return this.http.post(this.BASE_URL, { ...filterObj, page });
+  public getRecipes(
+    page: number,
+    filterObj: FilterModel
+  ): Observable<RecipeResponse> {
+    return this.http.post<RecipeResponse>(this.BASE_URL, {
+      ...filterObj,
+      page,
+    });
   }
 
   public getRecipe(id: string): Observable<Recipe> {
