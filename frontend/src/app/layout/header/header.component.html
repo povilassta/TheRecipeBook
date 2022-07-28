@@ -41,7 +41,7 @@
   <div class="navbar__user">
     <div *ngIf="currentUser; else elseBlock">
       <button mat-button [matMenuTriggerFor]="menu">
-        {{ currentUser?.username }}
+        {{ currentUser.username }}
       </button>
       <mat-menu #menu="matMenu" xPosition="before">
         <button mat-menu-item (click)="logout()">
